@@ -70,13 +70,12 @@ const LoginScreen = (props) => {
     <SafeAreaView style={basicStyles.safeareaview}>
       <Layout style={styles.container} level="2">
         <Card style={styles.card}>
-          <View style={styles.layoutInputs}>
+          <View style={basicStyles.layoutInputs}>
             <Input
               label="Usuario"
               placeholder="john.doe@example.com"
               value={username}
               onChangeText={(nextValue) => setUsername(nextValue)}
-              size="medium"
             />
             <Input
               value={password}
@@ -84,7 +83,6 @@ const LoginScreen = (props) => {
               accessoryRight={renderIcon}
               secureTextEntry={secureTextEntry}
               onChangeText={(nextValue) => setPassword(nextValue)}
-              size="medium"
             />
           </View>
           <Button
@@ -120,9 +118,6 @@ const styles = StyleSheet.create({
     height: 150,
     width: null,
     marginTop: 40,
-  },
-  layoutInputs: {
-    marginBottom: 20,
   },
   indicator: {
     justifyContent: 'center',

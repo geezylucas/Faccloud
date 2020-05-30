@@ -2,24 +2,25 @@ import React, {useState, useEffect} from 'react';
 import {SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
-import {LoginScreen, HomeScreen} from '../screens';
+import {LoginScreen} from '../screens';
+import DashboardDrawNav from './DashboardDrawNav';
 import {basicStyles} from '../styles/basicStyles';
 import Loading from '../components/Loading';
 
 const Stack = createStackNavigator();
 
-const AppNavigation = (props) => {
+const AppNavigation = ({isLogged}) => {
   const [logged, setLogged] = useState(false);
   const [isloading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const isLogged = () => {
-      setLogged(props.isLogged);
+    const isUserLogged = () => {
+      setLogged(isLogged);
       setIsLoading(true);
     };
 
-    isLogged();
-  }, [props.isLogged]);
+    isUserLogged();
+  }, [isLogged]);
 
   if (!isloading) {
     return (
@@ -37,7 +38,7 @@ const AppNavigation = (props) => {
             </>
           ) : (
             <>
-              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Dashboard" component={DashboardDrawNav} />
             </>
           )}
         </Stack.Navigator>
