@@ -1,12 +1,10 @@
 import React from 'react';
 import {
-  Icon,
   TopNavigation,
   TopNavigationAction,
   Divider,
 } from '@ui-kitten/components';
-
-const MenuIcon = (props) => <Icon {...props} name="menu" />;
+import {MenuIcon} from '../styles/icons';
 
 const TopNavDashboard = ({navigation, title}) => {
   const MenuAction = () => (

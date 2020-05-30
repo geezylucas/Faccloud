@@ -1,29 +1,31 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Icon, MenuItem, Divider, Card, Text} from '@ui-kitten/components';
+import {MenuItem, Divider, Card, Text} from '@ui-kitten/components';
 import {basicStyles} from '../../styles/basicStyles';
-
-const FileIcon = (props) => <Icon {...props} name="file" />;
+import {FileIcon} from '../../styles/icons';
 
 const HomeMenus = ({navigate, typeXMLSection}) => {
   const {_id, totalNumCfdis} = typeXMLSection;
-  let title = '';
+
+  let titleNav = '';
 
   switch (_id) {
     case 'r':
-      title = 'XML Recibidos';
+      titleNav = 'XML Recibidos';
       break;
     case 'e':
-      title = 'XML Emitidos';
+      titleNav = 'XML Emitidos';
       break;
   }
+
+  const dataTitles = ['Facturas', 'Pagos', 'Nominas', 'Retenciones'];
 
   return (
     <Card
       style={basicStyles.card}
       header={(style) => (
         <View {...style}>
-          <Text category="h6">{title}</Text>
+          <Text category="h6">{titleNav}</Text>
         </View>
       )}
       footer={(style) => (
@@ -36,57 +38,24 @@ const HomeMenus = ({navigate, typeXMLSection}) => {
         </View>
       )}
       status="basic">
-      <MenuItem
-        title="Facturas"
-        accessoryLeft={FileIcon}
-        onPress={() => {
-          /* 1. Navigate to the ListRecords route with params */
-          navigate('ListRecords', {
-            typeXML: 'Facturas',
-            titleNav: title,
-            typeRequest: _id,
-          });
-        }}
-      />
-      <Divider />
-      <MenuItem
-        title="Pagos"
-        accessoryLeft={FileIcon}
-        onPress={() => {
-          /* 1. Navigate to the ListRecords route with params */
-          navigate('ListRecords', {
-            typeXML: 'Pagos',
-            titleNav: title,
-            typeRequest: _id,
-          });
-        }}
-      />
-      <Divider />
-      <MenuItem
-        title="Nominas"
-        accessoryLeft={FileIcon}
-        onPress={() => {
-          /* 1. Navigate to the ListRecords route with params */
-          navigate('ListRecords', {
-            typeXML: 'Nominas',
-            titleNav: title,
-            typeRequest: _id,
-          });
-        }}
-      />
-      <Divider />
-      <MenuItem
-        title="Retenciones"
-        accessoryLeft={FileIcon}
-        onPress={() => {
-          /* 1. Navigate to the ListRecords route with params */
-          navigate('ListRecords', {
-            typeXML: 'Retenciones',
-            titleNav: title,
-            typeRequest: _id,
-          });
-        }}
-      />
+      {dataTitles.map((title, index) => {
+        return (
+          <View key={index}>
+            <MenuItem
+              title={title}
+              accessoryLeft={FileIcon}
+              onPress={() => {
+                /* 1. Navigate to the ListRecords route with params */
+                navigate('ListRecords', {
+                  typeXML: title,
+                  titleNav,
+                  typeRequest: _id,
+                });
+              }}
+            />
+          </View>
+        );
+      })}
     </Card>
   );
 };

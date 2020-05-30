@@ -4,19 +4,18 @@ import {
   Card,
   Input,
   Button,
-  Icon,
   Datepicker,
   Select,
   SelectItem,
 } from '@ui-kitten/components';
-import {basicStyles} from '../styles/basicStyles';
+import {basicStyles} from '../../styles/basicStyles';
+import {CalendarIcon, SearchIcon} from '../../styles/icons';
 
-const SearchIcon = (style) => <Icon {...style} name="search" />;
-const CalendarIcon = (props) => <Icon {...props} name="calendar" />;
 const renderOption = (title, index) => <SelectItem key={index} title={title} />;
 
 const SearchRecords = (props) => {
   const {dataSelect} = props;
+
   const displayValue = dataSelect[props.form.indexcfdi.row];
 
   return (

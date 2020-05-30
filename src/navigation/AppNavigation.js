@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {LoginScreen} from '../screens';
 import DashboardDrawNav from './DashboardDrawNav';
 import {basicStyles} from '../styles/basicStyles';
-import Loading from '../components/Loading';
+import {Loading} from '../components';
 
 const Stack = createStackNavigator();
 

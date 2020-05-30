@@ -2,40 +2,29 @@ import React, {useState} from 'react';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
 import {
   Button,
+  Icon,
   List,
   ListItem,
   Text,
   Layout,
-  IndexPath,
-  Card,
 } from '@ui-kitten/components';
-import SearchRecords from './SearchRecords';
+import {TopNavDashboard, FooterListScreens} from '../../components';
+import SearchRequests from './SearchRequests';
 import {basicStyles} from '../../styles/basicStyles';
 import {SearchIcon} from '../../styles/icons';
-import {FooterListScreens, TopNavGoBack} from '../../components';
-
-const dataSelect = [
-  'Ninguno',
-  'Adquisición de mercancias',
-  'Devoluciones, descuentos o bonificaciones',
-  'Gastos en general',
-];
 
 const data = new Array(8).fill({
-  Emisor: {
-    Rfc: 'xxx',
-  },
-  Monto: {$numberDecimal: 0},
+  _id: 'xxx',
   Fecha: 'yyy',
+  type: 'Emisor',
 });
 
-const ListRecordsScreen = (props) => {
+const renderItemIcon = (props) => <Icon {...props} name="person" />;
+
+const RequestsScreen = (props) => {
   const [form, setForm] = useState({
-    rfc: '',
     dateIni: new Date(),
     dateFin: new Date(),
-    indexcfdi: new IndexPath(0),
-    usocfdi: '',
   });
 
   const [searchPage, setSearchPage] = useState({
@@ -46,23 +35,22 @@ const ListRecordsScreen = (props) => {
   const [visible, setVisible] = useState(false);
   //const [data, setData] = useState([]);
 
-  const {typeXML, titleNav, typeRequest} = props.route.params;
-
-  let monto = 0;
   let fieldsmatched = 0;
   let pages = 1;
 
   const renderItem = ({item, index}) => {
     return (
       <ListItem
-        title={`${item.Emisor.Rfc} - $${item.Monto.$numberDecimal}`}
+        title={`${item._id}`}
         description={`${item.Fecha}`}
+        accessoryLeft={renderItemIcon}
         accessoryRight={(style) => (
           <Button
             size="tiny"
+            style={styles.buttonTable}
             onPress={() => {
               /* 1. Navigate to the Details route with params */
-              props.navigation.navigate('DetailRecord', {
+              props.navigation.navigate('DetailRequest', {
                 itemId: index + 1,
               });
             }}>
@@ -80,10 +68,13 @@ const ListRecordsScreen = (props) => {
         renderItem={renderItem}
         ListHeaderComponent={
           <>
-            <TopNavGoBack title={titleNav} navigation={props.navigation} />
+            <TopNavDashboard
+              title="Solicitudes automáticas"
+              navigation={props.navigation}
+            />
             <Layout level="2">
               <View style={styles.layoutHeader}>
-                <Text category="h4">{typeXML}</Text>
+                <Text category="h4">Solicitudes</Text>
                 <Button
                   size="small"
                   accessoryLeft={SearchIcon}
@@ -93,24 +84,15 @@ const ListRecordsScreen = (props) => {
                 </Button>
               </View>
               {visible && (
-                <SearchRecords
+                <SearchRequests
                   style={basicStyles.card}
                   form={form}
                   setForm={setForm}
-                  dataSelect={dataSelect}
                   filterData={() =>
                     setSearchPage({page: 1, search: !searchPage.search})
                   }
                 />
               )}
-              <Card style={styles.cardTotal}>
-                <View style={styles.headerCard}>
-                  <Text category="c1" appearance="hint">
-                    Monto
-                  </Text>
-                  <Text category="h6">${monto}</Text>
-                </View>
-              </Card>
             </Layout>
           </>
         }
@@ -133,17 +115,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  cardTotal: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerCard: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  buttonTable: {
+    marginRight: 8,
   },
 });
 
-export default ListRecordsScreen;
+export default RequestsScreen;

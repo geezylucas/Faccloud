@@ -4,12 +4,12 @@ import {Layout, Text} from '@ui-kitten/components';
 import {basicStyles} from '../../styles/basicStyles';
 import {TopNavGoBack} from '../../components';
 
-const DetailRecordScreen = ({route, navigation}) => {
+const DetailRequestScreen = ({route, navigation}) => {
   const {itemId} = route.params;
 
   return (
     <SafeAreaView style={basicStyles.safeareaview}>
-      <TopNavGoBack title="Detalles XML" navigation={navigation} />
+      <TopNavGoBack title="Detalles solicitud" navigation={navigation} />
       <Layout style={styles.container}>
         <Layout style={styles.layout} level="4">
           <Text>itemId: {JSON.stringify(itemId)}</Text>
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetailRecordScreen;
+export default DetailRequestScreen;

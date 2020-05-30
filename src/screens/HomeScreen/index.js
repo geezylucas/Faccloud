@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, SafeAreaView, ScrollView, View} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
-import {save_user} from '../../redux/actions/userAction';
 import {connect} from 'react-redux';
+import {save_user} from '../../redux/actions/userAction';
 import {basicStyles} from '../../styles/basicStyles';
-import TopNavDashboard from '../../components/TopNavDashboard';
+import {TopNavDashboard} from '../../components';
 import HomeMenus from './HomeMenus';
 
 const HomeScreen = (props) => {

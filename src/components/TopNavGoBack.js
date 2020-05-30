@@ -1,16 +1,17 @@
 import React from 'react';
 import {
-  Icon,
   Divider,
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-
-const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
+import {BackNavIcon} from '../styles/icons';
 
 const TopNavGoBack = ({navigation, title}) => {
   const BackAction = () => (
-    <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
+    <TopNavigationAction
+      icon={BackNavIcon}
+      onPress={() => navigation.goBack()}
+    />
   );
 
   return (

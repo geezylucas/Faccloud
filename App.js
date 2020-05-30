@@ -32,7 +32,7 @@ export default () => (
     <PersistGate persistor={persistor}>
       <NavigationContainer>
         <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={eva.dark}>
+        <ApplicationProvider {...eva} theme={eva.light}>
           <AppNavigation />
         </ApplicationProvider>
       </NavigationContainer>
