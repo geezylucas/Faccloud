@@ -9,7 +9,7 @@
  *
  * @format
  */
-
+import 'react-native-gesture-handler';
 import React from 'react';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
@@ -32,7 +32,7 @@ export default () => (
     <PersistGate persistor={persistor}>
       <NavigationContainer>
         <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={eva.light}>
+        <ApplicationProvider {...eva} theme={eva.dark}>
           <AppNavigation />
         </ApplicationProvider>
       </NavigationContainer>

@@ -23,6 +23,14 @@ const dataSelect = [
   'Gastos en general',
 ];
 
+const data = new Array(8).fill({
+  Emisor: {
+    Rfc: 'xxx',
+  },
+  Monto: {$numberDecimal: 0},
+  Fecha: 'yyy',
+});
+
 const SearchIcon = (style) => <Icon {...style} name="search" />;
 const BackIcon = (props) => <Icon {...props} name="arrow-ios-back" />;
 const NextIcon = (props) => <Icon {...props} name="arrow-ios-forward" />;
@@ -42,7 +50,7 @@ const ListRecordsScreen = (props) => {
   });
 
   const [visible, setVisible] = useState(false);
-  const [data, setData] = useState([]);
+  //const [data, setData] = useState([]);
 
   const {typeXML, titleNav, typeRequest} = props.route.params;
 
@@ -61,7 +69,7 @@ const ListRecordsScreen = (props) => {
             style={styles.buttonTable}
             onPress={() => {
               /* 1. Navigate to the Details route with params */
-              props.navigation.navigate('Details', {
+              props.navigation.navigate('DetailRecord', {
                 itemId: index + 1,
               });
             }}>
@@ -103,10 +111,12 @@ const ListRecordsScreen = (props) => {
                 />
               )}
               <Card style={styles.cardTotal}>
-                <Text category="s2" appearance="hint">
-                  Monto
-                </Text>
-                <Text category="h6">${monto}</Text>
+                <View style={styles.headerCard}>
+                  <Text category="c1" appearance="hint">
+                    Monto
+                  </Text>
+                  <Text category="h6">${monto}</Text>
+                </View>
               </Card>
             </Layout>
           </>
@@ -114,7 +124,9 @@ const ListRecordsScreen = (props) => {
         ListFooterComponent={
           <Layout level="2">
             <View style={styles.layoutTotalRecords}>
-              <Text category="s2">Total de registros: {fieldsmatched}</Text>
+              <Text category="c1" appearance="hint">
+                Total de registros: {fieldsmatched}
+              </Text>
             </View>
             <Divider />
             <View style={styles.layoutPagination}>
@@ -162,14 +174,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   layoutTotalRecords: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 20,
+    margin: 20,
   },
   cardTotal: {
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerCard: {
     justifyContent: 'center',
     alignItems: 'center',
   },

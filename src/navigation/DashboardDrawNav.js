@@ -2,7 +2,7 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Drawer, DrawerItem, IndexPath} from '@ui-kitten/components';
-import {HomeScreen, ListRecordsScreen} from '../screens';
+import {HomeScreen, ListRecordsScreen, DetailRecordScreen} from '../screens';
 
 const {Navigator, Screen} = createDrawerNavigator();
 
@@ -14,6 +14,7 @@ const HomeStackScreen = () => (
     initialRouteName="Home">
     <HomeStack.Screen name="Home" component={HomeScreen} />
     <HomeStack.Screen name="ListRecords" component={ListRecordsScreen} />
+    <HomeStack.Screen name="DetailRecord" component={DetailRecordScreen} />
   </HomeStack.Navigator>
 );
 
