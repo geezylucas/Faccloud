@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, SafeAreaView, ScrollView, View} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
-import {save_user} from '../../redux/actions/userAction';
+import {logout} from '../../redux/reducers/rootReducer';
 import {basicStyles} from '../../styles/basicStyles';
 import {TopNavDashboard} from '../../components';
 import HomeMenus from './HomeMenus';
@@ -12,17 +12,6 @@ const HomeScreen = (props) => {
   const recibidos = {_id: 'r', totalNumCfdis: 0};
 
   /* FUNCTIONS */
-  const signOut = () => {
-    // Aquí vamos a llamar a la API para solicitar el token y el user
-    let user = {
-      id: '',
-      username: '',
-      password: '',
-    };
-    let token = '';
-
-    props.save_user({token, user: JSON.stringify(user), isLogged: false});
-  };
   /* END FUNCTIONS */
 
   return (
@@ -42,7 +31,7 @@ const HomeScreen = (props) => {
             navigate={props.navigation.navigate}
             typeXMLSection={emitidos}
           />
-          <Button style={styles.buttonSignOut} onPress={signOut}>
+          <Button style={styles.buttonSignOut} onPress={() => props.logout()}>
             Salir
           </Button>
         </Layout>
@@ -58,4 +47,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, {save_user})(HomeScreen);
+export default connect(null, {logout})(HomeScreen);

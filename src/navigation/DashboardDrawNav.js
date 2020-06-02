@@ -9,6 +9,7 @@ import {
   RequestsScreen,
   DetailRequestScreen,
 } from '../screens';
+import {connect} from 'react-redux';
 
 const {Navigator, Screen} = createDrawerNavigator();
 
@@ -37,22 +38,29 @@ const RequestsStackScreen = () => (
   </RequestsStack.Navigator>
 );
 
-const DrawerContent = ({navigation, state}) => (
-  <Drawer
-    selectedIndex={new IndexPath(state.index)}
-    onSelect={(index) => navigation.navigate(state.routeNames[index.row])}>
-    <DrawerItem title="Inicio" />
-    <DrawerItem title="Solicitudes" />
-  </Drawer>
-);
+const DashboardDrawNav = ({typeUser}) => {
+  const DrawerContent = ({navigation, state}) => (
+    <Drawer
+      selectedIndex={new IndexPath(state.index)}
+      onSelect={(index) => navigation.navigate(state.routeNames[index.row])}>
+      <DrawerItem title="Inicio" />
+      {typeUser !== 'g' && <DrawerItem title="Solicitudes" />}
+    </Drawer>
+  );
 
-const DashboardDrawNav = () => (
-  <Navigator
-    drawerContent={(props) => <DrawerContent {...props} />}
-    initialRouteName="HomeStack">
-    <Screen name="HomeStack" component={HomeStackScreen} />
-    <Screen name="RequestsStack" component={RequestsStackScreen} />
-  </Navigator>
-);
+  return (
+    <Navigator
+      drawerContent={(props) => <DrawerContent {...props} />}
+      initialRouteName="HomeStack">
+      <Screen name="HomeStack" component={HomeStackScreen} />
+      <Screen name="RequestsStack" component={RequestsStackScreen} />
+    </Navigator>
+  );
+};
 
-export default DashboardDrawNav;
+const mapStateToProps = (state) => {
+  const {userdata} = state;
+  return {typeUser: userdata.typeUser};
+};
+
+export default connect(mapStateToProps, null)(DashboardDrawNav);

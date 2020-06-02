@@ -1,5 +1,6 @@
 import {SAVE_USER} from '../constants';
 
+// TODO: Cuando tengamos el login, quitart password de initialState
 const initialState = {
   isLogged: false,
   user: {
@@ -8,6 +9,7 @@ const initialState = {
     password: '',
   },
   token: '',
+  typeUser: '',
 };
 
 export default function (state = initialState, action) {

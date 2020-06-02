@@ -61,8 +61,14 @@ const LoginScreen = (props) => {
       password: password,
     };
     let token = 'ezxsdsadasd';
+    let typeUser = 'p';
 
-    props.save_user({token, user: JSON.stringify(user), isLogged: true});
+    props.save_user({
+      token,
+      user: JSON.stringify(user),
+      isLogged: true,
+      typeUser,
+    });
   };
   /* END FUNCTIONS */
 
