@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {save_user} from '../../redux/actions/userAction';
+import {save_user} from '../../redux/actions/userActions';
 import {
   Card,
   Input,
@@ -56,18 +56,17 @@ const LoginScreen = (props) => {
 
     // Aquí vamos a llamar a la API para solicitar el token y el user
     let user = {
-      id: '5eb5b46608ac8bb57f1b72ea',
+      id: '5ed5b3831d8da382b4c235a8',
       username: username,
       password: password,
+      typeUser: 'p',
     };
     let token = 'ezxsdsadasd';
-    let typeUser = 'p';
 
     props.save_user({
       token,
-      user: JSON.stringify(user),
+      user,
       isLogged: true,
-      typeUser,
     });
   };
   /* END FUNCTIONS */

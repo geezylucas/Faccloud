@@ -7,9 +7,9 @@ const initialState = {
     id: '',
     username: '',
     password: '',
+    typeUser: '',
   },
   token: '',
-  typeUser: '',
 };
 
 export default function (state = initialState, action) {

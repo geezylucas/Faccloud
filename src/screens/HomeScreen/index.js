@@ -1,17 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, SafeAreaView, ScrollView, View} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
 import {logout} from '../../redux/reducers/rootReducer';
+import {countByXMLType} from '../../redux/actions/homeActions';
 import {basicStyles} from '../../styles/basicStyles';
 import {TopNavDashboard} from '../../components';
 import HomeMenus from './HomeMenus';
 
 const HomeScreen = (props) => {
-  const emitidos = {_id: 'e', totalNumCfdis: 0};
-  const recibidos = {_id: 'r', totalNumCfdis: 0};
+  const {user, getCountByXMLType, lastEmisorXML, lastReceptorXML} = props;
 
+  useEffect(() => {
+    getCountByXMLType({
+      id: user.id,
+      typeUser: user.typeUser,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   /* FUNCTIONS */
+
   /* END FUNCTIONS */
 
   return (
@@ -21,15 +29,24 @@ const HomeScreen = (props) => {
         <Layout style={basicStyles.container} level="2">
           <View style={basicStyles.card}>
             <Text category="h4">!Buen día! ☀️</Text>
-            <Text category="s2">Úlimo registro: -</Text>
           </View>
           <HomeMenus
             navigate={props.navigation.navigate}
-            typeXMLSection={recibidos}
+            typeXMLSection={
+              Object.keys(props.totalByXMLType).length !== 0
+                ? props.totalByXMLType.find((element) => element._id === 'r')
+                : undefined
+            }
+            lastRecord={lastReceptorXML}
           />
           <HomeMenus
             navigate={props.navigation.navigate}
-            typeXMLSection={emitidos}
+            typeXMLSection={
+              Object.keys(props.totalByXMLType).length !== 0
+                ? props.totalByXMLType.find((element) => element._id === 'e')
+                : undefined
+            }
+            lastRecord={lastEmisorXML}
           />
           <Button style={styles.buttonSignOut} onPress={() => props.logout()}>
             Salir
@@ -47,4 +64,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, {logout})(HomeScreen);
+const mapStateToProps = (state) => {
+  const {homedata, userdata} = state;
+
+  return {
+    totalByXMLType: homedata.totalByXMLType,
+    lastReceptorXML: homedata.lastReceptorXML,
+    lastEmisorXML: homedata.lastEmisorXML,
+    user: userdata.user,
+  };
+};
+
+const mapDispatch = {logout, getCountByXMLType: countByXMLType};
+
+export default connect(mapStateToProps, mapDispatch)(HomeScreen);

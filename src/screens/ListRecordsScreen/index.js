@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
 import {
   Button,
@@ -13,6 +13,8 @@ import SearchRecords from './SearchRecords';
 import {basicStyles} from '../../styles/basicStyles';
 import {SearchIcon} from '../../styles/icons';
 import {FooterListScreens, TopNavGoBack} from '../../components';
+import {connect} from 'react-redux';
+import {getRecords} from '../../redux/actions/homeActions';
 
 const dataSelect = [
   'Ninguno',
@@ -20,14 +22,6 @@ const dataSelect = [
   'Devoluciones, descuentos o bonificaciones',
   'Gastos en general',
 ];
-
-const data = new Array(8).fill({
-  Emisor: {
-    Rfc: 'xxx',
-  },
-  Monto: {$numberDecimal: 0},
-  Fecha: 'yyy',
-});
 
 const ListRecordsScreen = (props) => {
   const [form, setForm] = useState({
@@ -44,39 +38,45 @@ const ListRecordsScreen = (props) => {
   });
 
   const [visible, setVisible] = useState(false);
-  //const [data, setData] = useState([]);
 
   const {typeXML, titleNav, typeRequest} = props.route.params;
+  const {id, getRecordsFetch, totalRecords, listRecords} = props;
 
-  let monto = 0;
-  let fieldsmatched = 0;
-  let pages = 1;
+  useEffect(() => {
+    getRecordsFetch({
+      id,
+      pageSize: 10,
+      pageNum: searchPage.page,
+      typeComprobante: typeXML,
+      typeRequest,
+    });
+    console.log('beep');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchPage]);
 
-  const renderItem = ({item, index}) => {
-    return (
-      <ListItem
-        title={`${item.Emisor.Rfc} - $${item.Monto.$numberDecimal}`}
-        description={`${item.Fecha}`}
-        accessoryRight={(style) => (
-          <Button
-            size="tiny"
-            onPress={() => {
-              /* 1. Navigate to the Details route with params */
-              props.navigation.navigate('DetailRecord', {
-                itemId: index + 1,
-              });
-            }}>
-            Detalles
-          </Button>
-        )}
-      />
-    );
-  };
+  const renderItem = ({item, index}) => (
+    <ListItem
+      title={`${item.Rfc} - $${item.Total}`}
+      description={`${item.Fecha}`}
+      accessoryRight={(style) => (
+        <Button
+          size="tiny"
+          onPress={() => {
+            /* 1. Navigate to the Details route with params */
+            props.navigation.navigate('DetailRecord', {
+              itemId: item._id.$oid,
+            });
+          }}>
+          Detalles
+        </Button>
+      )}
+    />
+  );
 
   return (
     <SafeAreaView style={basicStyles.safeareaview}>
       <List
-        data={data}
+        data={listRecords}
         renderItem={renderItem}
         ListHeaderComponent={
           <>
@@ -108,7 +108,9 @@ const ListRecordsScreen = (props) => {
                   <Text category="c1" appearance="hint">
                     Monto
                   </Text>
-                  <Text category="h6">${monto}</Text>
+                  <Text category="h6">
+                    ${totalRecords.totalMonto.$numberDecimal}
+                  </Text>
                 </View>
               </Card>
             </Layout>
@@ -116,10 +118,10 @@ const ListRecordsScreen = (props) => {
         }
         ListFooterComponent={
           <FooterListScreens
-            fieldsmatched={fieldsmatched}
+            fieldsmatched={totalRecords.fieldsmatched}
             searchPage={searchPage}
             setSearchPage={setSearchPage}
-            pages={pages}
+            pages={totalRecords.pages}
           />
         }
       />
@@ -146,4 +148,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListRecordsScreen;
+const mapStateToProps = (state) => {
+  const {homedata, userdata} = state;
+
+  return {
+    listRecords: homedata.dataRecords.cfdis,
+    totalRecords: homedata.dataRecords.totalRecords[0],
+    id: userdata.user.id,
+  };
+};
+
+const mapDispatch = {getRecordsFetch: getRecords};
+
+export default connect(mapStateToProps, mapDispatch)(ListRecordsScreen);
