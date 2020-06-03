@@ -49,7 +49,7 @@ const SearchRecords = (props) => {
           size="small"
         />
         <Select
-          label="Tipo de XML"
+          label="Uso del XML"
           selectedIndex={props.form.indexcfdi}
           value={displayValue}
           onSelect={(index) =>

@@ -42,15 +42,34 @@ const ListRecordsScreen = (props) => {
   const {typeXML, titleNav, typeRequest} = props.route.params;
   const {id, getRecordsFetch, totalRecords, listRecords} = props;
 
+  let typeXMLToSend = '';
+  switch (typeXML) {
+    case 'Facturas':
+      typeXMLToSend = 'I-E';
+      break;
+    case 'Pagos':
+      typeXMLToSend = 'P';
+      break;
+    case 'Nominas':
+      typeXMLToSend = 'N';
+      break;
+    case 'Retenciones':
+      typeXMLToSend = 'R';
+      break;
+    default:
+      typeXMLToSend = '';
+      break;
+  }
+
   useEffect(() => {
     getRecordsFetch({
       id,
       pageSize: 10,
       pageNum: searchPage.page,
-      typeComprobante: typeXML,
+      typeComprobante: typeXMLToSend,
       typeRequest,
+      filters: visible ? form : null,
     });
-    console.log('beep');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPage]);
 
