@@ -15,4 +15,9 @@ export const basicStyles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
+  cardSearch: {
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
+  },
 });

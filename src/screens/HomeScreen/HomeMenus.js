@@ -7,6 +7,7 @@ import {FileIcon} from '../../styles/icons';
 const HomeMenus = ({navigate, typeXMLSection, lastRecord}) => {
   const {_id, totalNumCfdis} = typeXMLSection || {};
   const {Fecha} = lastRecord || {};
+  const dataTitles = ['Facturas', 'Pagos', 'Nominas', 'Retenciones'];
 
   let titleNav = '';
 
@@ -20,8 +21,6 @@ const HomeMenus = ({navigate, typeXMLSection, lastRecord}) => {
     default:
       titleNav = '';
   }
-
-  const dataTitles = ['Facturas', 'Pagos', 'Nominas', 'Retenciones'];
 
   const Footer = (props) => {
     if (totalNumCfdis !== null) {

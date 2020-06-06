@@ -16,14 +16,14 @@ import {FooterListScreens, TopNavGoBack} from '../../components';
 import {connect} from 'react-redux';
 import {getRecords} from '../../redux/actions/homeActions';
 
-const dataSelect = [
-  'Ninguno',
-  'Adquisición de mercancias',
-  'Devoluciones, descuentos o bonificaciones',
-  'Gastos en general',
-];
-
-const ListRecordsScreen = (props) => {
+const ListRecordsScreen = ({
+  id,
+  getRecordsFetch,
+  totalRecords,
+  listRecords,
+  route,
+  navigation,
+}) => {
   const [form, setForm] = useState({
     rfc: '',
     dateIni: new Date(),
@@ -31,16 +31,17 @@ const ListRecordsScreen = (props) => {
     indexcfdi: new IndexPath(0),
     usocfdi: '',
   });
-
-  const [searchPage, setSearchPage] = useState({
-    search: false,
-    page: 1,
-  });
-
+  const [searchPage, setSearchPage] = useState({search: false, page: 1});
   const [visible, setVisible] = useState(false);
 
-  const {typeXML, titleNav, typeRequest} = props.route.params;
-  const {id, getRecordsFetch, totalRecords, listRecords} = props;
+  const {typeXML, titleNav, typeRequest} = route.params;
+
+  const dataSelect = [
+    'Ninguno',
+    'Adquisición de mercancias',
+    'Devoluciones, descuentos o bonificaciones',
+    'Gastos en general',
+  ];
 
   let typeXMLToSend = '';
   switch (typeXML) {
@@ -58,7 +59,6 @@ const ListRecordsScreen = (props) => {
       break;
     default:
       typeXMLToSend = '';
-      break;
   }
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const ListRecordsScreen = (props) => {
           size="tiny"
           onPress={() => {
             /* 1. Navigate to the Details route with params */
-            props.navigation.navigate('DetailRecord', {
+            navigation.navigate('DetailRecord', {
               itemId: item._id.$oid,
             });
           }}>
@@ -99,7 +99,7 @@ const ListRecordsScreen = (props) => {
         renderItem={renderItem}
         ListHeaderComponent={
           <>
-            <TopNavGoBack title={titleNav} navigation={props.navigation} />
+            <TopNavGoBack title={titleNav} navigation={navigation} />
             <Layout level="2">
               <View style={styles.layoutHeader}>
                 <Text category="h4">{typeXML}</Text>
@@ -113,7 +113,6 @@ const ListRecordsScreen = (props) => {
               </View>
               {visible && (
                 <SearchRecords
-                  style={basicStyles.card}
                   form={form}
                   setForm={setForm}
                   dataSelect={dataSelect}
@@ -172,7 +171,7 @@ const mapStateToProps = (state) => {
 
   return {
     listRecords: homedata.dataRecords.cfdis,
-    totalRecords: homedata.dataRecords.totalRecords[0],
+    totalRecords: homedata.dataRecords.totalRecords,
     id: userdata.user.id,
   };
 };

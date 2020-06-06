@@ -6,15 +6,13 @@ const initialState = {
   lastEmisorXML: {},
   dataRecords: {
     cfdis: [],
-    totalRecords: [
-      {
-        fieldsmatched: 0,
-        pages: 1,
-        totalMonto: {
-          $numberDecimal: '',
-        },
+    totalRecords: {
+      fieldsmatched: 0,
+      pages: 1,
+      totalMonto: {
+        $numberDecimal: 0,
       },
-    ],
+    },
   },
 };
 

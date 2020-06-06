@@ -1,6 +1,6 @@
 import {SAVE_USER} from '../constants';
 
-export const save_user = (data) => {
+export const saveUserFetch = (data) => {
   return async (dispatch) => {
     dispatch({
       type: SAVE_USER,

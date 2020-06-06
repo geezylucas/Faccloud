@@ -13,48 +13,40 @@ import {CalendarIcon, SearchIcon} from '../../styles/icons';
 
 const renderOption = (title, index) => <SelectItem key={index} title={title} />;
 
-const SearchRecords = (props) => {
-  const {dataSelect} = props;
-
-  const displayValue = dataSelect[props.form.indexcfdi.row];
+const SearchRecords = ({dataSelect, form, setForm, filterData}) => {
+  const displayValue = dataSelect[form.indexcfdi.row];
 
   return (
-    <Card style={props.style}>
+    <Card style={basicStyles.cardSearch}>
       <View style={basicStyles.layoutInputs}>
         <Input
           size="small"
           label="RFC"
           placeholder="CUPU800825569"
-          value={props.form.rfc}
-          onChangeText={(nextValue) =>
-            props.setForm({...props.form, rfc: nextValue})
-          }
+          value={form.rfc}
+          onChangeText={(nextValue) => setForm({...form, rfc: nextValue})}
         />
         <Datepicker
           label="Fecha inicio:"
-          date={props.form.dateIni}
-          onSelect={(nextDate) =>
-            props.setForm({...props.form, dateIni: nextDate})
-          }
+          date={form.dateIni}
+          onSelect={(nextDate) => setForm({...form, dateIni: nextDate})}
           accessoryRight={CalendarIcon}
           size="small"
         />
         <Datepicker
           label="Fecha fin:"
-          date={props.form.dateFin}
-          onSelect={(nextDate) =>
-            props.setForm({...props.form, dateFin: nextDate})
-          }
+          date={form.dateFin}
+          onSelect={(nextDate) => setForm({...form, dateFin: nextDate})}
           accessoryRight={CalendarIcon}
           size="small"
         />
         <Select
           label="Uso del XML"
-          selectedIndex={props.form.indexcfdi}
+          selectedIndex={form.indexcfdi}
           value={displayValue}
           onSelect={(index) =>
-            props.setForm({
-              ...props.form,
+            setForm({
+              ...form,
               indexcfdi: index,
               usocfdi: dataSelect[index.row],
             })
@@ -67,7 +59,7 @@ const SearchRecords = (props) => {
         status="success"
         accessoryLeft={SearchIcon}
         size="small"
-        onPress={props.filterData}>
+        onPress={filterData}>
         Buscar
       </Button>
     </Card>

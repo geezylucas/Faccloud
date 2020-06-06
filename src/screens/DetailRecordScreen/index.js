@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
-import {Layout, Text} from '@ui-kitten/components';
+import {SafeAreaView, View} from 'react-native';
+import {Layout, Text, ListItem} from '@ui-kitten/components';
 import {basicStyles} from '../../styles/basicStyles';
 import {TopNavGoBack} from '../../components';
 
@@ -10,37 +10,21 @@ const DetailRecordScreen = ({route, navigation}) => {
   return (
     <SafeAreaView style={basicStyles.safeareaview}>
       <TopNavGoBack title="Detalles XML" navigation={navigation} />
-      <Layout style={styles.container}>
-        <Layout style={styles.layout} level="4">
-          <Text>itemId: {JSON.stringify(itemId)}</Text>
-        </Layout>
-
-        <Layout style={styles.layout} level="3">
-          <Text>3</Text>
-        </Layout>
-
-        <Layout style={styles.layout} level="2">
-          <Text>2</Text>
-        </Layout>
-
-        <Layout style={styles.layout} level="1">
-          <Text>1</Text>
-        </Layout>
+      <Layout level="2">
+        <View style={basicStyles.card}>
+          <Text category="h4">{JSON.stringify(itemId)}</Text>
+        </View>
+        <ListItem
+          title="UI Kitten"
+          description="A set of React Native components"
+        />
+        <ListItem
+          title="UI Kitten"
+          description="A set of React Native components"
+        />
       </Layout>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  layout: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default DetailRecordScreen;

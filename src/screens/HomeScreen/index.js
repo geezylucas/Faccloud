@@ -8,9 +8,15 @@ import {basicStyles} from '../../styles/basicStyles';
 import {TopNavDashboard} from '../../components';
 import HomeMenus from './HomeMenus';
 
-const HomeScreen = (props) => {
-  const {user, getCountByXMLType, lastEmisorXML, lastReceptorXML} = props;
-
+const HomeScreen = ({
+  user,
+  getCountByXMLType,
+  lastEmisorXML,
+  lastReceptorXML,
+  totalByXMLType,
+  navigation,
+  logOut,
+}) => {
   useEffect(() => {
     getCountByXMLType({
       id: user.id,
@@ -25,30 +31,30 @@ const HomeScreen = (props) => {
   return (
     <SafeAreaView style={basicStyles.safeareaview}>
       <ScrollView>
-        <TopNavDashboard title="Inicio" navigation={props.navigation} />
+        <TopNavDashboard title="Inicio" navigation={navigation} />
         <Layout style={basicStyles.container} level="2">
           <View style={basicStyles.card}>
             <Text category="h4">!Buen día! ☀️</Text>
           </View>
           <HomeMenus
-            navigate={props.navigation.navigate}
+            navigate={navigation.navigate}
             typeXMLSection={
-              Object.keys(props.totalByXMLType).length !== 0
-                ? props.totalByXMLType.find((element) => element._id === 'r')
+              Object.keys(totalByXMLType).length !== 0
+                ? totalByXMLType.find((element) => element._id === 'r')
                 : undefined
             }
             lastRecord={lastReceptorXML}
           />
           <HomeMenus
-            navigate={props.navigation.navigate}
+            navigate={navigation.navigate}
             typeXMLSection={
-              Object.keys(props.totalByXMLType).length !== 0
-                ? props.totalByXMLType.find((element) => element._id === 'e')
+              Object.keys(totalByXMLType).length !== 0
+                ? totalByXMLType.find((element) => element._id === 'e')
                 : undefined
             }
             lastRecord={lastEmisorXML}
           />
-          <Button style={styles.buttonSignOut} onPress={() => props.logout()}>
+          <Button style={styles.buttonSignOut} onPress={() => logOut()}>
             Salir
           </Button>
         </Layout>
@@ -75,6 +81,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatch = {logout, getCountByXMLType: countByXMLType};
+const mapDispatch = {logOut: logout, getCountByXMLType: countByXMLType};
 
 export default connect(mapStateToProps, mapDispatch)(HomeScreen);

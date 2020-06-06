@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {save_user} from '../../redux/actions/userActions';
+import {saveUserFetch} from '../../redux/actions/userActions';
 import {
   Card,
   Input,
@@ -18,7 +18,7 @@ import {
 } from '@ui-kitten/components';
 import {basicStyles} from '../../styles/basicStyles';
 
-const LoginScreen = (props) => {
+const LoginScreen = ({saveUser}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginPress, setLoginPress] = useState(false);
@@ -63,7 +63,7 @@ const LoginScreen = (props) => {
     };
     let token = 'ezxsdsadasd';
 
-    props.save_user({
+    saveUser({
       token,
       user,
       isLogged: true,
@@ -130,4 +130,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, {save_user})(LoginScreen);
+const mapDispatch = {saveUser: saveUserFetch};
+
+export default connect(null, mapDispatch)(LoginScreen);

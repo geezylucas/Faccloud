@@ -85,7 +85,6 @@ const RequestsScreen = (props) => {
               </View>
               {visible && (
                 <SearchRequests
-                  style={basicStyles.card}
                   form={form}
                   setForm={setForm}
                   filterData={() =>
