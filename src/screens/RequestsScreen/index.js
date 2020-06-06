@@ -1,56 +1,57 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {
-  Button,
-  Icon,
-  List,
-  ListItem,
-  Text,
-  Layout,
-} from '@ui-kitten/components';
+import {Button, List, ListItem, Text, Layout} from '@ui-kitten/components';
 import {TopNavDashboard, FooterListScreens} from '../../components';
 import SearchRequests from './SearchRequests';
-import {SearchIcon} from '../../styles/icons';
+import {SearchIcon, EmitidoIcon, RecibidoIcon} from '../../styles/icons';
+import {connect} from 'react-redux';
+import {getRequestsFetch} from '../../redux/actions/requestsActions';
 
-const data = new Array(8).fill({
-  _id: 'xxx',
-  Fecha: 'yyy',
-  type: 'Emisor',
-});
-
-const renderItemIcon = (props) => <Icon {...props} name="person" />;
-
-const RequestsScreen = (props) => {
+const RequestsScreen = ({
+  navigation,
+  listRequests,
+  dataPagination,
+  getRequests,
+  idUser,
+}) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
     dateFin: new Date(),
   });
 
-  const [searchPage, setSearchPage] = useState({
-    search: false,
-    page: 1,
-  });
+  const [searchPage, setSearchPage] = useState({search: false, page: 1});
+
+  useEffect(() => {
+    getRequests({
+      idUser,
+      pageSize: 10,
+      pageNum: searchPage.page,
+      filters: visible ? form : null,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchPage]);
 
   const [visible, setVisible] = useState(false);
-  //const [data, setData] = useState([]);
-
-  let fieldsmatched = 0;
-  let pages = 1;
 
   const renderItem = ({item, index}) => {
     return (
       <ListItem
-        title={`${item._id}`}
-        description={`${item.Fecha}`}
-        accessoryLeft={renderItemIcon}
+        title={(evaProps) => (
+          <View>
+            <Text {...evaProps}>{item._id}</Text>
+            <Text {...evaProps}>CFDIS Descargados: {item.numcfdis}</Text>
+          </View>
+        )}
+        description={`${new Date(item.daterequest.$date)}`}
+        accessoryLeft={item.typerequest === 'r' ? RecibidoIcon : EmitidoIcon}
         accessoryRight={(style) => (
           <Button
             size="tiny"
             style={styles.buttonTable}
             onPress={() => {
               /* 1. Navigate to the Details route with params */
-              props.navigation.navigate('DetailRequest', {
-                itemId: index + 1,
+              navigation.navigate('DetailRequest', {
+                itemId: item._id,
               });
             }}>
             Detalles
@@ -62,13 +63,13 @@ const RequestsScreen = (props) => {
 
   return (
     <List
-      data={data}
+      data={listRequests}
       renderItem={renderItem}
       ListHeaderComponent={
         <>
           <TopNavDashboard
             title="Solicitudes automáticas"
-            navigation={props.navigation}
+            navigation={navigation}
           />
           <Layout level="2">
             <View style={styles.layoutHeader}>
@@ -95,10 +96,10 @@ const RequestsScreen = (props) => {
       }
       ListFooterComponent={
         <FooterListScreens
-          fieldsmatched={fieldsmatched}
+          fieldsmatched={dataPagination.fieldsmatched}
           searchPage={searchPage}
           setSearchPage={setSearchPage}
-          pages={pages}
+          pages={dataPagination.pages}
         />
       }
     />
@@ -116,4 +117,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RequestsScreen;
+const mapStateToProps = (state) => {
+  const {requestsdata, userdata} = state;
+
+  // TODO: Cuando este el registro, no nandar idUser
+  return {
+    dataPagination: requestsdata.dataPagination,
+    listRequests: requestsdata.requests,
+    idUser: userdata.user.id,
+  };
+};
+
+const mapDispatch = {getRequests: getRequestsFetch};
+
+export default connect(mapStateToProps, mapDispatch)(RequestsScreen);

@@ -10,7 +10,6 @@ import {
   Card,
 } from '@ui-kitten/components';
 import SearchRecords from './SearchRecords';
-import {basicStyles} from '../../styles/basicStyles';
 import {SearchIcon} from '../../styles/icons';
 import {FooterListScreens, TopNavGoBack} from '../../components';
 import {connect} from 'react-redux';

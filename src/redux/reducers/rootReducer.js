@@ -1,10 +1,12 @@
 import {combineReducers} from 'redux';
 import userReducer from './userReducer';
 import homeReducer from './homeReducer';
+import requestsReducer from './requestsReducer';
 
 const combinedReducers = combineReducers({
   userdata: userReducer,
   homedata: homeReducer,
+  requestsdata: requestsReducer,
 });
 
 const rootReducer = (state, action) => {

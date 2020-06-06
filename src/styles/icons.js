@@ -11,3 +11,11 @@ export const FileIcon = (props) => <Icon {...props} name="file" />;
 
 export const MenuIcon = (props) => <Icon {...props} name="menu" />;
 export const BackNavIcon = (props) => <Icon {...props} name="arrow-back" />;
+
+export const RecibidoIcon = (props) => (
+  <Icon {...props} name="arrow-circle-down" />
+);
+
+export const EmitidoIcon = (props) => (
+  <Icon {...props} name="arrow-circle-up" />
+);
