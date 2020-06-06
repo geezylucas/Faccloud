@@ -4,9 +4,10 @@ import {MenuItem, Card, Text} from '@ui-kitten/components';
 import {basicStyles} from '../../styles/basicStyles';
 import {FileIcon} from '../../styles/icons';
 
-const HomeMenus = ({navigate, typeXMLSection, lastRecord}) => {
-  const {_id, totalNumCfdis} = typeXMLSection || {};
-  const {Fecha} = lastRecord || {};
+const HomeMenus = ({navigate, XMLSection, lastRecord}) => {
+  const {_id, totalCfdis} = XMLSection;
+  const {Fecha} = lastRecord || '';
+
   const dataTitles = ['Facturas', 'Pagos', 'Nominas', 'Retenciones'];
 
   let titleNav = '';
@@ -23,12 +24,12 @@ const HomeMenus = ({navigate, typeXMLSection, lastRecord}) => {
   }
 
   const Footer = (props) => {
-    if (totalNumCfdis !== null) {
+    if (totalCfdis !== null) {
       return (
         <View {...props} style={props.style}>
           <View style={styles.footer}>
             <Text category="c1" appearance="hint">
-              Número de registros: {totalNumCfdis}
+              Número de registros: {totalCfdis}
             </Text>
           </View>
         </View>

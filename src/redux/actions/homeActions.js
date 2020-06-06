@@ -1,6 +1,11 @@
 import axios from 'axios';
 import Moment from 'moment';
-import {COUNT_BY_XML_TYPE, GET_RECORDS, GET_RECORD} from '../constants';
+import {
+  COUNT_BY_XML_TYPE,
+  GET_RECORDS,
+  GET_RECORD,
+  REMOVE_RECORD,
+} from '../constants';
 
 export const countByXMLType = (data) => {
   const {idUser, typeUser} = data;
@@ -59,6 +64,15 @@ export const getRecordsFetch = (data) => {
     } catch (error) {
       console.error(error);
     }
+  };
+};
+
+export const removeRecordToStore = (data) => {
+  return async (dispatch) => {
+    dispatch({
+      type: REMOVE_RECORD,
+      payload: data,
+    });
   };
 };
 

@@ -1,12 +1,26 @@
-import {COUNT_BY_XML_TYPE, GET_RECORDS, GET_RECORD} from '../constants';
+import {
+  COUNT_BY_XML_TYPE,
+  GET_RECORDS,
+  GET_RECORD,
+  REMOVE_RECORD,
+} from '../constants';
 
 const initialState = {
-  totalByXMLType: [],
+  totalByXMLType: [
+    {
+      _id: 'e',
+      totalCfdis: 0,
+    },
+    {
+      _id: 'r',
+      totalCfdis: 0,
+    },
+  ],
   lastReceptorXML: {},
   lastEmisorXML: {},
-  dataRecords: {
+  dataListRecords: {
     cfdis: [],
-    totalRecords: {
+    dataPagination: {
       fieldsmatched: 0,
       pages: 1,
       totalMonto: {
@@ -37,6 +51,10 @@ const initialState = {
         ValorUnitario: 0,
       },
     ],
+    Impuestos: {
+      TotalImpuestosTrasladados: 0,
+      TotalImpuestosRetenidos: 0,
+    },
   },
 };
 
@@ -46,19 +64,25 @@ export default function (state = initialState, action) {
       return {
         ...state,
         totalByXMLType: action.payload.typesCFDI,
-        lastEmisorXML: action.payload.lastEmisorCFDI[0],
-        lastReceptorXML: action.payload.lastReceptorCFDI[0],
+        lastEmisorXML: action.payload.lastEmisorCFDI,
+        lastReceptorXML: action.payload.lastReceptorCFDI,
       };
     case GET_RECORDS:
       return {
         ...state,
-        dataRecords: action.payload,
+        dataListRecords: action.payload,
       };
     case GET_RECORD:
       // TODO: Agregar validacion para que no haya problemas con el index
       return {
         ...state,
         record: action.payload[0],
+      };
+    case REMOVE_RECORD:
+      // TODO: Agregar validacion para que no haya problemas con el index
+      return {
+        ...state,
+        record: action.payload,
       };
     default:
       return state;

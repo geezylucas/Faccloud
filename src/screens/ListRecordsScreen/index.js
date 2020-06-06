@@ -18,7 +18,7 @@ import {getRecordsFetch} from '../../redux/actions/homeActions';
 const ListRecordsScreen = ({
   idUser,
   getRecords,
-  totalRecords,
+  dataPagination,
   listRecords,
   route,
   navigation,
@@ -114,7 +114,7 @@ const ListRecordsScreen = ({
                   Monto
                 </Text>
                 <Text category="h6">
-                  ${totalRecords.totalMonto.$numberDecimal}
+                  ${dataPagination.totalMonto.$numberDecimal}
                 </Text>
               </View>
             </Card>
@@ -123,10 +123,10 @@ const ListRecordsScreen = ({
       }
       ListFooterComponent={
         <FooterListScreens
-          fieldsmatched={totalRecords.fieldsmatched}
+          fieldsmatched={dataPagination.fieldsmatched}
           searchPage={searchPage}
           setSearchPage={setSearchPage}
-          pages={totalRecords.pages}
+          pages={dataPagination.pages}
         />
       }
     />
@@ -155,9 +155,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   const {homedata, userdata} = state;
 
+  // TODO: no traer el iduser del store
   return {
-    listRecords: homedata.dataRecords.cfdis,
-    totalRecords: homedata.dataRecords.totalRecords,
+    listRecords: homedata.dataListRecords.cfdis,
+    dataPagination: homedata.dataListRecords.dataPagination,
     idUser: userdata.user.id,
   };
 };

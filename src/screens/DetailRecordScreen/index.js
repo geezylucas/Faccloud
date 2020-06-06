@@ -4,13 +4,52 @@ import {Layout, Text, ListItem, List, Card} from '@ui-kitten/components';
 import {basicStyles} from '../../styles/basicStyles';
 import {TopNavGoBack} from '../../components';
 import {connect} from 'react-redux';
-import {getRecordFetch} from '../../redux/actions/homeActions';
+import {
+  getRecordFetch,
+  removeRecordToStore,
+} from '../../redux/actions/homeActions';
 
-const DetailRecordScreen = ({route, navigation, record, getRecord}) => {
+const DetailRecordScreen = ({
+  route,
+  navigation,
+  record,
+  getRecord,
+  removeRecord,
+}) => {
   const {itemId} = route.params;
 
   useEffect(() => {
     getRecord(itemId);
+    return () => {
+      removeRecord({
+        Emisor: {
+          Nombre: '',
+          Rfc: '',
+        },
+        Receptor: {
+          Nombre: '',
+          Rfc: '',
+          UsoCFDI: '',
+        },
+        SubTotal: 0,
+        Descuento: 0,
+        Total: 0,
+        Fecha: '',
+        TipoDeComprobante: '',
+        Conceptos: [
+          {
+            Cantidad: 0,
+            Descripcion: '',
+            Importe: 0,
+            ValorUnitario: 0,
+          },
+        ],
+        Impuestos: {
+          TotalImpuestosTrasladados: 0,
+          TotalImpuestosRetenidos: 0,
+        },
+      });
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getRecord]);
 
@@ -64,6 +103,21 @@ const DetailRecordScreen = ({route, navigation, record, getRecord}) => {
           </Layout>
         </>
       }
+      ListFooterComponent={
+        <>
+          <View style={basicStyles.cardHeader}>
+            <Text category="h6">Impuestos</Text>
+          </View>
+          <ListItem
+            title={record.Impuestos.TotalImpuestosTrasladados}
+            description="Total de impuestos trasladados"
+          />
+          <ListItem
+            title={record.Impuestos.TotalImpuestosRetenidos}
+            description="Total de impuestos retenidos"
+          />
+        </>
+      }
     />
   );
 };
@@ -74,6 +128,9 @@ const mapStateToProps = (state) => {
   return {record: homedata.record};
 };
 
-const mapDispatch = {getRecord: getRecordFetch};
+const mapDispatch = {
+  getRecord: getRecordFetch,
+  removeRecord: removeRecordToStore,
+};
 
 export default connect(mapStateToProps, mapDispatch)(DetailRecordScreen);

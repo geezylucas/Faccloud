@@ -37,20 +37,12 @@ const HomeScreen = ({
         </View>
         <HomeMenus
           navigate={navigation.navigate}
-          typeXMLSection={
-            Object.keys(totalByXMLType).length !== 0
-              ? totalByXMLType.find((element) => element._id === 'r')
-              : undefined
-          }
+          XMLSection={totalByXMLType.find((element) => element._id === 'r')}
           lastRecord={lastReceptorXML}
         />
         <HomeMenus
           navigate={navigation.navigate}
-          typeXMLSection={
-            Object.keys(totalByXMLType).length !== 0
-              ? totalByXMLType.find((element) => element._id === 'e')
-              : undefined
-          }
+          XMLSection={totalByXMLType.find((element) => element._id === 'e')}
           lastRecord={lastEmisorXML}
         />
         <Button style={styles.buttonSignOut} onPress={() => logOut()}>
@@ -71,6 +63,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   const {homedata, userdata} = state;
 
+  // TODO: con token ya no traer del store el user
   return {
     totalByXMLType: homedata.totalByXMLType,
     lastReceptorXML: homedata.lastReceptorXML,
