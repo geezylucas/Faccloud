@@ -17,7 +17,7 @@ const SearchRecords = ({dataSelect, form, setForm, filterData}) => {
   const displayValue = dataSelect[form.indexcfdi.row];
 
   return (
-    <Card style={basicStyles.cardSearch}>
+    <Card style={basicStyles.card}>
       <View style={basicStyles.layoutInputs}>
         <Input
           size="small"

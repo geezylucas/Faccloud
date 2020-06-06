@@ -5,7 +5,7 @@ import {basicStyles} from '../../styles/basicStyles';
 import {CalendarIcon, SearchIcon} from '../../styles/icons';
 
 const SearchRequests = (props) => (
-  <Card style={basicStyles.cardSearch}>
+  <Card style={basicStyles.card}>
     <View style={basicStyles.layoutInputs}>
       <Datepicker
         label="Fecha inicio:"

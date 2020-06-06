@@ -1,14 +1,13 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Layout, Text} from '@ui-kitten/components';
-import {basicStyles} from '../../styles/basicStyles';
 import {TopNavGoBack} from '../../components';
 
 const DetailRequestScreen = ({route, navigation}) => {
   const {itemId} = route.params;
 
   return (
-    <SafeAreaView style={basicStyles.safeareaview}>
+    <>
       <TopNavGoBack title="Detalles solicitud" navigation={navigation} />
       <Layout style={styles.container}>
         <Layout style={styles.layout} level="4">
@@ -27,7 +26,7 @@ const DetailRequestScreen = ({route, navigation}) => {
           <Text>1</Text>
         </Layout>
       </Layout>
-    </SafeAreaView>
+    </>
   );
 };
 

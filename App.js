@@ -15,6 +15,7 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
 import {NavigationContainer} from '@react-navigation/native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AppNavigation from './src/navigation/AppNavigation';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -30,12 +31,14 @@ const {store, persistor} = configureStore();
 export default () => (
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <NavigationContainer>
-        <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={eva.light}>
-          <AppNavigation />
-        </ApplicationProvider>
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <IconRegistry icons={EvaIconsPack} />
+          <ApplicationProvider {...eva} theme={eva.light}>
+            <AppNavigation />
+          </ApplicationProvider>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </PersistGate>
   </Provider>
 );

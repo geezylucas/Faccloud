@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {
   Button,
   List,
@@ -14,11 +14,11 @@ import {basicStyles} from '../../styles/basicStyles';
 import {SearchIcon} from '../../styles/icons';
 import {FooterListScreens, TopNavGoBack} from '../../components';
 import {connect} from 'react-redux';
-import {getRecords} from '../../redux/actions/homeActions';
+import {getRecordsFetch} from '../../redux/actions/homeActions';
 
 const ListRecordsScreen = ({
-  id,
-  getRecordsFetch,
+  idUser,
+  getRecords,
   totalRecords,
   listRecords,
   route,
@@ -44,26 +44,15 @@ const ListRecordsScreen = ({
   ];
 
   let typeXMLToSend = '';
-  switch (typeXML) {
-    case 'Facturas':
-      typeXMLToSend = 'I-E';
-      break;
-    case 'Pagos':
-      typeXMLToSend = 'P';
-      break;
-    case 'Nominas':
-      typeXMLToSend = 'N';
-      break;
-    case 'Retenciones':
-      typeXMLToSend = 'R';
-      break;
-    default:
-      typeXMLToSend = '';
+  if (typeXML === 'Facturas') {
+    typeXMLToSend = 'I-E';
+  } else {
+    typeXMLToSend = typeXML.substring(0, 1);
   }
 
   useEffect(() => {
-    getRecordsFetch({
-      id,
+    getRecords({
+      idUser,
       pageSize: 10,
       pageNum: searchPage.page,
       typeComprobante: typeXMLToSend,
@@ -93,57 +82,55 @@ const ListRecordsScreen = ({
   );
 
   return (
-    <SafeAreaView style={basicStyles.safeareaview}>
-      <List
-        data={listRecords}
-        renderItem={renderItem}
-        ListHeaderComponent={
-          <>
-            <TopNavGoBack title={titleNav} navigation={navigation} />
-            <Layout level="2">
-              <View style={styles.layoutHeader}>
-                <Text category="h4">{typeXML}</Text>
-                <Button
-                  size="small"
-                  accessoryLeft={SearchIcon}
-                  appearance="outline"
-                  onPress={() => setVisible(!visible)}>
-                  Filtrar
-                </Button>
+    <List
+      data={listRecords}
+      renderItem={renderItem}
+      ListHeaderComponent={
+        <>
+          <TopNavGoBack title={titleNav} navigation={navigation} />
+          <Layout level="2">
+            <View style={styles.layoutHeader}>
+              <Text category="h4">{typeXML}</Text>
+              <Button
+                size="small"
+                accessoryLeft={SearchIcon}
+                appearance="outline"
+                onPress={() => setVisible(!visible)}>
+                Filtrar
+              </Button>
+            </View>
+            {visible && (
+              <SearchRecords
+                form={form}
+                setForm={setForm}
+                dataSelect={dataSelect}
+                filterData={() =>
+                  setSearchPage({page: 1, search: !searchPage.search})
+                }
+              />
+            )}
+            <Card style={styles.cardTotal}>
+              <View style={styles.headerCard}>
+                <Text category="c1" appearance="hint">
+                  Monto
+                </Text>
+                <Text category="h6">
+                  ${totalRecords.totalMonto.$numberDecimal}
+                </Text>
               </View>
-              {visible && (
-                <SearchRecords
-                  form={form}
-                  setForm={setForm}
-                  dataSelect={dataSelect}
-                  filterData={() =>
-                    setSearchPage({page: 1, search: !searchPage.search})
-                  }
-                />
-              )}
-              <Card style={styles.cardTotal}>
-                <View style={styles.headerCard}>
-                  <Text category="c1" appearance="hint">
-                    Monto
-                  </Text>
-                  <Text category="h6">
-                    ${totalRecords.totalMonto.$numberDecimal}
-                  </Text>
-                </View>
-              </Card>
-            </Layout>
-          </>
-        }
-        ListFooterComponent={
-          <FooterListScreens
-            fieldsmatched={totalRecords.fieldsmatched}
-            searchPage={searchPage}
-            setSearchPage={setSearchPage}
-            pages={totalRecords.pages}
-          />
-        }
-      />
-    </SafeAreaView>
+            </Card>
+          </Layout>
+        </>
+      }
+      ListFooterComponent={
+        <FooterListScreens
+          fieldsmatched={totalRecords.fieldsmatched}
+          searchPage={searchPage}
+          setSearchPage={setSearchPage}
+          pages={totalRecords.pages}
+        />
+      }
+    />
   );
 };
 
@@ -172,10 +159,10 @@ const mapStateToProps = (state) => {
   return {
     listRecords: homedata.dataRecords.cfdis,
     totalRecords: homedata.dataRecords.totalRecords,
-    id: userdata.user.id,
+    idUser: userdata.user.id,
   };
 };
 
-const mapDispatch = {getRecordsFetch: getRecords};
+const mapDispatch = {getRecords: getRecordsFetch};
 
 export default connect(mapStateToProps, mapDispatch)(ListRecordsScreen);

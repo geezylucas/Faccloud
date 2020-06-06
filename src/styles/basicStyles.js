@@ -10,12 +10,10 @@ export const basicStyles = StyleSheet.create({
   layoutInputs: {
     marginBottom: 20,
   },
-  card: {
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
+  cardHeader: {
+    margin: 20,
   },
-  cardSearch: {
+  card: {
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,

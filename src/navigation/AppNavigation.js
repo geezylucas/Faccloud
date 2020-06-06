@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 import {LoginScreen} from '../screens';
@@ -30,7 +30,7 @@ const AppNavigation = ({isLogged}) => {
     );
   } else {
     return (
-      <>
+      <SafeAreaView style={basicStyles.safeareaview}>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           {!logged ? (
             <>
@@ -42,7 +42,7 @@ const AppNavigation = ({isLogged}) => {
             </>
           )}
         </Stack.Navigator>
-      </>
+      </SafeAreaView>
     );
   }
 };

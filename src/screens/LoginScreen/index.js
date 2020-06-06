@@ -1,10 +1,5 @@
 import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import {connect} from 'react-redux';
 import {saveUserFetch} from '../../redux/actions/userActions';
 import {
@@ -72,37 +67,35 @@ const LoginScreen = ({saveUser}) => {
   /* END FUNCTIONS */
 
   return (
-    <SafeAreaView style={basicStyles.safeareaview}>
-      <Layout style={styles.container} level="2">
-        <Card style={styles.card}>
-          <View style={basicStyles.layoutInputs}>
-            <Input
-              label="Usuario"
-              placeholder="john.doe@example.com"
-              value={username}
-              onChangeText={(nextValue) => setUsername(nextValue)}
-            />
-            <Input
-              value={password}
-              label="Contraseña"
-              accessoryRight={renderIcon}
-              secureTextEntry={secureTextEntry}
-              onChangeText={(nextValue) => setPassword(nextValue)}
-            />
-          </View>
-          <Button
-            status="success"
-            onPress={signIn}
-            disabled={loginPress}
-            accessoryLeft={LoadingIndicator}>
-            Ingresar
-          </Button>
-        </Card>
-        <Card style={styles.cardRestPassword}>
-          <Text>¿Olvidaste tu contraseña?</Text>
-        </Card>
-      </Layout>
-    </SafeAreaView>
+    <Layout style={styles.container} level="2">
+      <Card style={styles.card}>
+        <View style={basicStyles.layoutInputs}>
+          <Input
+            label="Usuario"
+            placeholder="john.doe@example.com"
+            value={username}
+            onChangeText={(nextValue) => setUsername(nextValue)}
+          />
+          <Input
+            value={password}
+            label="Contraseña"
+            accessoryRight={renderIcon}
+            secureTextEntry={secureTextEntry}
+            onChangeText={(nextValue) => setPassword(nextValue)}
+          />
+        </View>
+        <Button
+          status="success"
+          onPress={signIn}
+          disabled={loginPress}
+          accessoryLeft={LoadingIndicator}>
+          Ingresar
+        </Button>
+      </Card>
+      <Card style={styles.cardRestPassword}>
+        <Text>¿Olvidaste tu contraseña?</Text>
+      </Card>
+    </Layout>
   );
 };
 

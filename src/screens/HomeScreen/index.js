@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, SafeAreaView, ScrollView, View} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
 import {logout} from '../../redux/reducers/rootReducer';
@@ -19,7 +19,7 @@ const HomeScreen = ({
 }) => {
   useEffect(() => {
     getCountByXMLType({
-      id: user.id,
+      idUser: user.id,
       typeUser: user.typeUser,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,37 +29,35 @@ const HomeScreen = ({
   /* END FUNCTIONS */
 
   return (
-    <SafeAreaView style={basicStyles.safeareaview}>
-      <ScrollView>
-        <TopNavDashboard title="Inicio" navigation={navigation} />
-        <Layout style={basicStyles.container} level="2">
-          <View style={basicStyles.card}>
-            <Text category="h4">!Buen día! ☀️</Text>
-          </View>
-          <HomeMenus
-            navigate={navigation.navigate}
-            typeXMLSection={
-              Object.keys(totalByXMLType).length !== 0
-                ? totalByXMLType.find((element) => element._id === 'r')
-                : undefined
-            }
-            lastRecord={lastReceptorXML}
-          />
-          <HomeMenus
-            navigate={navigation.navigate}
-            typeXMLSection={
-              Object.keys(totalByXMLType).length !== 0
-                ? totalByXMLType.find((element) => element._id === 'e')
-                : undefined
-            }
-            lastRecord={lastEmisorXML}
-          />
-          <Button style={styles.buttonSignOut} onPress={() => logOut()}>
-            Salir
-          </Button>
-        </Layout>
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView>
+      <TopNavDashboard title="Inicio" navigation={navigation} />
+      <Layout style={basicStyles.container} level="2">
+        <View style={basicStyles.cardHeader}>
+          <Text category="h4">!Buen día! ☀️</Text>
+        </View>
+        <HomeMenus
+          navigate={navigation.navigate}
+          typeXMLSection={
+            Object.keys(totalByXMLType).length !== 0
+              ? totalByXMLType.find((element) => element._id === 'r')
+              : undefined
+          }
+          lastRecord={lastReceptorXML}
+        />
+        <HomeMenus
+          navigate={navigation.navigate}
+          typeXMLSection={
+            Object.keys(totalByXMLType).length !== 0
+              ? totalByXMLType.find((element) => element._id === 'e')
+              : undefined
+          }
+          lastRecord={lastEmisorXML}
+        />
+        <Button style={styles.buttonSignOut} onPress={() => logOut()}>
+          Salir
+        </Button>
+      </Layout>
+    </ScrollView>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {SafeAreaView, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {
   Button,
   Icon,
@@ -10,7 +10,6 @@ import {
 } from '@ui-kitten/components';
 import {TopNavDashboard, FooterListScreens} from '../../components';
 import SearchRequests from './SearchRequests';
-import {basicStyles} from '../../styles/basicStyles';
 import {SearchIcon} from '../../styles/icons';
 
 const data = new Array(8).fill({
@@ -62,49 +61,47 @@ const RequestsScreen = (props) => {
   };
 
   return (
-    <SafeAreaView style={basicStyles.safeareaview}>
-      <List
-        data={data}
-        renderItem={renderItem}
-        ListHeaderComponent={
-          <>
-            <TopNavDashboard
-              title="Solicitudes automáticas"
-              navigation={props.navigation}
-            />
-            <Layout level="2">
-              <View style={styles.layoutHeader}>
-                <Text category="h4">Solicitudes</Text>
-                <Button
-                  size="small"
-                  accessoryLeft={SearchIcon}
-                  appearance="outline"
-                  onPress={() => setVisible(!visible)}>
-                  Filtrar
-                </Button>
-              </View>
-              {visible && (
-                <SearchRequests
-                  form={form}
-                  setForm={setForm}
-                  filterData={() =>
-                    setSearchPage({page: 1, search: !searchPage.search})
-                  }
-                />
-              )}
-            </Layout>
-          </>
-        }
-        ListFooterComponent={
-          <FooterListScreens
-            fieldsmatched={fieldsmatched}
-            searchPage={searchPage}
-            setSearchPage={setSearchPage}
-            pages={pages}
+    <List
+      data={data}
+      renderItem={renderItem}
+      ListHeaderComponent={
+        <>
+          <TopNavDashboard
+            title="Solicitudes automáticas"
+            navigation={props.navigation}
           />
-        }
-      />
-    </SafeAreaView>
+          <Layout level="2">
+            <View style={styles.layoutHeader}>
+              <Text category="h4">Solicitudes</Text>
+              <Button
+                size="small"
+                accessoryLeft={SearchIcon}
+                appearance="outline"
+                onPress={() => setVisible(!visible)}>
+                Filtrar
+              </Button>
+            </View>
+            {visible && (
+              <SearchRequests
+                form={form}
+                setForm={setForm}
+                filterData={() =>
+                  setSearchPage({page: 1, search: !searchPage.search})
+                }
+              />
+            )}
+          </Layout>
+        </>
+      }
+      ListFooterComponent={
+        <FooterListScreens
+          fieldsmatched={fieldsmatched}
+          searchPage={searchPage}
+          setSearchPage={setSearchPage}
+          pages={pages}
+        />
+      }
+    />
   );
 };
 
