@@ -1,11 +1,6 @@
 import axios from 'axios';
 import Moment from 'moment';
-import {
-  COUNT_BY_XML_TYPE,
-  GET_RECORDS,
-  GET_RECORD,
-  REMOVE_RECORD,
-} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_RECORDS, GET_RECORD} from '../constants';
 
 export const countByXMLType = (data) => {
   const {idUser, typeUser} = data;
@@ -41,11 +36,11 @@ export const getRecordsFetch = (data) => {
 
       if (filters === null) {
         response = await axios.get(
-          `http://192.168.100.31:5000/api/cfdis/getrecords/${idUser}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
+          `http://192.168.100.31:5000/api/cfdis/getcfdis/${idUser}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
         );
       } else {
         response = await axios.post(
-          `http://192.168.100.31:5000/api/cfdis/getrecords/${idUser}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
+          `http://192.168.100.31:5000/api/cfdis/getcfdis/${idUser}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
           {
             rfc: filters.rfc,
             dateIni: Moment(filters.dateIni).format('YYYY-MM-DD'),
@@ -64,15 +59,6 @@ export const getRecordsFetch = (data) => {
     } catch (error) {
       console.error(error);
     }
-  };
-};
-
-export const removeRecordToStore = (data) => {
-  return async (dispatch) => {
-    dispatch({
-      type: REMOVE_RECORD,
-      payload: data,
-    });
   };
 };
 

@@ -18,4 +18,14 @@ export const basicStyles = StyleSheet.create({
     marginRight: 20,
     marginBottom: 20,
   },
+  button: {
+    marginLeft: 8,
+    marginRight: 8,
+    marginBottom: 8,
+  },
+  layoutHeader: {
+    margin: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });

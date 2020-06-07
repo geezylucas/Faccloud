@@ -10,10 +10,11 @@ import {
   Card,
 } from '@ui-kitten/components';
 import SearchRecords from './SearchRecords';
-import {SearchIcon} from 'faccloud/src/styles/icons';
+import {SearchIcon, RefreshIcon} from 'faccloud/src/styles/icons';
 import {FooterListScreens, TopNavGoBack} from 'faccloud/src/components';
 import {connect} from 'react-redux';
 import {getRecordsFetch} from 'faccloud/src/redux/actions/homeActions';
+import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
 const ListRecordsScreen = ({
   idUser,
@@ -42,7 +43,7 @@ const ListRecordsScreen = ({
     'Gastos en general',
   ];
 
-  let typeXMLToSend = '';
+  let typeXMLToSend;
   if (typeXML === 'Facturas') {
     typeXMLToSend = 'I-E';
   } else {
@@ -88,7 +89,7 @@ const ListRecordsScreen = ({
         <View {...style}>
           <TopNavGoBack title={titleNav} navigation={navigation} />
           <Layout level="2">
-            <View style={styles.layoutHeader}>
+            <View style={basicStyles.layoutHeader}>
               <Text category="h4">{typeXML}</Text>
               <Button
                 size="small"
@@ -109,7 +110,7 @@ const ListRecordsScreen = ({
               />
             )}
             <Card style={styles.cardTotal}>
-              <View style={styles.headerCard}>
+              <View style={styles.headerCardTotal}>
                 <Text category="c1" appearance="hint">
                   Monto
                 </Text>
@@ -118,6 +119,18 @@ const ListRecordsScreen = ({
                 </Text>
               </View>
             </Card>
+            {!visible && (
+              <Button
+                style={basicStyles.button}
+                status="success"
+                size="small"
+                accessoryLeft={RefreshIcon}
+                onPress={() =>
+                  setSearchPage({page: 1, search: !searchPage.search})
+                }>
+                Refrescar
+              </Button>
+            )}
           </Layout>
         </View>
       )}
@@ -135,11 +148,6 @@ const ListRecordsScreen = ({
 };
 
 const styles = StyleSheet.create({
-  layoutHeader: {
-    margin: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   cardTotal: {
     marginLeft: 20,
     marginRight: 20,
@@ -147,7 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  headerCard: {
+  headerCardTotal: {
     justifyContent: 'center',
     alignItems: 'center',
   },

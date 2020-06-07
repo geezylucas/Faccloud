@@ -1,6 +1,13 @@
 import React, {useEffect} from 'react';
 import {View} from 'react-native';
-import {Layout, Text, ListItem, List, Card} from '@ui-kitten/components';
+import {
+  Layout,
+  Text,
+  ListItem,
+  List,
+  Card,
+  Divider,
+} from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {TopNavGoBack} from 'faccloud/src/components';
 import {connect} from 'react-redux';
@@ -20,36 +27,6 @@ const DetailRecordScreen = ({
 
   useEffect(() => {
     getRecord(itemId);
-    return () => {
-      removeRecord({
-        Emisor: {
-          Nombre: '',
-          Rfc: '',
-        },
-        Receptor: {
-          Nombre: '',
-          Rfc: '',
-          UsoCFDI: '',
-        },
-        SubTotal: 0,
-        Descuento: 0,
-        Total: 0,
-        Fecha: '',
-        TipoDeComprobante: '',
-        Conceptos: [
-          {
-            Cantidad: 0,
-            Descripcion: '',
-            Importe: 0,
-            ValorUnitario: 0,
-          },
-        ],
-        Impuestos: {
-          TotalImpuestosTrasladados: 0,
-          TotalImpuestosRetenidos: 0,
-        },
-      });
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getRecord]);
 
@@ -65,7 +42,9 @@ const DetailRecordScreen = ({
       status="basic"
       header={(headerProps) => renderItemHeader(headerProps, info.item)}>
       <ListItem title={info.item.Cantidad} description="Cantidad" />
+      <Divider />
       <ListItem title={info.item.ValorUnitario} description="Valor unitario" />
+      <Divider />
       <ListItem title={info.item.Importe} description="Importe" />
     </Card>
   );
@@ -88,15 +67,22 @@ const DetailRecordScreen = ({
               title={record.Receptor.Nombre}
               description="Receptor Nombre"
             />
+            <Divider />
             <ListItem title={record.Receptor.Rfc} description="Receptor RFC" />
+            <Divider />
             <ListItem title={record.SubTotal} description="SubTotal" />
+            <Divider />
             <ListItem title={record.Descuento} description="Descuento" />
+            <Divider />
             <ListItem title={record.Total} description="Total" />
+            <Divider />
             <ListItem title={record.Fecha} description="Fecha" />
+            <Divider />
             <ListItem
               title={record.TipoDeComprobante}
               description="TipoDeComprobante"
             />
+            <Divider />
             <View style={basicStyles.cardHeader}>
               <Text category="h6">Conceptos</Text>
             </View>
@@ -105,13 +91,14 @@ const DetailRecordScreen = ({
       )}
       ListFooterComponent={(style) => (
         <View {...style}>
-          <View style={basicStyles.cardHeader}>
+          <View style={basicStyles.card}>
             <Text category="h6">Impuestos</Text>
           </View>
           <ListItem
             title={record.Impuestos.TotalImpuestosTrasladados}
             description="Total de impuestos trasladados"
           />
+          <Divider />
           <ListItem
             title={record.Impuestos.TotalImpuestosRetenidos}
             description="Total de impuestos retenidos"
@@ -125,7 +112,6 @@ const DetailRecordScreen = ({
 const mapStateToProps = (state) => {
   const {homedata} = state;
 
-  console.log(homedata.record);
   return {record: homedata.record};
 };
 

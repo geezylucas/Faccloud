@@ -10,7 +10,7 @@ const HomeMenus = ({navigate, XMLSection, lastRecord}) => {
 
   const dataTitles = ['Facturas', 'Pagos', 'Nominas', 'Retenciones'];
 
-  let titleNav = '';
+  let titleNav;
 
   switch (_id) {
     case 'r':

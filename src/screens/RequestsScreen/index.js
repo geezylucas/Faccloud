@@ -1,11 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {Button, List, ListItem, Text, Layout} from '@ui-kitten/components';
 import {TopNavDashboard, FooterListScreens} from 'faccloud/src/components';
 import SearchRequests from './SearchRequests';
-import {SearchIcon, EmitidoIcon, RecibidoIcon} from 'faccloud/src/styles/icons';
+import {
+  SearchIcon,
+  EmitidoIcon,
+  RecibidoIcon,
+  RefreshIcon,
+} from 'faccloud/src/styles/icons';
 import {connect} from 'react-redux';
 import {getRequestsFetch} from 'faccloud/src/redux/actions/requestsActions';
+import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
 const RequestsScreen = ({
   navigation,
@@ -20,6 +26,7 @@ const RequestsScreen = ({
   });
 
   const [searchPage, setSearchPage] = useState({search: false, page: 1});
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     getRequests({
@@ -31,8 +38,6 @@ const RequestsScreen = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPage]);
 
-  const [visible, setVisible] = useState(false);
-
   const renderItem = ({item, index}) => {
     return (
       <ListItem
@@ -42,7 +47,7 @@ const RequestsScreen = ({
             <Text {...evaProps}>CFDIS Descargados: {item.numcfdis}</Text>
           </View>
         )}
-        description={`${new Date(item.daterequest.$date)}`}
+        description={`${new Date(item.daterequest.$date).toISOString()}`}
         accessoryLeft={(style) => {
           switch (item.typerequest) {
             case 'r':
@@ -54,7 +59,6 @@ const RequestsScreen = ({
         accessoryRight={(style) => (
           <Button
             size="tiny"
-            style={styles.buttonTable}
             onPress={() => {
               /* 1. Navigate to the Details route with params */
               navigation.navigate('DetailRequest', {
@@ -79,7 +83,7 @@ const RequestsScreen = ({
             navigation={navigation}
           />
           <Layout level="2">
-            <View style={styles.layoutHeader}>
+            <View style={basicStyles.layoutHeader}>
               <Text category="h4">Solicitudes</Text>
               <Button
                 size="small"
@@ -89,7 +93,7 @@ const RequestsScreen = ({
                 Filtrar
               </Button>
             </View>
-            {visible && (
+            {visible ? (
               <SearchRequests
                 form={form}
                 setForm={setForm}
@@ -97,6 +101,17 @@ const RequestsScreen = ({
                   setSearchPage({page: 1, search: !searchPage.search})
                 }
               />
+            ) : (
+              <Button
+                style={basicStyles.button}
+                status="success"
+                size="small"
+                accessoryLeft={RefreshIcon}
+                onPress={() =>
+                  setSearchPage({page: 1, search: !searchPage.search})
+                }>
+                Refrescar
+              </Button>
             )}
           </Layout>
         </View>
@@ -113,17 +128,6 @@ const RequestsScreen = ({
     />
   );
 };
-
-const styles = StyleSheet.create({
-  layoutHeader: {
-    margin: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonTable: {
-    marginRight: 8,
-  },
-});
 
 const mapStateToProps = (state) => {
   const {requestsdata, userdata} = state;

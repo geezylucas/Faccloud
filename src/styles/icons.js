@@ -19,3 +19,5 @@ export const RecibidoIcon = (props) => (
 export const EmitidoIcon = (props) => (
   <Icon {...props} name="arrow-circle-up" />
 );
+
+export const RefreshIcon = (props) => <Icon {...props} name="refresh" />;

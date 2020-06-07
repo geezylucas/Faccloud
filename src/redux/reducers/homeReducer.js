@@ -1,9 +1,4 @@
-import {
-  COUNT_BY_XML_TYPE,
-  GET_RECORDS,
-  GET_RECORD,
-  REMOVE_RECORD,
-} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_RECORDS, GET_RECORD} from '../constants';
 
 const initialState = {
   totalByXMLType: [
@@ -73,17 +68,9 @@ export default function (state = initialState, action) {
         dataListRecords: action.payload,
       };
     case GET_RECORD:
-      // TODO: Agregar validacion para que no haya problemas con el index
-      return {
-        ...state,
-        record: action.payload[0],
-      };
-    case REMOVE_RECORD:
-      // TODO: Agregar validacion para que no haya problemas con el index
-      return {
-        ...state,
-        record: action.payload,
-      };
+      return Object.assign({}, state, {
+        record: Object.assign({}, state.request, action.payload),
+      });
     default:
       return state;
   }

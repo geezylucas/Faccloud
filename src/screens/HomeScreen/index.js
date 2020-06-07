@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, ScrollView, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
 import {logout} from 'faccloud/src/redux/reducers/rootReducer';
@@ -45,20 +45,13 @@ const HomeScreen = ({
           XMLSection={totalByXMLType.find((element) => element._id === 'e')}
           lastRecord={lastEmisorXML}
         />
-        <Button style={styles.buttonSignOut} onPress={() => logOut()}>
+        <Button style={basicStyles.button} onPress={() => logOut()}>
           Salir
         </Button>
       </Layout>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonSignOut: {
-    marginTop: 20,
-    margin: 8,
-  },
-});
 
 const mapStateToProps = (state) => {
   const {homedata, userdata} = state;
