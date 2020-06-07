@@ -1,10 +1,11 @@
 import React from 'react';
+import {View} from 'react-native';
 import {
   TopNavigation,
   TopNavigationAction,
   Divider,
 } from '@ui-kitten/components';
-import {MenuIcon} from '../styles/icons';
+import {MenuIcon} from 'faccloud/src/styles/icons';
 
 const TopNavDashboard = ({navigation, title}) => {
   const MenuAction = () => (
@@ -15,10 +16,10 @@ const TopNavDashboard = ({navigation, title}) => {
   );
 
   return (
-    <>
+    <View>
       <TopNavigation accessoryLeft={MenuAction} title={title} />
       <Divider />
-    </>
+    </View>
   );
 };
 

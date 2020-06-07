@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button, List, ListItem, Text, Layout} from '@ui-kitten/components';
-import {TopNavDashboard, FooterListScreens} from '../../components';
+import {TopNavDashboard, FooterListScreens} from 'faccloud/src/components';
 import SearchRequests from './SearchRequests';
-import {SearchIcon, EmitidoIcon, RecibidoIcon} from '../../styles/icons';
+import {SearchIcon, EmitidoIcon, RecibidoIcon} from 'faccloud/src/styles/icons';
 import {connect} from 'react-redux';
-import {getRequestsFetch} from '../../redux/actions/requestsActions';
+import {getRequestsFetch} from 'faccloud/src/redux/actions/requestsActions';
 
 const RequestsScreen = ({
   navigation,
@@ -43,7 +43,14 @@ const RequestsScreen = ({
           </View>
         )}
         description={`${new Date(item.daterequest.$date)}`}
-        accessoryLeft={item.typerequest === 'r' ? RecibidoIcon : EmitidoIcon}
+        accessoryLeft={(style) => {
+          switch (item.typerequest) {
+            case 'r':
+              return RecibidoIcon(style);
+            case 'e':
+              return EmitidoIcon(style);
+          }
+        }}
         accessoryRight={(style) => (
           <Button
             size="tiny"
@@ -65,8 +72,8 @@ const RequestsScreen = ({
     <List
       data={listRequests}
       renderItem={renderItem}
-      ListHeaderComponent={
-        <>
+      ListHeaderComponent={(style) => (
+        <View {...style}>
           <TopNavDashboard
             title="Solicitudes automáticas"
             navigation={navigation}
@@ -92,16 +99,17 @@ const RequestsScreen = ({
               />
             )}
           </Layout>
-        </>
-      }
-      ListFooterComponent={
+        </View>
+      )}
+      ListFooterComponent={(style) => (
         <FooterListScreens
+          style={style}
           fieldsmatched={dataPagination.fieldsmatched}
           searchPage={searchPage}
           setSearchPage={setSearchPage}
           pages={dataPagination.pages}
         />
-      }
+      )}
     />
   );
 };

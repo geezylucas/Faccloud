@@ -10,10 +10,10 @@ import {
   Card,
 } from '@ui-kitten/components';
 import SearchRecords from './SearchRecords';
-import {SearchIcon} from '../../styles/icons';
-import {FooterListScreens, TopNavGoBack} from '../../components';
+import {SearchIcon} from 'faccloud/src/styles/icons';
+import {FooterListScreens, TopNavGoBack} from 'faccloud/src/components';
 import {connect} from 'react-redux';
-import {getRecordsFetch} from '../../redux/actions/homeActions';
+import {getRecordsFetch} from 'faccloud/src/redux/actions/homeActions';
 
 const ListRecordsScreen = ({
   idUser,
@@ -84,8 +84,8 @@ const ListRecordsScreen = ({
     <List
       data={listRecords}
       renderItem={renderItem}
-      ListHeaderComponent={
-        <>
+      ListHeaderComponent={(style) => (
+        <View {...style}>
           <TopNavGoBack title={titleNav} navigation={navigation} />
           <Layout level="2">
             <View style={styles.layoutHeader}>
@@ -119,16 +119,17 @@ const ListRecordsScreen = ({
               </View>
             </Card>
           </Layout>
-        </>
-      }
-      ListFooterComponent={
+        </View>
+      )}
+      ListFooterComponent={(style) => (
         <FooterListScreens
+          style={style}
           fieldsmatched={dataPagination.fieldsmatched}
           searchPage={searchPage}
           setSearchPage={setSearchPage}
           pages={dataPagination.pages}
         />
-      }
+      )}
     />
   );
 };

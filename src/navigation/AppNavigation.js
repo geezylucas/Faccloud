@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
-import {LoginScreen} from '../screens';
+import {LoginScreen} from 'faccloud/src/screens';
 import DashboardDrawNav from './DashboardDrawNav';
-import {basicStyles} from '../styles/basicStyles';
-import {Loading} from '../components';
+import {basicStyles} from 'faccloud/src/styles/basicStyles';
+import {Loading} from 'faccloud/src/components';
 
 const Stack = createStackNavigator();
 

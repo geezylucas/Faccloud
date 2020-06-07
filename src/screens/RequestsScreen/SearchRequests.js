@@ -1,27 +1,23 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Card, Button, Datepicker} from '@ui-kitten/components';
-import {basicStyles} from '../../styles/basicStyles';
-import {CalendarIcon, SearchIcon} from '../../styles/icons';
+import {basicStyles} from 'faccloud/src/styles/basicStyles';
+import {CalendarIcon, SearchIcon} from 'faccloud/src/styles/icons';
 
-const SearchRequests = (props) => (
+const SearchRequests = ({form, setForm, filterData}) => (
   <Card style={basicStyles.card}>
     <View style={basicStyles.layoutInputs}>
       <Datepicker
         label="Fecha inicio:"
-        date={props.form.dateIni}
-        onSelect={(nextDate) =>
-          props.setForm({...props.form, dateIni: nextDate})
-        }
+        date={form.dateIni}
+        onSelect={(nextDate) => setForm({...form, dateIni: nextDate})}
         accessoryRight={CalendarIcon}
         size="small"
       />
       <Datepicker
         label="Fecha fin:"
-        date={props.form.dateFin}
-        onSelect={(nextDate) =>
-          props.setForm({...props.form, dateFin: nextDate})
-        }
+        date={form.dateFin}
+        onSelect={(nextDate) => setForm({...form, dateFin: nextDate})}
         accessoryRight={CalendarIcon}
         size="small"
       />
@@ -30,7 +26,7 @@ const SearchRequests = (props) => (
       status="success"
       accessoryLeft={SearchIcon}
       size="small"
-      onPress={props.filterData}>
+      onPress={filterData}>
       Buscar
     </Button>
   </Card>

@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {MenuItem, Card, Text} from '@ui-kitten/components';
-import {basicStyles} from '../../styles/basicStyles';
-import {FileIcon} from '../../styles/icons';
+import {basicStyles} from 'faccloud/src/styles/basicStyles';
+import {FileIcon} from 'faccloud/src/styles/icons';
 
 const HomeMenus = ({navigate, XMLSection, lastRecord}) => {
   const {_id, totalCfdis} = XMLSection;

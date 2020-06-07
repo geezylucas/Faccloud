@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Layout, Text} from '@ui-kitten/components';
-import {TopNavGoBack} from '../../components';
+import {TopNavGoBack} from 'faccloud/src/components';
 
 const DetailRequestScreen = ({route, navigation}) => {
   const {itemId} = route.params;

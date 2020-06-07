@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import {StyleSheet, ScrollView, View} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
-import {logout} from '../../redux/reducers/rootReducer';
-import {countByXMLType} from '../../redux/actions/homeActions';
-import {basicStyles} from '../../styles/basicStyles';
-import {TopNavDashboard} from '../../components';
+import {logout} from 'faccloud/src/redux/reducers/rootReducer';
+import {countByXMLType} from 'faccloud/src/redux/actions/homeActions';
+import {basicStyles} from 'faccloud/src/styles/basicStyles';
+import {TopNavDashboard} from 'faccloud/src/components';
 import HomeMenus from './HomeMenus';
 
 const HomeScreen = ({
@@ -23,9 +23,9 @@ const HomeScreen = ({
       typeUser: user.typeUser,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  /* FUNCTIONS */
+  }, [getCountByXMLType]);
 
+  /* FUNCTIONS */
   /* END FUNCTIONS */
 
   return (

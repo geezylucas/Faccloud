@@ -1,15 +1,16 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button, Text, Layout, Divider} from '@ui-kitten/components';
-import {BackIcon, NextIcon} from '../styles/icons';
+import {BackIcon, NextIcon} from 'faccloud/src/styles/icons';
 
 const FooterListScreens = ({
+  style,
   fieldsmatched,
   searchPage,
   setSearchPage,
   pages,
 }) => (
-  <Layout level="2">
+  <Layout {...style} level="2">
     <View style={styles.layoutTotalRecords}>
       <Text category="c1" appearance="hint">
         Total de registros: {fieldsmatched}

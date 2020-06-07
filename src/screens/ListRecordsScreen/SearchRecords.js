@@ -8,8 +8,8 @@ import {
   Select,
   SelectItem,
 } from '@ui-kitten/components';
-import {basicStyles} from '../../styles/basicStyles';
-import {CalendarIcon, SearchIcon} from '../../styles/icons';
+import {basicStyles} from 'faccloud/src/styles/basicStyles';
+import {CalendarIcon, SearchIcon} from 'faccloud/src/styles/icons';
 
 const renderOption = (title, index) => <SelectItem key={index} title={title} />;
 

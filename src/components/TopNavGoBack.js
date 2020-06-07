@@ -1,10 +1,11 @@
 import React from 'react';
+import {View} from 'react-native';
 import {
   Divider,
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-import {BackNavIcon} from '../styles/icons';
+import {BackNavIcon} from 'faccloud/src/styles/icons';
 
 const TopNavGoBack = ({navigation, title}) => {
   const BackAction = () => (
@@ -15,10 +16,10 @@ const TopNavGoBack = ({navigation, title}) => {
   );
 
   return (
-    <>
+    <View>
       <TopNavigation accessoryLeft={BackAction} title={title} />
       <Divider />
-    </>
+    </View>
   );
 };
 

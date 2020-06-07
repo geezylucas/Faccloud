@@ -10,11 +10,12 @@ const combinedReducers = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if (action.type === 'LOGOUT') {
-    return combinedReducers(undefined, action);
+  switch (action.type) {
+    case 'LOGOUT':
+      return combinedReducers(undefined, action);
+    default:
+      return combinedReducers(state, action);
   }
-
-  return combinedReducers(state, action);
 };
 
 export default rootReducer;

@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import {Layout, Text, ListItem, List, Card} from '@ui-kitten/components';
-import {basicStyles} from '../../styles/basicStyles';
-import {TopNavGoBack} from '../../components';
+import {basicStyles} from 'faccloud/src/styles/basicStyles';
+import {TopNavGoBack} from 'faccloud/src/components';
 import {connect} from 'react-redux';
 import {
   getRecordFetch,
   removeRecordToStore,
-} from '../../redux/actions/homeActions';
+} from 'faccloud/src/redux/actions/homeActions';
 
 const DetailRecordScreen = ({
   route,
@@ -74,8 +74,8 @@ const DetailRecordScreen = ({
     <List
       data={record.Conceptos}
       renderItem={renderItem}
-      ListHeaderComponent={
-        <>
+      ListHeaderComponent={(style) => (
+        <View {...style}>
           <TopNavGoBack title="Detalles XML" navigation={navigation} />
           <Layout level="2">
             <View style={basicStyles.cardHeader}>
@@ -101,10 +101,10 @@ const DetailRecordScreen = ({
               <Text category="h6">Conceptos</Text>
             </View>
           </Layout>
-        </>
-      }
-      ListFooterComponent={
-        <>
+        </View>
+      )}
+      ListFooterComponent={(style) => (
+        <View {...style}>
           <View style={basicStyles.cardHeader}>
             <Text category="h6">Impuestos</Text>
           </View>
@@ -116,8 +116,8 @@ const DetailRecordScreen = ({
             title={record.Impuestos.TotalImpuestosRetenidos}
             description="Total de impuestos retenidos"
           />
-        </>
-      }
+        </View>
+      )}
     />
   );
 };
@@ -125,6 +125,7 @@ const DetailRecordScreen = ({
 const mapStateToProps = (state) => {
   const {homedata} = state;
 
+  console.log(homedata.record);
   return {record: homedata.record};
 };
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import {connect} from 'react-redux';
-import {saveUserFetch} from '../../redux/actions/userActions';
+import {saveUserFetch} from 'faccloud/src/redux/actions/userActions';
 import {
   Card,
   Input,
@@ -11,7 +11,7 @@ import {
   Icon,
   Spinner,
 } from '@ui-kitten/components';
-import {basicStyles} from '../../styles/basicStyles';
+import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
 const LoginScreen = ({saveUser}) => {
   const [username, setUsername] = useState('');

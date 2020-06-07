@@ -8,7 +8,7 @@ import {
   DetailRecordScreen,
   RequestsScreen,
   DetailRequestScreen,
-} from '../screens';
+} from 'faccloud/src/screens';
 import {connect} from 'react-redux';
 
 const {Navigator, Screen} = createDrawerNavigator();
