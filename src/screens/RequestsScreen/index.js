@@ -18,7 +18,7 @@ const RequestsScreen = ({
   listRequests,
   dataPagination,
   getRequests,
-  idUser,
+  idInfo,
 }) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
@@ -30,7 +30,7 @@ const RequestsScreen = ({
 
   useEffect(() => {
     getRequests({
-      idUser,
+      idInfo,
       pageSize: 10,
       pageNum: searchPage.page,
       filters: visible ? form : null,
@@ -132,11 +132,11 @@ const RequestsScreen = ({
 const mapStateToProps = (state) => {
   const {requestsdata, userdata} = state;
 
-  // TODO: Cuando este el registro, no nandar idUser
+  // TODO: Cuando este el registro, no nandar idInfo
   return {
     dataPagination: requestsdata.dataPagination,
     listRequests: requestsdata.requests,
-    idUser: userdata.user.id,
+    idInfo: userdata.user.idInfo,
   };
 };
 

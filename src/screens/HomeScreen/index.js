@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View} from 'react-native';
-import {Layout, Button, Text} from '@ui-kitten/components';
+import {Layout, Button, Text, Toggle} from '@ui-kitten/components';
 import {connect} from 'react-redux';
 import {logout} from 'faccloud/src/redux/reducers/rootReducer';
 import {countByXMLType} from 'faccloud/src/redux/actions/homeActions';
@@ -17,23 +17,31 @@ const HomeScreen = ({
   navigation,
   logOut,
 }) => {
+  const [checked, setChecked] = useState(false);
+
   useEffect(() => {
     getCountByXMLType({
-      idUser: user.id,
+      idInfo: user.idInfo,
       typeUser: user.typeUser,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCountByXMLType]);
 
   /* FUNCTIONS */
+  const onCheckedChange = (isChecked) => {
+    setChecked(isChecked);
+  };
   /* END FUNCTIONS */
 
   return (
     <ScrollView>
       <TopNavDashboard title="Inicio" navigation={navigation} />
       <Layout style={basicStyles.container} level="2">
-        <View style={basicStyles.cardHeader}>
+        <View style={basicStyles.layoutHeader}>
           <Text category="h4">!Buen día! ☀️</Text>
+          {user.typeUser !== 'g' && (
+            <Toggle checked={checked} onChange={onCheckedChange} />
+          )}
         </View>
         <HomeMenus
           navigate={navigation.navigate}

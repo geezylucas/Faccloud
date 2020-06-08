@@ -4,7 +4,7 @@ import {SAVE_USER} from '../constants';
 const initialState = {
   isLogged: false,
   user: {
-    id: '',
+    idInfo: '',
     username: '',
     password: '',
     typeUser: '',

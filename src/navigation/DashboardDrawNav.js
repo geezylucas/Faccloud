@@ -8,6 +8,7 @@ import {
   DetailRecordScreen,
   RequestsScreen,
   DetailRequestScreen,
+  RequestFormScreen,
 } from 'faccloud/src/screens';
 import {connect} from 'react-redux';
 
@@ -38,13 +39,21 @@ const RequestsStackScreen = () => (
   </RequestsStack.Navigator>
 );
 
+const premiumUser = ['Inicio', 'Solicitudes', 'Solicitar paquete de XML'];
+const normalUser = ['Inicio'];
+
 const DashboardDrawNav = ({typeUser}) => {
   const DrawerContent = ({navigation, state}) => (
     <Drawer
       selectedIndex={new IndexPath(state.index)}
       onSelect={(index) => navigation.navigate(state.routeNames[index.row])}>
-      <DrawerItem title="Inicio" />
-      {typeUser !== 'g' && <DrawerItem title="Solicitudes" />}
+      {typeUser !== 'g'
+        ? premiumUser.map((title, index) => {
+            return <DrawerItem key={index} title={title} />;
+          })
+        : normalUser.map((title, index) => {
+            return <DrawerItem key={index} title={title} />;
+          })}
     </Drawer>
   );
 
@@ -53,7 +62,12 @@ const DashboardDrawNav = ({typeUser}) => {
       drawerContent={(props) => <DrawerContent {...props} />}
       initialRouteName="HomeStack">
       <Screen name="HomeStack" component={HomeStackScreen} />
-      <Screen name="RequestsStack" component={RequestsStackScreen} />
+      {typeUser !== 'g' && (
+        <>
+          <Screen name="RequestsStack" component={RequestsStackScreen} />
+          <Screen name="RequestForm" component={RequestFormScreen} />
+        </>
+      )}
     </Navigator>
   );
 };

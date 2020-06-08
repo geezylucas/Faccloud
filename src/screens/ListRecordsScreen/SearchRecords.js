@@ -13,7 +13,15 @@ import {CalendarIcon, SearchIcon} from 'faccloud/src/styles/icons';
 
 const renderOption = (title, index) => <SelectItem key={index} title={title} />;
 
-const SearchRecords = ({dataSelect, form, setForm, filterData}) => {
+const SearchRecords = ({form, setForm, filterData}) => {
+  // TODO: Traer desde la bd los nombres y checar si se puede mejorar
+  const dataSelect = [
+    'Ninguno',
+    'Adquisición de mercancias',
+    'Devoluciones, descuentos o bonificaciones',
+    'Gastos en general',
+  ];
+
   const displayValue = dataSelect[form.indexcfdi.row];
 
   return (
@@ -21,7 +29,7 @@ const SearchRecords = ({dataSelect, form, setForm, filterData}) => {
       <View style={basicStyles.layoutInputs}>
         <Input
           size="small"
-          label="RFC"
+          label="RFC:"
           placeholder="CUPU800825569"
           value={form.rfc}
           onChangeText={(nextValue) => setForm({...form, rfc: nextValue})}
@@ -41,14 +49,14 @@ const SearchRecords = ({dataSelect, form, setForm, filterData}) => {
           size="small"
         />
         <Select
-          label="Uso del XML"
-          selectedIndex={form.indexcfdi}
+          label="Uso del XML:"
+          selectedIndex={form.indexCfdi}
           value={displayValue}
           onSelect={(index) =>
             setForm({
               ...form,
-              indexcfdi: index,
-              usocfdi: dataSelect[index.row],
+              indexCfdi: index,
+              usoCfdi: dataSelect[index.row],
             })
           }
           size="small">

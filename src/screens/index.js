@@ -4,6 +4,7 @@ import ListRecordsScreen from './ListRecordsScreen';
 import DetailRecordScreen from './DetailRecordScreen';
 import RequestsScreen from './RequestsScreen';
 import DetailRequestScreen from './DetailRequestScreen';
+import RequestFormScreen from './RequestFormScreen';
 
 export {
   HomeScreen,
@@ -12,4 +13,5 @@ export {
   DetailRecordScreen,
   RequestsScreen,
   DetailRequestScreen,
+  RequestFormScreen,
 };

@@ -51,7 +51,7 @@ const LoginScreen = ({saveUser}) => {
 
     // Aquí vamos a llamar a la API para solicitar el token y el user
     let user = {
-      id: '5ed5b3831d8da382b4c235a8',
+      idInfo: '5ed5b3831d8da382b4c235a8',
       username: username,
       password: password,
       typeUser: 'p',

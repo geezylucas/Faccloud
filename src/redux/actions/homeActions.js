@@ -2,13 +2,11 @@ import axios from 'axios';
 import Moment from 'moment';
 import {COUNT_BY_XML_TYPE, GET_RECORDS, GET_RECORD} from '../constants';
 
-export const countByXMLType = (data) => {
-  const {idUser, typeUser} = data;
-
+export const countByXMLType = ({idInfo, typeUser}) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `http://192.168.100.31:5000/api/cfdis/totalcfdistotype/${idUser}?typeuser=${typeUser}`,
+        `http://192.168.100.31:5000/api/cfdis/totalcfdistotype/${idInfo}?typeuser=${typeUser}`,
       );
       dispatch({
         type: COUNT_BY_XML_TYPE,
@@ -20,35 +18,33 @@ export const countByXMLType = (data) => {
   };
 };
 
-export const getRecordsFetch = (data) => {
-  const {
-    idUser,
-    pageSize,
-    pageNum,
-    typeComprobante,
-    typeRequest,
-    filters,
-  } = data;
-
+export const getRecordsFetch = ({
+  idInfo,
+  pageSize,
+  pageNum,
+  typeComprobante,
+  typeRequest,
+  filters,
+}) => {
   return async (dispatch) => {
     try {
       let response = null;
 
       if (filters === null) {
         response = await axios.get(
-          `http://192.168.100.31:5000/api/cfdis/getcfdis/${idUser}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
+          `http://192.168.100.31:5000/api/cfdis/getcfdis/${idInfo}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
         );
       } else {
         response = await axios.post(
-          `http://192.168.100.31:5000/api/cfdis/getcfdis/${idUser}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
+          `http://192.168.100.31:5000/api/cfdis/getcfdis/${idInfo}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
           {
             rfc: filters.rfc,
             dateIni: Moment(filters.dateIni).format('YYYY-MM-DD'),
             dateFin: Moment(filters.dateFin).format('YYYY-MM-DD'),
-            usocfdi:
-              filters.usocfdi === '' || filters.usocfdi === 'Ninguno'
+            usoCfdi:
+              filters.usoCfdi === '' || filters.usoCfdi === 'Ninguno'
                 ? ''
-                : filters.usocfdi,
+                : filters.usoCfdi,
           },
         );
       }

@@ -17,7 +17,7 @@ import {getRecordsFetch} from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
 const ListRecordsScreen = ({
-  idUser,
+  idInfo,
   getRecords,
   dataPagination,
   listRecords,
@@ -28,20 +28,13 @@ const ListRecordsScreen = ({
     rfc: '',
     dateIni: new Date(),
     dateFin: new Date(),
-    indexcfdi: new IndexPath(0),
-    usocfdi: '',
+    indexCfdi: new IndexPath(0),
+    usoCfdi: '',
   });
   const [searchPage, setSearchPage] = useState({search: false, page: 1});
   const [visible, setVisible] = useState(false);
 
   const {typeXML, titleNav, typeRequest} = route.params;
-
-  const dataSelect = [
-    'Ninguno',
-    'Adquisición de mercancias',
-    'Devoluciones, descuentos o bonificaciones',
-    'Gastos en general',
-  ];
 
   let typeXMLToSend;
   if (typeXML === 'Facturas') {
@@ -52,7 +45,7 @@ const ListRecordsScreen = ({
 
   useEffect(() => {
     getRecords({
-      idUser,
+      idInfo,
       pageSize: 10,
       pageNum: searchPage.page,
       typeComprobante: typeXMLToSend,
@@ -103,7 +96,6 @@ const ListRecordsScreen = ({
               <SearchRecords
                 form={form}
                 setForm={setForm}
-                dataSelect={dataSelect}
                 filterData={() =>
                   setSearchPage({page: 1, search: !searchPage.search})
                 }
@@ -164,11 +156,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   const {homedata, userdata} = state;
 
-  // TODO: no traer el iduser del store
+  // TODO: no traer el idInfo del store
   return {
     listRecords: homedata.dataListRecords.cfdis,
     dataPagination: homedata.dataListRecords.dataPagination,
-    idUser: userdata.user.id,
+    idInfo: userdata.user.idInfo,
   };
 };
 
