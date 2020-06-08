@@ -22,7 +22,7 @@ const SearchRecords = ({form, setForm, filterData}) => {
     'Gastos en general',
   ];
 
-  const displayValue = dataSelect[form.indexcfdi.row];
+  const displayValue = dataSelect[form.indexCfdi.row];
 
   return (
     <Card style={basicStyles.card}>

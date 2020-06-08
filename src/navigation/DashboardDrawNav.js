@@ -39,37 +39,52 @@ const RequestsStackScreen = () => (
   </RequestsStack.Navigator>
 );
 
-const premiumUser = ['Inicio', 'Solicitudes', 'Solicitar paquete de XML'];
-const normalUser = ['Inicio'];
-
 const DashboardDrawNav = ({typeUser}) => {
-  const DrawerContent = ({navigation, state}) => (
-    <Drawer
-      selectedIndex={new IndexPath(state.index)}
-      onSelect={(index) => navigation.navigate(state.routeNames[index.row])}>
-      {typeUser !== 'g'
-        ? premiumUser.map((title, index) => {
-            return <DrawerItem key={index} title={title} />;
-          })
-        : normalUser.map((title, index) => {
-            return <DrawerItem key={index} title={title} />;
-          })}
-    </Drawer>
-  );
+  const DrawerContent = ({navigation, state}) => {
+    if (typeUser !== 'g') {
+      return (
+        <Drawer
+          selectedIndex={new IndexPath(state.index)}
+          onSelect={(index) =>
+            navigation.navigate(state.routeNames[index.row])
+          }>
+          <DrawerItem title="Inicio" />
+          <DrawerItem title="Solicitudes" />
+          <DrawerItem title="Solicitar paquete de XML" />
+        </Drawer>
+      );
+    } else {
+      return (
+        <Drawer
+          selectedIndex={new IndexPath(state.index)}
+          onSelect={(index) =>
+            navigation.navigate(state.routeNames[index.row])
+          }>
+          <DrawerItem title="Inicio" />
+        </Drawer>
+      );
+    }
+  };
 
-  return (
-    <Navigator
-      drawerContent={(props) => <DrawerContent {...props} />}
-      initialRouteName="HomeStack">
-      <Screen name="HomeStack" component={HomeStackScreen} />
-      {typeUser !== 'g' && (
-        <>
-          <Screen name="RequestsStack" component={RequestsStackScreen} />
-          <Screen name="RequestForm" component={RequestFormScreen} />
-        </>
-      )}
-    </Navigator>
-  );
+  if (typeUser !== 'g') {
+    return (
+      <Navigator
+        drawerContent={(props) => <DrawerContent {...props} />}
+        initialRouteName="HomeStack">
+        <Screen name="HomeStack" component={HomeStackScreen} />
+        <Screen name="RequestsStack" component={RequestsStackScreen} />
+        <Screen name="RequestForm" component={RequestFormScreen} />
+      </Navigator>
+    );
+  } else {
+    return (
+      <Navigator
+        drawerContent={(props) => <DrawerContent {...props} />}
+        initialRouteName="HomeStack">
+        <Screen name="HomeStack" component={HomeStackScreen} />
+      </Navigator>
+    );
+  }
 };
 
 const mapStateToProps = (state) => {

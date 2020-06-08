@@ -15,21 +15,13 @@ import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {CalendarIcon, SearchIcon} from 'faccloud/src/styles/icons';
 import {TopNavDashboard} from 'faccloud/src/components';
 import {connect} from 'react-redux';
-import {
-  sendRequestFetch,
-  removeIdRequestToState,
-} from 'faccloud/src/redux/actions/requestsActions';
 import {Loading} from 'faccloud/src/components';
+import axios from 'axios';
+import Moment from 'moment';
 
 const renderOption = (title, index) => <SelectItem key={index} title={title} />;
 
-const RequestFormScreen = ({
-  navigation,
-  removeIdRequest,
-  sendRequest,
-  dataSendRequest,
-  idInfo,
-}) => {
+const RequestFormScreen = ({navigation, dataSendRequest, idInfo}) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
     dateFin: new Date(),
@@ -37,27 +29,49 @@ const RequestFormScreen = ({
     typeRequest: '',
   });
 
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [textMessage, setTextMessage] = useState('');
 
   const dataSelect = ['Emitidos', 'Recibidos'];
   const displayValue = dataSelect[form.indexRequest.row];
 
   /* FUNCTIONS */
-  const removeId = () => {
-    removeIdRequest();
-    setVisible(false);
-  };
-
-  const sendRequestFunc = () => {
+  const sendRequest = async () => {
+    setLoading(true);
     setVisible(true);
-    sendRequest({
-      idInfo,
-      filters: form,
-    });
+
+    try {
+      const response = await axios.post(
+        'http://192.168.100.31:5000/api/requestscfdis',
+        {
+          infoId: idInfo,
+          dateIni: Moment(form.dateIni).format('YYYY-MM-DD'),
+          dateFin: Moment(form.dateFin).format('YYYY-MM-DD'),
+          typeRequest:
+            form.usoCfdi !== ''
+              ? 'e'
+              : form.typeRequest.substring(0, 1).toLowerCase(),
+        },
+      );
+
+      // TODO: si se pide, agregar boton con el id para mostrar detalles
+      if (response.data.data.message === 'OK') {
+        setTextMessage(
+          response.data.data._id !== null
+            ? '!Solicitud generada con éxito! 😻'
+            : 'Ocurrió un error, verificar datos',
+        );
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   /* END FUNCTIONS */
 
-  if (visible && dataSendRequest.message === null) {
+  if (loading) {
     return <Loading />;
   } else {
     return (
@@ -104,7 +118,7 @@ const RequestFormScreen = ({
             <Button
               status="success"
               size="small"
-              onPress={sendRequestFunc}
+              onPress={sendRequest}
               disabled={visible}
               accessoryLeft={SearchIcon}>
               Buscar
@@ -113,13 +127,9 @@ const RequestFormScreen = ({
           <Modal
             visible={visible}
             backdropStyle={styles.backdrop}
-            onBackdropPress={removeId}>
+            onBackdropPress={() => setVisible(false)}>
             <Card disabled={true}>
-              <Text>
-                {dataSendRequest._id !== null
-                  ? '!Solicitud generada con éxito! 😻'
-                  : 'Ocurrió un error, verificar datos'}
-              </Text>
+              <Text>{textMessage}</Text>
             </Card>
           </Modal>
         </Layout>
@@ -135,16 +145,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const {requestsdata, userdata} = state;
-  return {
-    dataSendRequest: requestsdata.dataSendRequest,
-    idInfo: userdata.user.idInfo,
-  };
+  const {userdata} = state;
+  return {idInfo: userdata.user.idInfo};
 };
 
-const mapDispatch = {
-  sendRequest: sendRequestFetch,
-  removeIdRequest: removeIdRequestToState,
-};
-
-export default connect(mapStateToProps, mapDispatch)(RequestFormScreen);
+export default connect(mapStateToProps, null)(RequestFormScreen);

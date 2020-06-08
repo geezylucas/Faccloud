@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
   Button,
@@ -75,67 +75,69 @@ const ListRecordsScreen = ({
   );
 
   return (
-    <List
-      data={listRecords}
-      renderItem={renderItem}
-      ListHeaderComponent={(style) => (
-        <View {...style}>
-          <TopNavGoBack title={titleNav} navigation={navigation} />
-          <Layout level="2">
-            <View style={basicStyles.layoutHeader}>
-              <Text category="h4">{typeXML}</Text>
-              <Button
-                size="small"
-                accessoryLeft={SearchIcon}
-                appearance="outline"
-                onPress={() => setVisible(!visible)}>
-                Filtrar
-              </Button>
-            </View>
-            {visible && (
-              <SearchRecords
-                form={form}
-                setForm={setForm}
-                filterData={() =>
-                  setSearchPage({page: 1, search: !searchPage.search})
-                }
-              />
-            )}
-            <Card style={styles.cardTotal}>
-              <View style={styles.headerCardTotal}>
-                <Text category="c1" appearance="hint">
-                  Monto
-                </Text>
-                <Text category="h6">
-                  ${dataPagination.totalMonto.$numberDecimal}
-                </Text>
+    <Fragment>
+      <TopNavGoBack title={titleNav} navigation={navigation} />
+      <List
+        data={listRecords}
+        renderItem={renderItem}
+        ListHeaderComponent={(style) => (
+          <View {...style}>
+            <Layout level="2">
+              <View style={basicStyles.layoutHeader}>
+                <Text category="h4">{typeXML}</Text>
+                <Button
+                  size="small"
+                  accessoryLeft={SearchIcon}
+                  appearance="outline"
+                  onPress={() => setVisible(!visible)}>
+                  Filtrar
+                </Button>
               </View>
-            </Card>
-            {!visible && (
-              <Button
-                style={basicStyles.button}
-                status="success"
-                size="small"
-                accessoryLeft={RefreshIcon}
-                onPress={() =>
-                  setSearchPage({page: 1, search: !searchPage.search})
-                }>
-                Refrescar
-              </Button>
-            )}
-          </Layout>
-        </View>
-      )}
-      ListFooterComponent={(style) => (
-        <FooterListScreens
-          style={style}
-          fieldsmatched={dataPagination.fieldsmatched}
-          searchPage={searchPage}
-          setSearchPage={setSearchPage}
-          pages={dataPagination.pages}
-        />
-      )}
-    />
+              {visible && (
+                <SearchRecords
+                  form={form}
+                  setForm={setForm}
+                  filterData={() =>
+                    setSearchPage({page: 1, search: !searchPage.search})
+                  }
+                />
+              )}
+              <Card style={styles.cardTotal}>
+                <View style={styles.headerCardTotal}>
+                  <Text category="c1" appearance="hint">
+                    Monto
+                  </Text>
+                  <Text category="h6">
+                    ${dataPagination.totalMonto.$numberDecimal}
+                  </Text>
+                </View>
+              </Card>
+              {!visible && (
+                <Button
+                  style={basicStyles.button}
+                  status="success"
+                  size="small"
+                  accessoryLeft={RefreshIcon}
+                  onPress={() =>
+                    setSearchPage({page: 1, search: !searchPage.search})
+                  }>
+                  Refrescar
+                </Button>
+              )}
+            </Layout>
+          </View>
+        )}
+        ListFooterComponent={(style) => (
+          <FooterListScreens
+            style={style}
+            fieldsmatched={dataPagination.fieldsmatched}
+            searchPage={searchPage}
+            setSearchPage={setSearchPage}
+            pages={dataPagination.pages}
+          />
+        )}
+      />
+    </Fragment>
   );
 };
 

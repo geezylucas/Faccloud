@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {View} from 'react-native';
 import {Button, List, ListItem, Text, Layout} from '@ui-kitten/components';
 import {TopNavDashboard, FooterListScreens} from 'faccloud/src/components';
@@ -73,59 +73,61 @@ const RequestsScreen = ({
   };
 
   return (
-    <List
-      data={listRequests}
-      renderItem={renderItem}
-      ListHeaderComponent={(style) => (
-        <View {...style}>
-          <TopNavDashboard
-            title="Solicitudes automáticas"
-            navigation={navigation}
+    <Fragment>
+      <TopNavDashboard
+        title="Solicitudes automáticas"
+        navigation={navigation}
+      />
+      <List
+        data={listRequests}
+        renderItem={renderItem}
+        ListHeaderComponent={(style) => (
+          <View {...style}>
+            <Layout level="2">
+              <View style={basicStyles.layoutHeader}>
+                <Text category="h4">Solicitudes</Text>
+                <Button
+                  size="small"
+                  accessoryLeft={SearchIcon}
+                  appearance="outline"
+                  onPress={() => setVisible(!visible)}>
+                  Filtrar
+                </Button>
+              </View>
+              {visible ? (
+                <SearchRequests
+                  form={form}
+                  setForm={setForm}
+                  filterData={() =>
+                    setSearchPage({page: 1, search: !searchPage.search})
+                  }
+                />
+              ) : (
+                <Button
+                  style={basicStyles.button}
+                  status="success"
+                  size="small"
+                  accessoryLeft={RefreshIcon}
+                  onPress={() =>
+                    setSearchPage({page: 1, search: !searchPage.search})
+                  }>
+                  Refrescar
+                </Button>
+              )}
+            </Layout>
+          </View>
+        )}
+        ListFooterComponent={(style) => (
+          <FooterListScreens
+            style={style}
+            fieldsmatched={dataPagination.fieldsmatched}
+            searchPage={searchPage}
+            setSearchPage={setSearchPage}
+            pages={dataPagination.pages}
           />
-          <Layout level="2">
-            <View style={basicStyles.layoutHeader}>
-              <Text category="h4">Solicitudes</Text>
-              <Button
-                size="small"
-                accessoryLeft={SearchIcon}
-                appearance="outline"
-                onPress={() => setVisible(!visible)}>
-                Filtrar
-              </Button>
-            </View>
-            {visible ? (
-              <SearchRequests
-                form={form}
-                setForm={setForm}
-                filterData={() =>
-                  setSearchPage({page: 1, search: !searchPage.search})
-                }
-              />
-            ) : (
-              <Button
-                style={basicStyles.button}
-                status="success"
-                size="small"
-                accessoryLeft={RefreshIcon}
-                onPress={() =>
-                  setSearchPage({page: 1, search: !searchPage.search})
-                }>
-                Refrescar
-              </Button>
-            )}
-          </Layout>
-        </View>
-      )}
-      ListFooterComponent={(style) => (
-        <FooterListScreens
-          style={style}
-          fieldsmatched={dataPagination.fieldsmatched}
-          searchPage={searchPage}
-          setSearchPage={setSearchPage}
-          pages={dataPagination.pages}
-        />
-      )}
-    />
+        )}
+      />
+    </Fragment>
   );
 };
 
