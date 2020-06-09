@@ -4,13 +4,13 @@ import {Button, Text, Layout, Divider} from '@ui-kitten/components';
 import {BackIcon, NextIcon} from 'faccloud/src/styles/icons';
 
 const FooterListScreens = ({
-  style,
+  props,
   fieldsmatched,
   searchPage,
   setSearchPage,
   pages,
 }) => (
-  <Layout {...style} level="2">
+  <Layout {...props} level="2">
     <View style={styles.layoutTotalRecords}>
       <Text category="c1" appearance="hint">
         Total de registros: {fieldsmatched}
@@ -24,12 +24,7 @@ const FooterListScreens = ({
         style={styles.button}
         appearance="ghost"
         accessoryLeft={BackIcon}
-        onPress={() =>
-          setSearchPage({
-            page: searchPage.page - 1,
-            search: !searchPage.search,
-          })
-        }
+        onPress={() => setSearchPage({page: searchPage.page - 1})}
       />
       <Text>
         {searchPage.page} - {pages}
@@ -40,12 +35,7 @@ const FooterListScreens = ({
         style={styles.button}
         appearance="ghost"
         accessoryLeft={NextIcon}
-        onPress={() =>
-          setSearchPage({
-            page: searchPage.page + 1,
-            search: !searchPage.search,
-          })
-        }
+        onPress={() => setSearchPage({page: searchPage.page + 1})}
       />
     </View>
   </Layout>

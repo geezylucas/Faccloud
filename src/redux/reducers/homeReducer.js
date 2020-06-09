@@ -1,4 +1,4 @@
-import {COUNT_BY_XML_TYPE, GET_RECORDS, GET_RECORD} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_RECORDS} from '../constants';
 
 const initialState = {
   totalByXMLType: [
@@ -23,34 +23,6 @@ const initialState = {
       },
     },
   },
-  record: {
-    Emisor: {
-      Nombre: '',
-      Rfc: '',
-    },
-    Receptor: {
-      Nombre: '',
-      Rfc: '',
-      UsoCFDI: '',
-    },
-    SubTotal: 0,
-    Descuento: 0,
-    Total: 0,
-    Fecha: '',
-    TipoDeComprobante: '',
-    Conceptos: [
-      {
-        Cantidad: 0,
-        Descripcion: '',
-        Importe: 0,
-        ValorUnitario: 0,
-      },
-    ],
-    Impuestos: {
-      TotalImpuestosTrasladados: 0,
-      TotalImpuestosRetenidos: 0,
-    },
-  },
 };
 
 export default function (state = initialState, action) {
@@ -67,10 +39,6 @@ export default function (state = initialState, action) {
         ...state,
         dataListRecords: action.payload,
       };
-    case GET_RECORD:
-      return Object.assign({}, state, {
-        record: Object.assign({}, state.request, action.payload),
-      });
     default:
       return state;
   }

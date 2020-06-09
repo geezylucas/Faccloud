@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Moment from 'moment';
-import {COUNT_BY_XML_TYPE, GET_RECORDS, GET_RECORD} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_RECORDS} from '../constants';
 
-export const countByXMLType = ({idInfo, typeUser}) => {
-  return async (dispatch) => {
+export const countByXMLType = () => {
+  return async (dispatch, getState) => {
+    const {idInfo, typeUser} = getState().userdata.user;
+
     try {
       const response = await axios.get(
         `http://192.168.100.31:5000/api/cfdis/totalcfdistotype/${idInfo}?typeuser=${typeUser}`,
@@ -19,17 +21,17 @@ export const countByXMLType = ({idInfo, typeUser}) => {
 };
 
 export const getRecordsFetch = ({
-  idInfo,
-  pageSize,
+  pageSize = 10,
   pageNum,
   typeComprobante,
   typeRequest,
   filters,
 }) => {
-  return async (dispatch) => {
-    try {
-      let response = null;
+  return async (dispatch, getState) => {
+    const {idInfo} = getState().userdata.user;
 
+    let response = null;
+    try {
       if (filters === null) {
         response = await axios.get(
           `http://192.168.100.31:5000/api/cfdis/getcfdis/${idInfo}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
@@ -48,24 +50,9 @@ export const getRecordsFetch = ({
           },
         );
       }
+
       dispatch({
         type: GET_RECORDS,
-        payload: response.data.data,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
-
-export const getRecordFetch = (idItem) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(
-        `http://192.168.100.31:5000/api/cfdis/${idItem}`,
-      );
-      dispatch({
-        type: GET_RECORD,
         payload: response.data.data,
       });
     } catch (error) {

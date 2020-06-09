@@ -7,12 +7,9 @@ import {
 } from '@ui-kitten/components';
 import {BackNavIcon} from 'faccloud/src/styles/icons';
 
-const TopNavGoBack = ({navigation, title}) => {
+const TopNavGoBack = ({goBack, title}) => {
   const BackAction = () => (
-    <TopNavigationAction
-      icon={BackNavIcon}
-      onPress={() => navigation.goBack()}
-    />
+    <TopNavigationAction icon={BackNavIcon} onPress={goBack} />
   );
 
   return (

@@ -17,7 +17,6 @@ import {getRecordsFetch} from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
 const ListRecordsScreen = ({
-  idInfo,
   getRecords,
   dataPagination,
   listRecords,
@@ -45,8 +44,6 @@ const ListRecordsScreen = ({
 
   useEffect(() => {
     getRecords({
-      idInfo,
-      pageSize: 10,
       pageNum: searchPage.page,
       typeComprobante: typeXMLToSend,
       typeRequest,
@@ -76,7 +73,7 @@ const ListRecordsScreen = ({
 
   return (
     <Fragment>
-      <TopNavGoBack title={titleNav} navigation={navigation} />
+      <TopNavGoBack title={titleNav} goBack={() => navigation.goBack()} />
       <List
         data={listRecords}
         renderItem={renderItem}
@@ -156,13 +153,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const {homedata, userdata} = state;
-
-  // TODO: no traer el idInfo del store
+  const {homedata} = state;
   return {
     listRecords: homedata.dataListRecords.cfdis,
     dataPagination: homedata.dataListRecords.dataPagination,
-    idInfo: userdata.user.idInfo,
   };
 };
 

@@ -7,12 +7,9 @@ import {
 } from '@ui-kitten/components';
 import {MenuIcon} from 'faccloud/src/styles/icons';
 
-const TopNavDashboard = ({navigation, title}) => {
+const TopNavDashboard = ({openDrawer, title}) => {
   const MenuAction = () => (
-    <TopNavigationAction
-      icon={MenuIcon}
-      onPress={() => navigation.openDrawer()}
-    />
+    <TopNavigationAction icon={MenuIcon} onPress={openDrawer} />
   );
 
   return (

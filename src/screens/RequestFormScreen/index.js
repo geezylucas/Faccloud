@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, Fragment} from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
 import {
   Card,
@@ -14,21 +14,19 @@ import {
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {CalendarIcon, SearchIcon} from 'faccloud/src/styles/icons';
 import {TopNavDashboard} from 'faccloud/src/components';
-import {connect} from 'react-redux';
 import {Loading} from 'faccloud/src/components';
 import axios from 'axios';
 import Moment from 'moment';
 
 const renderOption = (title, index) => <SelectItem key={index} title={title} />;
 
-const RequestFormScreen = ({navigation, dataSendRequest, idInfo}) => {
+const RequestFormScreen = ({navigation}) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
     dateFin: new Date(),
     indexRequest: new IndexPath(0),
     typeRequest: '',
   });
-
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [textMessage, setTextMessage] = useState('');
@@ -45,7 +43,6 @@ const RequestFormScreen = ({navigation, dataSendRequest, idInfo}) => {
       const response = await axios.post(
         'http://192.168.100.31:5000/api/requestscfdis',
         {
-          infoId: idInfo,
           dateIni: Moment(form.dateIni).format('YYYY-MM-DD'),
           dateFin: Moment(form.dateFin).format('YYYY-MM-DD'),
           typeRequest:
@@ -75,65 +72,67 @@ const RequestFormScreen = ({navigation, dataSendRequest, idInfo}) => {
     return <Loading />;
   } else {
     return (
-      <ScrollView>
+      <Fragment>
         <TopNavDashboard
           title="Solicitar paquete de XML"
-          navigation={navigation}
+          openDrawer={() => navigation.openDrawer()}
         />
-        <Layout level="2">
-          <View style={basicStyles.cardHeader}>
-            <Text category="h4">Formulario</Text>
-          </View>
-          <Card style={basicStyles.card}>
-            <View style={basicStyles.layoutInputs}>
-              <Select
-                label="Tipo de solicitud:"
-                selectedIndex={form.indexRequest}
-                value={displayValue}
-                onSelect={(index) =>
-                  setForm({
-                    ...form,
-                    indexRequest: index,
-                    typeRequest: dataSelect[index.row],
-                  })
-                }
-                size="small">
-                {dataSelect.map(renderOption)}
-              </Select>
-              <Datepicker
-                label="Fecha inicio:"
-                date={form.dateIni}
-                onSelect={(nextDate) => setForm({...form, dateIni: nextDate})}
-                accessoryRight={CalendarIcon}
-                size="small"
-              />
-              <Datepicker
-                label="Fecha fin:"
-                date={form.dateFin}
-                onSelect={(nextDate) => setForm({...form, dateFin: nextDate})}
-                accessoryRight={CalendarIcon}
-                size="small"
-              />
+        <ScrollView>
+          <Layout level="2">
+            <View style={basicStyles.cardHeader}>
+              <Text category="h4">Formulario</Text>
             </View>
-            <Button
-              status="success"
-              size="small"
-              onPress={sendRequest}
-              disabled={visible}
-              accessoryLeft={SearchIcon}>
-              Buscar
-            </Button>
-          </Card>
-          <Modal
-            visible={visible}
-            backdropStyle={styles.backdrop}
-            onBackdropPress={() => setVisible(false)}>
-            <Card disabled={true}>
-              <Text>{textMessage}</Text>
+            <Card style={basicStyles.card}>
+              <View style={basicStyles.layoutInputs}>
+                <Select
+                  label="Tipo de solicitud:"
+                  selectedIndex={form.indexRequest}
+                  value={displayValue}
+                  onSelect={(index) =>
+                    setForm({
+                      ...form,
+                      indexRequest: index,
+                      typeRequest: dataSelect[index.row],
+                    })
+                  }
+                  size="small">
+                  {dataSelect.map(renderOption)}
+                </Select>
+                <Datepicker
+                  label="Fecha inicio:"
+                  date={form.dateIni}
+                  onSelect={(nextDate) => setForm({...form, dateIni: nextDate})}
+                  accessoryRight={CalendarIcon}
+                  size="small"
+                />
+                <Datepicker
+                  label="Fecha fin:"
+                  date={form.dateFin}
+                  onSelect={(nextDate) => setForm({...form, dateFin: nextDate})}
+                  accessoryRight={CalendarIcon}
+                  size="small"
+                />
+              </View>
+              <Button
+                status="success"
+                size="small"
+                onPress={sendRequest}
+                disabled={visible}
+                accessoryLeft={SearchIcon}>
+                Buscar
+              </Button>
             </Card>
-          </Modal>
-        </Layout>
-      </ScrollView>
+            <Modal
+              visible={visible}
+              backdropStyle={styles.backdrop}
+              onBackdropPress={() => setVisible(false)}>
+              <Card disabled={true}>
+                <Text>{textMessage}</Text>
+              </Card>
+            </Modal>
+          </Layout>
+        </ScrollView>
+      </Fragment>
     );
   }
 };
@@ -144,9 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  const {userdata} = state;
-  return {idInfo: userdata.user.idInfo};
-};
-
-export default connect(mapStateToProps, null)(RequestFormScreen);
+export default RequestFormScreen;

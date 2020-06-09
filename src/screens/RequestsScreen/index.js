@@ -18,20 +18,16 @@ const RequestsScreen = ({
   listRequests,
   dataPagination,
   getRequests,
-  idInfo,
 }) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
     dateFin: new Date(),
   });
-
   const [searchPage, setSearchPage] = useState({search: false, page: 1});
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     getRequests({
-      idInfo,
-      pageSize: 10,
       pageNum: searchPage.page,
       filters: visible ? form : null,
     });
@@ -76,7 +72,7 @@ const RequestsScreen = ({
     <Fragment>
       <TopNavDashboard
         title="Solicitudes automáticas"
-        navigation={navigation}
+        openDrawer={() => navigation.openDrawer()}
       />
       <List
         data={listRequests}
@@ -132,13 +128,11 @@ const RequestsScreen = ({
 };
 
 const mapStateToProps = (state) => {
-  const {requestsdata, userdata} = state;
+  const {requestsdata} = state;
 
-  // TODO: Cuando este el registro, no nandar idInfo
   return {
     dataPagination: requestsdata.dataPagination,
     listRequests: requestsdata.requests,
-    idInfo: userdata.user.idInfo,
   };
 };
 

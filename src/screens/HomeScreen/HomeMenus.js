@@ -11,7 +11,6 @@ const HomeMenus = ({navigate, XMLSection, lastRecord}) => {
   const dataTitles = ['Facturas', 'Pagos', 'Nominas', 'Retenciones'];
 
   let titleNav;
-
   switch (_id) {
     case 'r':
       titleNav = 'XML Recibidos';
