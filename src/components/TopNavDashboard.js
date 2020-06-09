@@ -20,4 +20,4 @@ const TopNavDashboard = ({openDrawer, title}) => {
   );
 };
 
-export default TopNavDashboard;
+export default React.memo(TopNavDashboard);

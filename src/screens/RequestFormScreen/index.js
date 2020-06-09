@@ -15,12 +15,13 @@ import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {CalendarIcon, SearchIcon} from 'faccloud/src/styles/icons';
 import {TopNavDashboard} from 'faccloud/src/components';
 import {Loading} from 'faccloud/src/components';
+import {connect} from 'react-redux';
 import axios from 'axios';
 import Moment from 'moment';
 
 const renderOption = (title, index) => <SelectItem key={index} title={title} />;
 
-const RequestFormScreen = ({navigation}) => {
+const RequestFormScreen = ({navigation, infoId}) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
     dateFin: new Date(),
@@ -43,6 +44,7 @@ const RequestFormScreen = ({navigation}) => {
       const response = await axios.post(
         'http://192.168.100.31:5000/api/requestscfdis',
         {
+          infoId,
           dateIni: Moment(form.dateIni).format('YYYY-MM-DD'),
           dateFin: Moment(form.dateFin).format('YYYY-MM-DD'),
           typeRequest:
@@ -143,4 +145,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RequestFormScreen;
+const mapStateToProps = (state) => {
+  const {userdata} = state;
+
+  return {infoId: userdata.user.idInfo};
+};
+
+export default connect(mapStateToProps, null)(RequestFormScreen);

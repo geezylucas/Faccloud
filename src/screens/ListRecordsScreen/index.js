@@ -10,7 +10,7 @@ import {
   Card,
 } from '@ui-kitten/components';
 import SearchRecords from './SearchRecords';
-import {SearchIcon, RefreshIcon} from 'faccloud/src/styles/icons';
+import {SearchIcon} from 'faccloud/src/styles/icons';
 import {FooterListScreens, TopNavGoBack} from 'faccloud/src/components';
 import {connect} from 'react-redux';
 import {getRecordsFetch} from 'faccloud/src/redux/actions/homeActions';
@@ -77,53 +77,38 @@ const ListRecordsScreen = ({
       <List
         data={listRecords}
         renderItem={renderItem}
-        ListHeaderComponent={(style) => (
-          <View {...style}>
-            <Layout level="2">
-              <View style={basicStyles.layoutHeader}>
-                <Text category="h4">{typeXML}</Text>
-                <Button
-                  size="small"
-                  accessoryLeft={SearchIcon}
-                  appearance="outline"
-                  onPress={() => setVisible(!visible)}>
-                  Filtrar
-                </Button>
+        ListHeaderComponent={
+          <Layout level="2">
+            <View style={basicStyles.layoutHeader}>
+              <Text category="h4">{typeXML}</Text>
+              <Button
+                size="small"
+                accessoryLeft={SearchIcon}
+                appearance="outline"
+                onPress={() => setVisible(!visible)}>
+                Filtrar
+              </Button>
+            </View>
+            <Card style={styles.cardTotal}>
+              <View style={styles.headerCardTotal}>
+                <Text category="c1" appearance="hint">
+                  Monto
+                </Text>
+                <Text category="h6">
+                  ${dataPagination.totalMonto.$numberDecimal}
+                </Text>
               </View>
-              {visible && (
-                <SearchRecords
-                  form={form}
-                  setForm={setForm}
-                  filterData={() =>
-                    setSearchPage({page: 1, search: !searchPage.search})
-                  }
-                />
-              )}
-              <Card style={styles.cardTotal}>
-                <View style={styles.headerCardTotal}>
-                  <Text category="c1" appearance="hint">
-                    Monto
-                  </Text>
-                  <Text category="h6">
-                    ${dataPagination.totalMonto.$numberDecimal}
-                  </Text>
-                </View>
-              </Card>
-              {!visible && (
-                <Button
-                  style={basicStyles.button}
-                  status="success"
-                  size="small"
-                  accessoryLeft={RefreshIcon}
-                  onPress={() =>
-                    setSearchPage({page: 1, search: !searchPage.search})
-                  }>
-                  Refrescar
-                </Button>
-              )}
-            </Layout>
-          </View>
-        )}
+            </Card>
+            <SearchRecords
+              form={form}
+              setForm={setForm}
+              filterData={() =>
+                setSearchPage({page: 1, search: !searchPage.search})
+              }
+              visible={visible}
+            />
+          </Layout>
+        }
         ListFooterComponent={(style) => (
           <FooterListScreens
             style={style}

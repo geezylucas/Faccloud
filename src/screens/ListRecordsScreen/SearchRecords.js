@@ -9,11 +9,11 @@ import {
   SelectItem,
 } from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
-import {CalendarIcon, SearchIcon} from 'faccloud/src/styles/icons';
+import {CalendarIcon, SearchIcon, RefreshIcon} from 'faccloud/src/styles/icons';
 
 const renderOption = (title, index) => <SelectItem key={index} title={title} />;
 
-const SearchRecords = ({form, setForm, filterData}) => {
+const SearchRecords = ({form, setForm, filterData, visible}) => {
   // TODO: Traer desde la bd los nombres y checar si se puede mejorar
   const dataSelect = [
     'Ninguno',
@@ -21,56 +21,69 @@ const SearchRecords = ({form, setForm, filterData}) => {
     'Devoluciones, descuentos o bonificaciones',
     'Gastos en general',
   ];
-
   const displayValue = dataSelect[form.indexCfdi.row];
-
-  return (
-    <Card style={basicStyles.card}>
-      <View style={basicStyles.layoutInputs}>
-        <Input
-          size="small"
-          label="RFC:"
-          placeholder="CUPU800825569"
-          value={form.rfc}
-          onChangeText={(nextValue) => setForm({...form, rfc: nextValue})}
-        />
-        <Datepicker
-          label="Fecha inicio:"
-          date={form.dateIni}
-          onSelect={(nextDate) => setForm({...form, dateIni: nextDate})}
-          accessoryRight={CalendarIcon}
-          size="small"
-        />
-        <Datepicker
-          label="Fecha fin:"
-          date={form.dateFin}
-          onSelect={(nextDate) => setForm({...form, dateFin: nextDate})}
-          accessoryRight={CalendarIcon}
-          size="small"
-        />
-        <Select
-          label="Uso del XML:"
-          selectedIndex={form.indexCfdi}
-          value={displayValue}
-          onSelect={(index) =>
-            setForm({
-              ...form,
-              indexCfdi: index,
-              usoCfdi: dataSelect[index.row],
-            })
-          }
-          size="small">
-          {dataSelect.map(renderOption)}
-        </Select>
-      </View>
+  
+  if (!visible) {
+    return (
       <Button
+        style={basicStyles.button}
         status="success"
-        accessoryLeft={SearchIcon}
         size="small"
+        accessoryLeft={RefreshIcon}
         onPress={filterData}>
-        Buscar
+        Refrescar
       </Button>
-    </Card>
-  );
+    );
+  } else {
+    return (
+      <Card style={basicStyles.card}>
+        <View style={basicStyles.layoutInputs}>
+          <Input
+            size="small"
+            label="RFC:"
+            placeholder="CUPU800825569"
+            value={form.rfc}
+            onChangeText={(nextValue) => setForm({...form, rfc: nextValue})}
+          />
+          <Datepicker
+            label="Fecha inicio:"
+            date={form.dateIni}
+            onSelect={(nextDate) => setForm({...form, dateIni: nextDate})}
+            accessoryRight={CalendarIcon}
+            size="small"
+          />
+          <Datepicker
+            label="Fecha fin:"
+            date={form.dateFin}
+            onSelect={(nextDate) => setForm({...form, dateFin: nextDate})}
+            accessoryRight={CalendarIcon}
+            size="small"
+          />
+          <Select
+            label="Uso del XML:"
+            selectedIndex={form.indexCfdi}
+            value={displayValue}
+            onSelect={(index) =>
+              setForm({
+                ...form,
+                indexCfdi: index,
+                usoCfdi: dataSelect[index.row],
+              })
+            }
+            size="small">
+            {dataSelect.map(renderOption)}
+          </Select>
+        </View>
+        <Button
+          status="success"
+          accessoryLeft={SearchIcon}
+          size="small"
+          onPress={filterData}>
+          Buscar
+        </Button>
+      </Card>
+    );
+  }
 };
+
 export default SearchRecords;

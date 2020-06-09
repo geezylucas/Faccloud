@@ -4,13 +4,12 @@ import {Button, Text, Layout, Divider} from '@ui-kitten/components';
 import {BackIcon, NextIcon} from 'faccloud/src/styles/icons';
 
 const FooterListScreens = ({
-  props,
   fieldsmatched,
   searchPage,
   setSearchPage,
   pages,
 }) => (
-  <Layout {...props} level="2">
+  <Layout level="2">
     <View style={styles.layoutTotalRecords}>
       <Text category="c1" appearance="hint">
         Total de registros: {fieldsmatched}

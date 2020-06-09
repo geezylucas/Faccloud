@@ -20,4 +20,4 @@ const TopNavGoBack = ({goBack, title}) => {
   );
 };
 
-export default TopNavGoBack;
+export default React.memo(TopNavGoBack);

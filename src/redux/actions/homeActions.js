@@ -25,7 +25,7 @@ export const getRecordsFetch = ({
   pageNum,
   typeComprobante,
   typeRequest,
-  filters,
+  filters = null,
 }) => {
   return async (dispatch, getState) => {
     const {idInfo} = getState().userdata.user;
