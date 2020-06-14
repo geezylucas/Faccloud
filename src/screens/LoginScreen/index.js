@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import {connect} from 'react-redux';
-import {saveUserFetch} from 'faccloud/src/redux/actions/userActions';
+import {
+  saveUserFetch,
+  getSatInformationFetch,
+} from 'faccloud/src/redux/actions/userActions';
 import {
   Card,
   Input,
@@ -13,7 +16,7 @@ import {
 } from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
-const LoginScreen = ({saveUser}) => {
+const LoginScreen = ({saveUser, getSatInformation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginPress, setLoginPress] = useState(false);
@@ -51,18 +54,14 @@ const LoginScreen = ({saveUser}) => {
 
     // Aquí vamos a llamar a la API para solicitar el token y el user
     let user = {
-      idInfo: '5ed5b3831d8da382b4c235a8',
       username: username,
-      password: password,
       typeUser: 'p',
+      islogged: true,
+      token: 'ey',
     };
-    let token = 'ezxsdsadasd';
 
-    saveUser({
-      token,
-      user,
-      isLogged: true,
-    });
+    saveUser(user);
+    getSatInformation('5ee189632f96617c08a3eafc');
   };
   /* END FUNCTIONS */
 
@@ -123,6 +122,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatch = {saveUser: saveUserFetch};
+const mapDispatch = {
+  saveUser: saveUserFetch,
+  getSatInformation: getSatInformationFetch,
+};
 
 export default connect(null, mapDispatch)(LoginScreen);

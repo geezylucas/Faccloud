@@ -1,17 +1,16 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {memo} from 'react';
+import {View} from 'react-native';
 import {MenuItem, Card, Text} from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {FileIcon} from 'faccloud/src/styles/icons';
 
-const HomeMenus = ({navigate, XMLSection, lastRecord}) => {
-  const {_id, totalCfdis} = XMLSection;
+const HomeMenus = memo(({navigate, XMLSection, lastRecord}) => {
   const {Fecha} = lastRecord || '';
 
   const dataTitles = ['Facturas', 'Pagos', 'Nominas', 'Retenciones'];
 
   let titleNav;
-  switch (_id) {
+  switch (XMLSection) {
     case 'r':
       titleNav = 'XML Recibidos';
       break;
@@ -21,22 +20,6 @@ const HomeMenus = ({navigate, XMLSection, lastRecord}) => {
     default:
       titleNav = '';
   }
-
-  const Footer = (props) => {
-    if (totalCfdis !== null) {
-      return (
-        <View {...props} style={props.style}>
-          <View style={styles.footer}>
-            <Text category="c1" appearance="hint">
-              Número de registros: {totalCfdis}
-            </Text>
-          </View>
-        </View>
-      );
-    } else {
-      return null;
-    }
-  };
 
   return (
     <Card
@@ -49,7 +32,6 @@ const HomeMenus = ({navigate, XMLSection, lastRecord}) => {
           </Text>
         </View>
       )}
-      footer={Footer}
       status="basic">
       {dataTitles.map((title, index) => {
         return (
@@ -62,7 +44,7 @@ const HomeMenus = ({navigate, XMLSection, lastRecord}) => {
                 navigate('ListRecords', {
                   typeXML: title,
                   titleNav,
-                  typeRequest: _id,
+                  typeRequest: XMLSection,
                 });
               }}
             />
@@ -71,12 +53,6 @@ const HomeMenus = ({navigate, XMLSection, lastRecord}) => {
       })}
     </Card>
   );
-};
-
-const styles = StyleSheet.create({
-  footer: {
-    flexDirection: 'row-reverse',
-  },
 });
 
 export default HomeMenus;

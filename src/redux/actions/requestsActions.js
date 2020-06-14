@@ -4,20 +4,26 @@ import {GET_REQUESTS} from '../constants';
 
 export const getRequestsFetch = ({pageSize = 10, pageNum, filters}) => {
   return async (dispatch, getState) => {
-    const {idInfo} = getState().userdata.user;
+    const {$oid} = getState().userdata.satinformation._id;
 
     let response = null;
     try {
       if (filters === null) {
         response = await axios.get(
-          `http://192.168.100.31:5000/api/requestscfdis/getrequests/${idInfo}?pagesize=${pageSize}&pagenum=${pageNum}`,
+          `http://192.168.100.31:5000/api/requestscfdis/getrequests/${$oid}?pagesize=${pageSize}&pagenum=${pageNum}`,
         );
       } else {
         response = await axios.post(
-          `http://192.168.100.31:5000/api/requestscfdis/getrequests/${idInfo}?pagesize=${pageSize}&pagenum=${pageNum}`,
+          `http://192.168.100.31:5000/api/requestscfdis/getrequests/${$oid}?pagesize=${pageSize}&pagenum=${pageNum}`,
           {
             dateIni: Moment(filters.dateIni).format('YYYY-MM-DD'),
             dateFin: Moment(filters.dateFin).format('YYYY-MM-DD'),
+            status:
+              filters.status === '' || filters.status === 'Ninguno'
+                ? ''
+                : filters.status === 'Descargado'
+                ? true
+                : false,
           },
         );
       }

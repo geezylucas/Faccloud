@@ -56,11 +56,9 @@ const RequestFormScreen = ({navigation, infoId}) => {
 
       // TODO: si se pide, agregar boton con el id para mostrar detalles
       if (response.data.data.message === 'OK') {
-        setTextMessage(
-          response.data.data._id !== null
-            ? '!Solicitud generada con éxito! 😻'
-            : 'Ocurrió un error, verificar datos',
-        );
+        setTextMessage('!Solicitud generada con éxito! 😻');
+      } else {
+        setTextMessage('Ocurrió un error, verificar datos');
       }
 
       setLoading(false);
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   const {userdata} = state;
 
-  return {infoId: userdata.user.idInfo};
+  return {infoId: userdata.satinformation._id.$oid};
 };
 
 export default connect(mapStateToProps, null)(RequestFormScreen);

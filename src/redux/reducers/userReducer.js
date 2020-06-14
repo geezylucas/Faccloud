@@ -1,21 +1,30 @@
-import {SAVE_USER} from '../constants';
+import {SET_USER, GET_SAT_INFORMATION} from '../constants';
 
 // TODO: Cuando tengamos el login, quitart password de initialState
 const initialState = {
-  isLogged: false,
-  user: {
-    idInfo: '',
-    username: '',
-    password: '',
-    typeUser: '',
+  satinformation: {
+    _id: {$oid: ''},
+    rfc: '',
+    settingsrfc: {
+      timerautomatic: false,
+      timerequest: 0,
+      usocfdis: {},
+    },
   },
-  token: '',
+  user: {
+    username: '',
+    typeuser: '',
+    islogged: false,
+    token: '',
+  },
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case SAVE_USER:
-      return {...action.payload};
+    case SET_USER:
+      return {...state, user: action.payload};
+    case GET_SAT_INFORMATION:
+      return {...state, satinformation: action.payload};
     default:
       return state;
   }

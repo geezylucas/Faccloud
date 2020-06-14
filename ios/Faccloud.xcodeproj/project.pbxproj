@@ -12,14 +12,14 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2AC113CCE0336F708F37FD34 /* libPods-Faccloud-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B6A96CBCFB9E1537E9AEC3D /* libPods-Faccloud-tvOSTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* FaccloudTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* FaccloudTests.m */; };
-		8F70B3FCCA7762F9F85E2169 /* libPods-Faccloud-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D657A4D3E29EBE0D1315BE /* libPods-Faccloud-tvOS.a */; };
-		CC90188C047377E20B17C8ED /* libPods-Faccloud.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 205612F492F96E52DF5418CB /* libPods-Faccloud.a */; };
-		D75E6A1332FE22F10A3EA97E /* libPods-Faccloud-FaccloudTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D220C4B4D8FD288FC4EAF817 /* libPods-Faccloud-FaccloudTests.a */; };
+		37E19517E2A01409D4BBD2DD /* libPods-Faccloud.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F6DF6157BF584EB2A3CD27 /* libPods-Faccloud.a */; };
+		50FE1F8CD0BADE7E82839B47 /* libPods-Faccloud-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C1CB519B13C86C1E4C50ED63 /* libPods-Faccloud-tvOSTests.a */; };
+		682E4D9F06BD933DD59D1E63 /* libPods-Faccloud-FaccloudTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1009FD89BEB9126036A39706 /* libPods-Faccloud-FaccloudTests.a */; };
+		E2E68BE88FA3462E3AA20625 /* libPods-Faccloud-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 241435237055ABB752185371 /* libPods-Faccloud-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +44,8 @@
 		00E356EE1AD99517003FC87E /* FaccloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaccloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* FaccloudTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaccloudTests.m; sourceTree = "<group>"; };
-		0F91DE0AA1449770ECFE002A /* Pods-Faccloud-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Faccloud-tvOSTests/Pods-Faccloud-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1009FD89BEB9126036A39706 /* libPods-Faccloud-FaccloudTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Faccloud-FaccloudTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		11B95A92F3032810C4BAEF85 /* Pods-Faccloud-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Faccloud-tvOSTests/Pods-Faccloud-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Faccloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Faccloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Faccloud/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Faccloud/AppDelegate.m; sourceTree = "<group>"; };
@@ -52,21 +53,20 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Faccloud/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Faccloud/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Faccloud/main.m; sourceTree = "<group>"; };
-		1FDD496DAA43CF461FF786BC /* Pods-Faccloud-FaccloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-FaccloudTests.debug.xcconfig"; path = "Target Support Files/Pods-Faccloud-FaccloudTests/Pods-Faccloud-FaccloudTests.debug.xcconfig"; sourceTree = "<group>"; };
-		205612F492F96E52DF5418CB /* libPods-Faccloud.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Faccloud.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		241435237055ABB752185371 /* libPods-Faccloud-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Faccloud-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* Faccloud-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Faccloud-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Faccloud-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Faccloud-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3BD910B233D7901941A0E291 /* Pods-Faccloud-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Faccloud-tvOS/Pods-Faccloud-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		4A828CB6B3E01C5D49CC991B /* Pods-Faccloud-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Faccloud-tvOSTests/Pods-Faccloud-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		4B6A96CBCFB9E1537E9AEC3D /* libPods-Faccloud-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Faccloud-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		65D657A4D3E29EBE0D1315BE /* libPods-Faccloud-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Faccloud-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		681E9EFE41898720DC1CB900 /* Pods-Faccloud-FaccloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-FaccloudTests.release.xcconfig"; path = "Target Support Files/Pods-Faccloud-FaccloudTests/Pods-Faccloud-FaccloudTests.release.xcconfig"; sourceTree = "<group>"; };
-		B6697A8DCE05FC335D2F3E92 /* Pods-Faccloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud.release.xcconfig"; path = "Target Support Files/Pods-Faccloud/Pods-Faccloud.release.xcconfig"; sourceTree = "<group>"; };
-		C9853673FA36FD78D4BFB550 /* Pods-Faccloud-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Faccloud-tvOS/Pods-Faccloud-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		D220C4B4D8FD288FC4EAF817 /* libPods-Faccloud-FaccloudTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Faccloud-FaccloudTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EB5A9AD3779E3581E8BA09C5 /* Pods-Faccloud.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud.debug.xcconfig"; path = "Target Support Files/Pods-Faccloud/Pods-Faccloud.debug.xcconfig"; sourceTree = "<group>"; };
+		52F6DF6157BF584EB2A3CD27 /* libPods-Faccloud.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Faccloud.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E7F5F5FB911DFD1D12CDB70 /* Pods-Faccloud-FaccloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-FaccloudTests.debug.xcconfig"; path = "Target Support Files/Pods-Faccloud-FaccloudTests/Pods-Faccloud-FaccloudTests.debug.xcconfig"; sourceTree = "<group>"; };
+		96509C8EF766DF240ED54385 /* Pods-Faccloud-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Faccloud-tvOS/Pods-Faccloud-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		A86B835E1FFB7AF0B5F74105 /* Pods-Faccloud-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Faccloud-tvOS/Pods-Faccloud-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		BDFB52A4CD0320390FC389AD /* Pods-Faccloud-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Faccloud-tvOSTests/Pods-Faccloud-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C1CB519B13C86C1E4C50ED63 /* libPods-Faccloud-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Faccloud-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6FEC3C6E469DB5F457875A8 /* Pods-Faccloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud.release.xcconfig"; path = "Target Support Files/Pods-Faccloud/Pods-Faccloud.release.xcconfig"; sourceTree = "<group>"; };
+		EA7831E056E85F0F29DE2AA3 /* Pods-Faccloud-FaccloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud-FaccloudTests.release.xcconfig"; path = "Target Support Files/Pods-Faccloud-FaccloudTests/Pods-Faccloud-FaccloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		FBB0CD4B644C089D3B8A4FFC /* Pods-Faccloud.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Faccloud.debug.xcconfig"; path = "Target Support Files/Pods-Faccloud/Pods-Faccloud.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D75E6A1332FE22F10A3EA97E /* libPods-Faccloud-FaccloudTests.a in Frameworks */,
+				682E4D9F06BD933DD59D1E63 /* libPods-Faccloud-FaccloudTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC90188C047377E20B17C8ED /* libPods-Faccloud.a in Frameworks */,
+				37E19517E2A01409D4BBD2DD /* libPods-Faccloud.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F70B3FCCA7762F9F85E2169 /* libPods-Faccloud-tvOS.a in Frameworks */,
+				E2E68BE88FA3462E3AA20625 /* libPods-Faccloud-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AC113CCE0336F708F37FD34 /* libPods-Faccloud-tvOSTests.a in Frameworks */,
+				50FE1F8CD0BADE7E82839B47 /* libPods-Faccloud-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,31 +136,15 @@
 			name = Faccloud;
 			sourceTree = "<group>";
 		};
-		1847C6F999BEB3D5FE13B6A4 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EB5A9AD3779E3581E8BA09C5 /* Pods-Faccloud.debug.xcconfig */,
-				B6697A8DCE05FC335D2F3E92 /* Pods-Faccloud.release.xcconfig */,
-				1FDD496DAA43CF461FF786BC /* Pods-Faccloud-FaccloudTests.debug.xcconfig */,
-				681E9EFE41898720DC1CB900 /* Pods-Faccloud-FaccloudTests.release.xcconfig */,
-				3BD910B233D7901941A0E291 /* Pods-Faccloud-tvOS.debug.xcconfig */,
-				C9853673FA36FD78D4BFB550 /* Pods-Faccloud-tvOS.release.xcconfig */,
-				0F91DE0AA1449770ECFE002A /* Pods-Faccloud-tvOSTests.debug.xcconfig */,
-				4A828CB6B3E01C5D49CC991B /* Pods-Faccloud-tvOSTests.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				205612F492F96E52DF5418CB /* libPods-Faccloud.a */,
-				D220C4B4D8FD288FC4EAF817 /* libPods-Faccloud-FaccloudTests.a */,
-				65D657A4D3E29EBE0D1315BE /* libPods-Faccloud-tvOS.a */,
-				4B6A96CBCFB9E1537E9AEC3D /* libPods-Faccloud-tvOSTests.a */,
+				52F6DF6157BF584EB2A3CD27 /* libPods-Faccloud.a */,
+				1009FD89BEB9126036A39706 /* libPods-Faccloud-FaccloudTests.a */,
+				241435237055ABB752185371 /* libPods-Faccloud-tvOS.a */,
+				C1CB519B13C86C1E4C50ED63 /* libPods-Faccloud-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -180,7 +164,7 @@
 				00E356EF1AD99517003FC87E /* FaccloudTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				1847C6F999BEB3D5FE13B6A4 /* Pods */,
+				A16D53AC41CD117318BA46E4 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -198,6 +182,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		A16D53AC41CD117318BA46E4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FBB0CD4B644C089D3B8A4FFC /* Pods-Faccloud.debug.xcconfig */,
+				D6FEC3C6E469DB5F457875A8 /* Pods-Faccloud.release.xcconfig */,
+				7E7F5F5FB911DFD1D12CDB70 /* Pods-Faccloud-FaccloudTests.debug.xcconfig */,
+				EA7831E056E85F0F29DE2AA3 /* Pods-Faccloud-FaccloudTests.release.xcconfig */,
+				96509C8EF766DF240ED54385 /* Pods-Faccloud-tvOS.debug.xcconfig */,
+				A86B835E1FFB7AF0B5F74105 /* Pods-Faccloud-tvOS.release.xcconfig */,
+				BDFB52A4CD0320390FC389AD /* Pods-Faccloud-tvOSTests.debug.xcconfig */,
+				11B95A92F3032810C4BAEF85 /* Pods-Faccloud-tvOSTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -205,7 +205,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "FaccloudTests" */;
 			buildPhases = (
-				527C504BBC21657B5F7F73D9 /* [CP] Check Pods Manifest.lock */,
+				35DCEB9639F26D534BD41750 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -224,7 +224,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Faccloud" */;
 			buildPhases = (
-				BA70E44DF0268619D378EE98 /* [CP] Check Pods Manifest.lock */,
+				0BB0683BE5877E9BD6276853 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -244,7 +244,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Faccloud-tvOS" */;
 			buildPhases = (
-				7C7C43BA8F4597D55234B06C /* [CP] Check Pods Manifest.lock */,
+				9215A9BFA235C665A1966011 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -264,7 +264,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Faccloud-tvOSTests" */;
 			buildPhases = (
-				433311729E42C86794935D37 /* [CP] Check Pods Manifest.lock */,
+				E9966113875E7B535965BA6D /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -375,21 +375,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		433311729E42C86794935D37 /* [CP] Check Pods Manifest.lock */ = {
+		0BB0683BE5877E9BD6276853 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -404,14 +390,28 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Faccloud-tvOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Faccloud-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		527C504BBC21657B5F7F73D9 /* [CP] Check Pods Manifest.lock */ = {
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		35DCEB9639F26D534BD41750 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -433,7 +433,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7C7C43BA8F4597D55234B06C /* [CP] Check Pods Manifest.lock */ = {
+		9215A9BFA235C665A1966011 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -455,7 +455,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BA70E44DF0268619D378EE98 /* [CP] Check Pods Manifest.lock */ = {
+		E9966113875E7B535965BA6D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -470,7 +470,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Faccloud-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Faccloud-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -582,7 +582,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1FDD496DAA43CF461FF786BC /* Pods-Faccloud-FaccloudTests.debug.xcconfig */;
+			baseConfigurationReference = 7E7F5F5FB911DFD1D12CDB70 /* Pods-Faccloud-FaccloudTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -605,7 +605,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 681E9EFE41898720DC1CB900 /* Pods-Faccloud-FaccloudTests.release.xcconfig */;
+			baseConfigurationReference = EA7831E056E85F0F29DE2AA3 /* Pods-Faccloud-FaccloudTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -625,7 +625,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB5A9AD3779E3581E8BA09C5 /* Pods-Faccloud.debug.xcconfig */;
+			baseConfigurationReference = FBB0CD4B644C089D3B8A4FFC /* Pods-Faccloud.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -652,7 +652,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B6697A8DCE05FC335D2F3E92 /* Pods-Faccloud.release.xcconfig */;
+			baseConfigurationReference = D6FEC3C6E469DB5F457875A8 /* Pods-Faccloud.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -673,7 +673,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3BD910B233D7901941A0E291 /* Pods-Faccloud-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 96509C8EF766DF240ED54385 /* Pods-Faccloud-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -701,7 +701,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9853673FA36FD78D4BFB550 /* Pods-Faccloud-tvOS.release.xcconfig */;
+			baseConfigurationReference = A86B835E1FFB7AF0B5F74105 /* Pods-Faccloud-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -729,7 +729,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F91DE0AA1449770ECFE002A /* Pods-Faccloud-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = BDFB52A4CD0320390FC389AD /* Pods-Faccloud-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -756,7 +756,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A828CB6B3E01C5D49CC991B /* Pods-Faccloud-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 11B95A92F3032810C4BAEF85 /* Pods-Faccloud-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

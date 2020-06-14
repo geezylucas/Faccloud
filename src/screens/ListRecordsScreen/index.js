@@ -13,15 +13,16 @@ import SearchRecords from './SearchRecords';
 import {SearchIcon} from 'faccloud/src/styles/icons';
 import {FooterListScreens, TopNavGoBack} from 'faccloud/src/components';
 import {connect} from 'react-redux';
-import {getRecordsFetch} from 'faccloud/src/redux/actions/homeActions';
+import {getXMLSFetch} from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
 const ListRecordsScreen = ({
-  getRecords,
+  getXMLS,
   dataPagination,
   listRecords,
   route,
   navigation,
+  usoCfdis,
 }) => {
   const [form, setForm] = useState({
     rfc: '',
@@ -43,7 +44,7 @@ const ListRecordsScreen = ({
   }
 
   useEffect(() => {
-    getRecords({
+    getXMLS({
       pageNum: searchPage.page,
       typeComprobante: typeXMLToSend,
       typeRequest,
@@ -54,7 +55,7 @@ const ListRecordsScreen = ({
 
   const renderItem = ({item, index}) => (
     <ListItem
-      title={`${item.Rfc} - $${item.Total}`}
+      title={`${item.Rfc} - $${item.Total.$numberDecimal}`}
       description={`${item.Fecha}`}
       accessoryRight={(style) => (
         <Button
@@ -106,18 +107,18 @@ const ListRecordsScreen = ({
                 setSearchPage({page: 1, search: !searchPage.search})
               }
               visible={visible}
+              usoCfdis={usoCfdis}
             />
           </Layout>
         }
-        ListFooterComponent={(style) => (
+        ListFooterComponent={
           <FooterListScreens
-            style={style}
             fieldsmatched={dataPagination.fieldsmatched}
             searchPage={searchPage}
             setSearchPage={setSearchPage}
             pages={dataPagination.pages}
           />
-        )}
+        }
       />
     </Fragment>
   );
@@ -138,13 +139,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const {homedata} = state;
+  const {homedata, userdata} = state;
   return {
-    listRecords: homedata.dataListRecords.cfdis,
-    dataPagination: homedata.dataListRecords.dataPagination,
+    usoCfdis: userdata.satinformation.settingsrfc.usocfdis,
+    listRecords: homedata.datalistxmls.cfdis,
+    dataPagination: homedata.datalistxmls.dataPagination,
   };
 };
 
-const mapDispatch = {getRecords: getRecordsFetch};
+const mapDispatch = {getXMLS: getXMLSFetch};
 
 export default connect(mapStateToProps, mapDispatch)(ListRecordsScreen);

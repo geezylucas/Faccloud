@@ -1,6 +1,13 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import {View} from 'react-native';
-import {Button, List, ListItem, Text, Layout} from '@ui-kitten/components';
+import {
+  Button,
+  List,
+  ListItem,
+  Text,
+  Layout,
+  IndexPath,
+} from '@ui-kitten/components';
 import {TopNavDashboard, FooterListScreens} from 'faccloud/src/components';
 import SearchRequests from './SearchRequests';
 import {SearchIcon, EmitidoIcon, RecibidoIcon} from 'faccloud/src/styles/icons';
@@ -17,6 +24,8 @@ const RequestsScreen = ({
   const [form, setForm] = useState({
     dateIni: new Date(),
     dateFin: new Date(),
+    indexStatus: new IndexPath(0),
+    status: '',
   });
   const [searchPage, setSearchPage] = useState({search: false, page: 1});
   const [visible, setVisible] = useState(false);

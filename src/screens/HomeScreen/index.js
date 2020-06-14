@@ -3,22 +3,24 @@ import {ScrollView, View} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
 import {logout} from 'faccloud/src/redux/reducers/rootReducer';
-import {countByXMLType} from 'faccloud/src/redux/actions/homeActions';
+import {getcountByXMLTypeFetch} from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {TopNavDashboard} from 'faccloud/src/components';
 import HomeMenus from './HomeMenus';
 
 const HomeScreen = ({
+  rfc,
   getCountByXMLType,
   lastEmisorXML,
   lastReceptorXML,
-  totalByXMLType,
   navigation,
   logOut,
 }) => {
   useEffect(() => {
-    getCountByXMLType();
-  }, [getCountByXMLType]);
+    if (rfc !== '') {
+      getCountByXMLType(rfc);
+    }
+  }, [getCountByXMLType, rfc]);
 
   return (
     <Fragment>
@@ -33,12 +35,12 @@ const HomeScreen = ({
           </View>
           <HomeMenus
             navigate={navigation.navigate}
-            XMLSection={totalByXMLType.find((element) => element._id === 'r')}
+            XMLSection="r"
             lastRecord={lastReceptorXML}
           />
           <HomeMenus
             navigate={navigation.navigate}
-            XMLSection={totalByXMLType.find((element) => element._id === 'e')}
+            XMLSection="e"
             lastRecord={lastEmisorXML}
           />
           <Button style={basicStyles.button} onPress={() => logOut()}>
@@ -51,15 +53,15 @@ const HomeScreen = ({
 };
 
 const mapStateToProps = (state) => {
-  const {homedata} = state;
+  const {homedata, userdata} = state;
 
   return {
-    totalByXMLType: homedata.totalByXMLType,
-    lastReceptorXML: homedata.lastReceptorXML,
-    lastEmisorXML: homedata.lastEmisorXML,
+    lastReceptorXML: homedata.lastreceptorxml,
+    lastEmisorXML: homedata.lastemisorxml,
+    rfc: userdata.satinformation.rfc,
   };
 };
 
-const mapDispatch = {logOut: logout, getCountByXMLType: countByXMLType};
+const mapDispatch = {logOut: logout, getCountByXMLType: getcountByXMLTypeFetch};
 
 export default connect(mapStateToProps, mapDispatch)(HomeScreen);

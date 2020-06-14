@@ -1,19 +1,9 @@
-import {COUNT_BY_XML_TYPE, GET_RECORDS} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_XMLS} from '../constants';
 
 const initialState = {
-  totalByXMLType: [
-    {
-      _id: 'e',
-      totalCfdis: 0,
-    },
-    {
-      _id: 'r',
-      totalCfdis: 0,
-    },
-  ],
-  lastReceptorXML: {},
-  lastEmisorXML: {},
-  dataListRecords: {
+  lastreceptorxml: {},
+  lastemisorxml: {},
+  datalistxmls: {
     cfdis: [],
     dataPagination: {
       fieldsmatched: 0,
@@ -30,14 +20,13 @@ export default function (state = initialState, action) {
     case COUNT_BY_XML_TYPE:
       return {
         ...state,
-        totalByXMLType: action.payload.typesCFDI,
-        lastEmisorXML: action.payload.lastEmisorCFDI,
-        lastReceptorXML: action.payload.lastReceptorCFDI,
+        lastemisorxml: action.payload.lastEmisorCFDI,
+        lastreceptorxml: action.payload.lastReceptorCFDI,
       };
-    case GET_RECORDS:
+    case GET_XMLS:
       return {
         ...state,
-        dataListRecords: action.payload,
+        datalistxmls: action.payload,
       };
     default:
       return state;

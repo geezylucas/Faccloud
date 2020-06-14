@@ -1,11 +1,12 @@
 import React, {useEffect, Fragment, useState} from 'react';
 import {View, ScrollView} from 'react-native';
-import {Layout, Text, ListItem, Divider} from '@ui-kitten/components';
+import {Layout, Text, ListItem, Divider, Button} from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {TopNavGoBack} from 'faccloud/src/components';
+import {connect} from 'react-redux';
 import axios from 'axios';
 
-const DetailRequestScreen = ({route, navigation}) => {
+const DetailRequestScreen = ({route, navigation, infoId}) => {
   const [request, setRequest] = useState({
     typerequest: null,
     status: null,
@@ -14,6 +15,8 @@ const DetailRequestScreen = ({route, navigation}) => {
     daterequest: {$date: 0},
     dateend: {$date: 0},
     datedownload: null,
+    request: '',
+    _id: '',
   });
 
   const {itemId} = route.params;
@@ -52,6 +55,17 @@ const DetailRequestScreen = ({route, navigation}) => {
 
     fetchData();
   }, [itemId]);
+
+  const requestFunc = async () => {
+    try {
+      await axios.post('http://192.168.100.31:5000/api/cfdis', {
+        infoId: infoId,
+        requestId: request._id,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Fragment>
@@ -96,9 +110,29 @@ const DetailRequestScreen = ({route, navigation}) => {
             description="Número de XML descargados"
           />
         </Layout>
+
+        {request.request === 'm' && (
+          <>
+            <Divider />
+            <Button
+              style={basicStyles.button}
+              disabled={request.status === 'Descargado' ? true : false}
+              onPress={requestFunc}>
+              Solicitar
+            </Button>
+          </>
+        )}
       </ScrollView>
     </Fragment>
   );
 };
 
-export default DetailRequestScreen;
+const mapStateToProps = (state) => {
+  const {userdata} = state;
+
+  return {
+    infoId: userdata.satinformation._id.$oid,
+  };
+};
+
+export default connect(mapStateToProps, null)(DetailRequestScreen);

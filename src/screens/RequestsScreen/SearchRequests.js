@@ -1,10 +1,18 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Card, Button, Datepicker} from '@ui-kitten/components';
+import {Card, Button, Datepicker, Select} from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
-import {CalendarIcon, SearchIcon, RefreshIcon} from 'faccloud/src/styles/icons';
+import {
+  CalendarIcon,
+  SearchIcon,
+  RefreshIcon,
+  renderOption,
+} from 'faccloud/src/styles/icons';
 
 const SearchRequests = ({form, setForm, filterData, visible}) => {
+  const dataSelect = ['Ninguno', 'Descargado', 'Pendiente'];
+  const displayValue = dataSelect[form.indexStatus.row];
+
   if (!visible) {
     return (
       <Button
@@ -34,6 +42,20 @@ const SearchRequests = ({form, setForm, filterData, visible}) => {
             accessoryRight={CalendarIcon}
             size="small"
           />
+          <Select
+            label="Estatus"
+            selectedIndex={form.indexStatus}
+            value={displayValue}
+            onSelect={(index) =>
+              setForm({
+                ...form,
+                indexStatus: index,
+                status: dataSelect[index.row],
+              })
+            }
+            size="small">
+            {dataSelect.map(renderOption)}
+          </Select>
         </View>
         <Button
           status="success"

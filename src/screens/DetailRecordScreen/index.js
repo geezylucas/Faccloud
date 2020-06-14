@@ -23,9 +23,9 @@ const DetailRecordScreen = ({route, navigation}) => {
       Rfc: '',
       UsoCFDI: '',
     },
-    SubTotal: 0,
-    Descuento: 0,
-    Total: 0,
+    SubTotal: {$numberDecimal: 0},
+    Descuento: {$numberDecimal: 0},
+    Total: {$numberDecimal: 0},
     Fecha: '',
     TipoDeComprobante: '',
     Conceptos: [
@@ -50,13 +50,14 @@ const DetailRecordScreen = ({route, navigation}) => {
         const response = await axios.get(
           `http://192.168.100.31:5000/api/cfdis/${itemId}`,
         );
-        setRecord({...response.data.data});
+        setRecord(Object.assign({}, record, response.data.data));
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemId]);
 
   const renderItemHeader = (headerProps, descripcion) => (
@@ -86,8 +87,8 @@ const DetailRecordScreen = ({route, navigation}) => {
       <List
         data={record.Conceptos}
         renderItem={renderItem}
-        ListHeaderComponent={(style) => (
-          <View {...style}>
+        ListHeaderComponent={
+          <View>
             <Layout level="2">
               <View style={basicStyles.cardHeader}>
                 <Text category="h4">{record.Emisor.Nombre.trim()}</Text>
@@ -105,11 +106,20 @@ const DetailRecordScreen = ({route, navigation}) => {
                 description="Receptor RFC"
               />
               <Divider />
-              <ListItem title={record.SubTotal} description="SubTotal" />
+              <ListItem
+                title={record.SubTotal.$numberDecimal}
+                description="SubTotal"
+              />
               <Divider />
-              <ListItem title={record.Descuento} description="Descuento" />
+              <ListItem
+                title={record.Descuento.$numberDecimal}
+                description="Descuento"
+              />
               <Divider />
-              <ListItem title={record.Total} description="Total" />
+              <ListItem
+                title={record.Total.$numberDecimal}
+                description="Total"
+              />
               <Divider />
               <ListItem title={record.Fecha} description="Fecha" />
               <Divider />
@@ -123,9 +133,9 @@ const DetailRecordScreen = ({route, navigation}) => {
               </View>
             </Layout>
           </View>
-        )}
-        ListFooterComponent={(style) => (
-          <View {...style}>
+        }
+        ListFooterComponent={
+          <View>
             <View style={basicStyles.card}>
               <Text category="h6">Impuestos</Text>
             </View>
@@ -139,7 +149,7 @@ const DetailRecordScreen = ({route, navigation}) => {
               description="Total de impuestos retenidos"
             />
           </View>
-        )}
+        }
       />
     </Fragment>
   );

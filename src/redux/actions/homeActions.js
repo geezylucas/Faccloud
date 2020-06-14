@@ -1,14 +1,12 @@
 import axios from 'axios';
 import Moment from 'moment';
-import {COUNT_BY_XML_TYPE, GET_RECORDS} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_XMLS} from '../constants';
 
-export const countByXMLType = () => {
-  return async (dispatch, getState) => {
-    const {idInfo, typeUser} = getState().userdata.user;
-
+export const getcountByXMLTypeFetch = (rfc) => {
+  return async (dispatch) => {
     try {
       const response = await axios.get(
-        `http://192.168.100.31:5000/api/cfdis/totalcfdistotype/${idInfo}?typeuser=${typeUser}`,
+        `http://192.168.100.31:5000/api/cfdis/lastcfditotype/${rfc}`,
       );
       dispatch({
         type: COUNT_BY_XML_TYPE,
@@ -20,7 +18,7 @@ export const countByXMLType = () => {
   };
 };
 
-export const getRecordsFetch = ({
+export const getXMLSFetch = ({
   pageSize = 10,
   pageNum,
   typeComprobante,
@@ -28,17 +26,17 @@ export const getRecordsFetch = ({
   filters = null,
 }) => {
   return async (dispatch, getState) => {
-    const {idInfo} = getState().userdata.user;
+    const {rfc, settingsrfc} = getState().userdata.satinformation;
 
     let response = null;
     try {
       if (filters === null) {
         response = await axios.get(
-          `http://192.168.100.31:5000/api/cfdis/getcfdis/${idInfo}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
+          `http://192.168.100.31:5000/api/cfdis/getcfdis/${rfc}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
         );
       } else {
         response = await axios.post(
-          `http://192.168.100.31:5000/api/cfdis/getcfdis/${idInfo}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
+          `http://192.168.100.31:5000/api/cfdis/getcfdis/${rfc}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
           {
             rfc: filters.rfc,
             dateIni: Moment(filters.dateIni).format('YYYY-MM-DD'),
@@ -46,13 +44,15 @@ export const getRecordsFetch = ({
             usoCfdi:
               filters.usoCfdi === '' || filters.usoCfdi === 'Ninguno'
                 ? ''
-                : filters.usoCfdi,
+                : Object.keys(settingsrfc.usocfdis).find(
+                    (key) => settingsrfc.usocfdis[key] === filters.usoCfdi,
+                  ),
           },
         );
       }
 
       dispatch({
-        type: GET_RECORDS,
+        type: GET_XMLS,
         payload: response.data.data,
       });
     } catch (error) {

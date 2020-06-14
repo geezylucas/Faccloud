@@ -1,28 +1,20 @@
 import React from 'react';
 import {View} from 'react-native';
-import {
-  Card,
-  Input,
-  Button,
-  Datepicker,
-  Select,
-  SelectItem,
-} from '@ui-kitten/components';
+import {Card, Input, Button, Datepicker, Select} from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
-import {CalendarIcon, SearchIcon, RefreshIcon} from 'faccloud/src/styles/icons';
+import {
+  CalendarIcon,
+  SearchIcon,
+  RefreshIcon,
+  renderOption,
+} from 'faccloud/src/styles/icons';
 
-const renderOption = (title, index) => <SelectItem key={index} title={title} />;
+const SearchRecords = ({form, setForm, filterData, visible, usoCfdis}) => {
+  let dataSelect = ['Ninguno'];
+  dataSelect.push(...Object.values(usoCfdis));
 
-const SearchRecords = ({form, setForm, filterData, visible}) => {
-  // TODO: Traer desde la bd los nombres y checar si se puede mejorar
-  const dataSelect = [
-    'Ninguno',
-    'Adquisición de mercancias',
-    'Devoluciones, descuentos o bonificaciones',
-    'Gastos en general',
-  ];
   const displayValue = dataSelect[form.indexCfdi.row];
-  
+
   if (!visible) {
     return (
       <Button

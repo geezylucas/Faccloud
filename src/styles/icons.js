@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon} from '@ui-kitten/components';
+import {Icon, SelectItem} from '@ui-kitten/components';
 
 export const SearchIcon = (style) => <Icon {...style} name="search" />;
 export const CalendarIcon = (props) => <Icon {...props} name="calendar" />;
@@ -21,3 +21,7 @@ export const EmitidoIcon = (props) => (
 );
 
 export const RefreshIcon = (props) => <Icon {...props} name="refresh" />;
+
+export const renderOption = (title, index) => (
+  <SelectItem key={index} title={title} />
+);
