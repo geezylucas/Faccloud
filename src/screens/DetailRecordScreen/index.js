@@ -91,7 +91,7 @@ const DetailRecordScreen = ({route, navigation}) => {
           <View>
             <Layout level="2">
               <View style={basicStyles.cardHeader}>
-                <Text category="h4">{record.Emisor.Nombre.trim()}</Text>
+                <Text category="h5">{record.Emisor.Nombre.trim()}</Text>
                 <Text category="s1" appearance="hint">
                   {record.Emisor.Rfc}
                 </Text>

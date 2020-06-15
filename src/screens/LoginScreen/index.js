@@ -55,7 +55,7 @@ const LoginScreen = ({saveUser, getSatInformation}) => {
     // Aquí vamos a llamar a la API para solicitar el token y el user
     let user = {
       username: username,
-      typeUser: 'p',
+      typeuser: 'p',
       islogged: true,
       token: 'ey',
     };

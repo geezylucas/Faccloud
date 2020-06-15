@@ -76,7 +76,7 @@ const DetailRequestScreen = ({route, navigation, infoId}) => {
       <ScrollView>
         <Layout level="2">
           <View style={basicStyles.cardHeader}>
-            <Text category="h4">{request._id}</Text>
+            <Text category="h5">{request._id}</Text>
           </View>
           <ListItem
             title={request.typerequest}

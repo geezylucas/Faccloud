@@ -31,7 +31,7 @@ const HomeScreen = ({
       <ScrollView>
         <Layout style={basicStyles.container} level="2">
           <View style={basicStyles.layoutHeader}>
-            <Text category="h4">!Buen día! ☀️</Text>
+            <Text category="h5">!Buen día {rfc}! ☀️</Text>
           </View>
           <HomeMenus
             navigate={navigation.navigate}

@@ -20,6 +20,7 @@ const RequestsScreen = ({
   listRequests,
   dataPagination,
   getRequests,
+  rfc,
 }) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
@@ -31,10 +32,12 @@ const RequestsScreen = ({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    getRequests({
-      pageNum: searchPage.page,
-      filters: visible ? form : null,
-    });
+    if (rfc !== '') {
+      getRequests({
+        pageNum: searchPage.page,
+        filters: visible ? form : null,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPage]);
 
@@ -84,7 +87,7 @@ const RequestsScreen = ({
         ListHeaderComponent={
           <Layout level="2">
             <View style={basicStyles.layoutHeader}>
-              <Text category="h4">Solicitudes</Text>
+              <Text category="h5">Solicitudes</Text>
               <Button
                 size="small"
                 accessoryLeft={SearchIcon}
@@ -117,11 +120,12 @@ const RequestsScreen = ({
 };
 
 const mapStateToProps = (state) => {
-  const {requestsdata} = state;
+  const {requestsdata, userdata} = state;
 
   return {
     dataPagination: requestsdata.dataPagination,
     listRequests: requestsdata.requests,
+    rfc: userdata.satinformation.rfc,
   };
 };
 

@@ -81,7 +81,7 @@ const ListRecordsScreen = ({
         ListHeaderComponent={
           <Layout level="2">
             <View style={basicStyles.layoutHeader}>
-              <Text category="h4">{typeXML}</Text>
+              <Text category="h5">{typeXML}</Text>
               <Button
                 size="small"
                 accessoryLeft={SearchIcon}

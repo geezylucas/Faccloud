@@ -79,7 +79,7 @@ const RequestFormScreen = ({navigation, infoId}) => {
         <ScrollView>
           <Layout level="2">
             <View style={basicStyles.cardHeader}>
-              <Text category="h4">Formulario</Text>
+              <Text category="h5">Formulario</Text>
             </View>
             <Card style={basicStyles.card}>
               <View style={basicStyles.layoutInputs}>

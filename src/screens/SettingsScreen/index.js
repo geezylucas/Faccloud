@@ -62,6 +62,7 @@ const SettingsScreen = ({
   timerAutomatic,
   getSatInformation,
   infoId,
+  typeUser,
 }) => {
   const [checked, setChecked] = React.useState(false);
   const [selectedIndexDays, setSelectedIndexDays] = React.useState(
@@ -73,6 +74,12 @@ const SettingsScreen = ({
   ]);
 
   const [loading, setLoading] = React.useState(false);
+
+  const displayValueDays = dataDays[selectedIndexDays.row];
+  const groupDisplayValues = multiSelectedIndex.map((index) => {
+    const groupTitle = Object.keys(dataUsoXML)[index.section];
+    return dataUsoXML[groupTitle][index.row];
+  });
 
   React.useEffect(() => {
     let usosXML = Object.keys(usoCfdis)
@@ -104,12 +111,9 @@ const SettingsScreen = ({
     setSelectedIndexDays(new IndexPath(dataDays.indexOf(timeRequest)));
   }, [timeRequest, timerAutomatic, usoCfdis]);
 
-  const onCheckedChange = (isChecked) => {
-    setChecked(isChecked);
-  };
-
   const updateUser = async () => {
     setLoading(true);
+    console.log(displayValueDays);
     try {
       await axios.patch(
         `http://192.168.100.31:5000/api/satinformations/updatesettings/${infoId}`,
@@ -127,7 +131,7 @@ const SettingsScreen = ({
                 return 'P0' + (parseInt(index.row, 10) + 1);
             }
           }),
-          timerequest: displayValueDays,
+          timerequest: displayValueDays !== undefined ? displayValueDays : 0,
         },
       );
     } catch (error) {
@@ -137,12 +141,6 @@ const SettingsScreen = ({
     getSatInformation(infoId);
     setLoading(false);
   };
-
-  const displayValueDays = dataDays[selectedIndexDays.row];
-  const groupDisplayValues = multiSelectedIndex.map((index) => {
-    const groupTitle = Object.keys(dataUsoXML)[index.section];
-    return dataUsoXML[groupTitle][index.row];
-  });
 
   if (loading) {
     return <Loading />;
@@ -156,38 +154,45 @@ const SettingsScreen = ({
         <ScrollView>
           <Layout style={basicStyles.container} level="2">
             <View style={basicStyles.layoutHeader}>
-              <Text category="h4">Configuración de la cuenta</Text>
+              <Text category="h5">Configuración de la cuenta</Text>
             </View>
-            <Card
-              style={styles.item}
-              status="basic"
-              header={(headerProps) => (
-                <Text {...headerProps}>Descarga automática</Text>
-              )}>
-              <View style={styles.viewComponents}>
-                <Text>
-                  {!checked ? 'Habilitar:' : 'Deshabilitar:'}
-                  {'   '}
-                </Text>
-                <Toggle checked={checked} onChange={onCheckedChange} />
-              </View>
-            </Card>
+            {typeUser !== 'g' && (
+              <Fragment>
+                <Card
+                  style={styles.item}
+                  status="basic"
+                  header={(headerProps) => (
+                    <Text {...headerProps}>Descarga automática</Text>
+                  )}>
+                  <View style={styles.viewComponents}>
+                    <Text>
+                      {!checked ? 'Habilitar:' : 'Deshabilitar:'}
+                      {'   '}
+                    </Text>
+                    <Toggle
+                      checked={checked}
+                      onChange={(isChecked) => setChecked(isChecked)}
+                    />
+                  </View>
+                </Card>
 
-            <Card
-              style={styles.item}
-              status="basic"
-              header={(headerProps) => (
-                <Text {...headerProps}>Rango de días a descargar</Text>
-              )}>
-              <View>
-                <Select
-                  selectedIndex={selectedIndexDays}
-                  value={displayValueDays + ' días'}
-                  onSelect={(index) => setSelectedIndexDays(index)}>
-                  {dataDays.map(renderOption)}
-                </Select>
-              </View>
-            </Card>
+                <Card
+                  style={styles.item}
+                  status="basic"
+                  header={(headerProps) => (
+                    <Text {...headerProps}>Rango de días a descargar</Text>
+                  )}>
+                  <View>
+                    <Select
+                      selectedIndex={selectedIndexDays}
+                      value={displayValueDays + ' días'}
+                      onSelect={(index) => setSelectedIndexDays(index)}>
+                      {dataDays.map(renderOption)}
+                    </Select>
+                  </View>
+                </Card>
+              </Fragment>
+            )}
             <Card
               style={styles.item}
               status="basic"
@@ -235,6 +240,7 @@ const mapStateToProps = (state) => {
   const {userdata} = state;
   return {
     infoId: userdata.satinformation._id.$oid,
+    typeUser: userdata.user.typeuser,
     usoCfdis: userdata.satinformation.settingsrfc.usocfdis,
     timeRequest: userdata.satinformation.settingsrfc.timerequest,
     timerAutomatic: userdata.satinformation.settingsrfc.timerautomatic,

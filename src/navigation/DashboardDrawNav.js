@@ -63,6 +63,7 @@ const DashboardDrawNav = ({typeUser}) => {
             navigation.navigate(state.routeNames[index.row])
           }>
           <DrawerItem title="Inicio" />
+          <DrawerItem title="Configuración" />
         </Drawer>
       );
     }
@@ -85,6 +86,7 @@ const DashboardDrawNav = ({typeUser}) => {
         drawerContent={(props) => <DrawerContent {...props} />}
         initialRouteName="HomeStack">
         <Screen name="HomeStack" component={HomeStackScreen} />
+        <Screen name="Settings" component={SettingsScreen} />
       </Navigator>
     );
   }
@@ -92,6 +94,7 @@ const DashboardDrawNav = ({typeUser}) => {
 
 const mapStateToProps = (state) => {
   const {userdata} = state;
+
   return {typeUser: userdata.user.typeuser};
 };
 
