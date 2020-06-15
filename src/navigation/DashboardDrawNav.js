@@ -9,6 +9,7 @@ import {
   RequestsScreen,
   DetailRequestScreen,
   RequestFormScreen,
+  SettingsScreen,
 } from 'faccloud/src/screens';
 import {connect} from 'react-redux';
 
@@ -51,6 +52,7 @@ const DashboardDrawNav = ({typeUser}) => {
           <DrawerItem title="Inicio" />
           <DrawerItem title="Solicitudes" />
           <DrawerItem title="Solicitar paquete de XML" />
+          <DrawerItem title="Configuración" />
         </Drawer>
       );
     } else {
@@ -74,6 +76,7 @@ const DashboardDrawNav = ({typeUser}) => {
         <Screen name="HomeStack" component={HomeStackScreen} />
         <Screen name="RequestsStack" component={RequestsStackScreen} />
         <Screen name="RequestForm" component={RequestFormScreen} />
+        <Screen name="Settings" component={SettingsScreen} />
       </Navigator>
     );
   } else {

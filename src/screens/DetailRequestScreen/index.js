@@ -112,15 +112,14 @@ const DetailRequestScreen = ({route, navigation, infoId}) => {
         </Layout>
 
         {request.request === 'm' && (
-          <>
-            <Divider />
+          <Fragment>
             <Button
               style={basicStyles.button}
               disabled={request.status === 'Descargado' ? true : false}
               onPress={requestFunc}>
               Solicitar
             </Button>
-          </>
+          </Fragment>
         )}
       </ScrollView>
     </Fragment>

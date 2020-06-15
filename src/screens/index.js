@@ -5,6 +5,7 @@ import DetailRecordScreen from './DetailRecordScreen';
 import RequestsScreen from './RequestsScreen';
 import DetailRequestScreen from './DetailRequestScreen';
 import RequestFormScreen from './RequestFormScreen';
+import SettingsScreen from './SettingsScreen';
 
 export {
   HomeScreen,
@@ -14,4 +15,5 @@ export {
   RequestsScreen,
   DetailRequestScreen,
   RequestFormScreen,
+  SettingsScreen,
 };

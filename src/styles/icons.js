@@ -25,3 +25,5 @@ export const RefreshIcon = (props) => <Icon {...props} name="refresh" />;
 export const renderOption = (title, index) => (
   <SelectItem key={index} title={title} />
 );
+
+export const SaveIcon = (props) => <Icon {...props} name="save" />;

@@ -13,8 +13,7 @@ import {
 } from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {CalendarIcon, SearchIcon} from 'faccloud/src/styles/icons';
-import {TopNavDashboard} from 'faccloud/src/components';
-import {Loading} from 'faccloud/src/components';
+import {TopNavDashboard, Loading} from 'faccloud/src/components';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import Moment from 'moment';
