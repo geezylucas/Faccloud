@@ -113,7 +113,6 @@ const SettingsScreen = ({
 
   const updateUser = async () => {
     setLoading(true);
-    console.log(displayValueDays);
     try {
       await axios.patch(
         `http://192.168.100.31:5000/api/satinformations/updatesettings/${infoId}`,
