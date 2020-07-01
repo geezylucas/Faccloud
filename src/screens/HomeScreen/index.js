@@ -1,5 +1,5 @@
 import React, {useEffect, Fragment} from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, Alert} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
 import {logout} from 'faccloud/src/redux/reducers/rootReducer';
@@ -7,6 +7,7 @@ import {getcountByXMLTypeFetch} from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {TopNavDashboard} from 'faccloud/src/components';
 import HomeMenus from './HomeMenus';
+import messaging from '@react-native-firebase/messaging';
 
 const HomeScreen = ({
   rfc,
@@ -17,10 +18,40 @@ const HomeScreen = ({
   logOut,
 }) => {
   useEffect(() => {
+    const requestUserPermission = async () => {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+      if (enabled) {
+        getFcmToken();
+        console.log('Authorization status:', authStatus);
+      }
+    };
+
+    requestUserPermission();
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
     if (rfc !== '') {
       getCountByXMLType(rfc);
     }
   }, [getCountByXMLType, rfc]);
+
+  const getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      console.log(fcmToken);
+      console.log('Your Firebase Token is:', fcmToken);
+    } else {
+      console.log('Failed', 'No token received');
+    }
+  };
 
   return (
     <Fragment>
