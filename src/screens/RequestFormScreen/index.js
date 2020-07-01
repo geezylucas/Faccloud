@@ -73,13 +73,13 @@ const RequestFormScreen = ({navigation, infoId}) => {
     return (
       <Fragment>
         <TopNavDashboard
-          title="Solicitar paquete de XML"
+          title="Solicitar paquete de XML al SAT"
           openDrawer={() => navigation.openDrawer()}
         />
         <ScrollView>
           <Layout level="2">
             <View style={basicStyles.cardHeader}>
-              <Text category="h5">Formulario</Text>
+              <Text category="h5">Formulario para solicitar paquete</Text>
             </View>
             <Card style={basicStyles.card}>
               <View style={basicStyles.layoutInputs}>
@@ -118,7 +118,7 @@ const RequestFormScreen = ({navigation, infoId}) => {
                 onPress={sendRequest}
                 disabled={visible}
                 accessoryLeft={SearchIcon}>
-                Buscar
+                Solicitar
               </Button>
             </Card>
             <Modal

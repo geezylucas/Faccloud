@@ -50,9 +50,9 @@ const DashboardDrawNav = ({typeUser}) => {
             navigation.navigate(state.routeNames[index.row])
           }>
           <DrawerItem title="Inicio" />
-          <DrawerItem title="Solicitudes" />
-          <DrawerItem title="Solicitar paquete de XML" />
-          <DrawerItem title="Configuración" />
+          <DrawerItem title="Solicitudes a través del SAT" />
+          <DrawerItem title="Solicitar paquete de XML al SAT" />
+          <DrawerItem title="Mi cuenta" />
         </Drawer>
       );
     } else {
@@ -63,7 +63,7 @@ const DashboardDrawNav = ({typeUser}) => {
             navigation.navigate(state.routeNames[index.row])
           }>
           <DrawerItem title="Inicio" />
-          <DrawerItem title="Configuración" />
+          <DrawerItem title="Mi cuenta" />
         </Drawer>
       );
     }

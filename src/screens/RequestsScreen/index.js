@@ -78,7 +78,7 @@ const RequestsScreen = ({
   return (
     <Fragment>
       <TopNavDashboard
-        title="Solicitudes automáticas"
+        title="Solicitudes a través del SAT"
         openDrawer={() => navigation.openDrawer()}
       />
       <List
@@ -87,13 +87,13 @@ const RequestsScreen = ({
         ListHeaderComponent={
           <Layout level="2">
             <View style={basicStyles.layoutHeader}>
-              <Text category="h5">Solicitudes</Text>
+              <Text category="h5">Historico de solicitudes</Text>
               <Button
                 size="small"
                 accessoryLeft={SearchIcon}
                 appearance="outline"
                 onPress={() => setVisible(!visible)}>
-                Filtrar
+                Buscar
               </Button>
             </View>
             <SearchRequests

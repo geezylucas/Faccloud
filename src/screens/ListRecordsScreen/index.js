@@ -87,7 +87,7 @@ const ListRecordsScreen = ({
                 accessoryLeft={SearchIcon}
                 appearance="outline"
                 onPress={() => setVisible(!visible)}>
-                Filtrar
+                Buscar
               </Button>
             </View>
             <Card style={styles.cardTotal}>

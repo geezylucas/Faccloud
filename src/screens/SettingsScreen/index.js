@@ -147,7 +147,7 @@ const SettingsScreen = ({
     return (
       <Fragment>
         <TopNavDashboard
-          title="Configuración"
+          title="Mi cuenta"
           openDrawer={() => navigation.openDrawer()}
         />
         <ScrollView>
@@ -172,22 +172,6 @@ const SettingsScreen = ({
                       checked={checked}
                       onChange={(isChecked) => setChecked(isChecked)}
                     />
-                  </View>
-                </Card>
-
-                <Card
-                  style={styles.item}
-                  status="basic"
-                  header={(headerProps) => (
-                    <Text {...headerProps}>Rango de días a descargar</Text>
-                  )}>
-                  <View>
-                    <Select
-                      selectedIndex={selectedIndexDays}
-                      value={displayValueDays + ' días'}
-                      onSelect={(index) => setSelectedIndexDays(index)}>
-                      {dataDays.map(renderOption)}
-                    </Select>
                   </View>
                 </Card>
               </Fragment>
