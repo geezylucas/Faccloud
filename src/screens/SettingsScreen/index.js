@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import Moment from 'moment';
 import {ScrollView, View, StyleSheet} from 'react-native';
 import {
   Layout,
@@ -9,6 +10,8 @@ import {
   Select,
   Button,
   SelectGroup,
+  ListItem,
+  Divider,
 } from '@ui-kitten/components';
 import {TopNavDashboard, Loading} from 'faccloud/src/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
@@ -17,7 +20,6 @@ import {connect} from 'react-redux';
 import {getSatInformationFetch} from 'faccloud/src/redux/actions/userActions';
 import axios from 'axios';
 
-const dataDays = [2, 3, 4, 5, 6, 7];
 const dataUsoXML = {
   'Sección G': [
     'Adquisición de mercancias',
@@ -62,24 +64,59 @@ const SettingsScreen = ({
   timerAutomatic,
   getSatInformation,
   infoId,
+  userId,
   typeUser,
 }) => {
   const [checked, setChecked] = React.useState(false);
-  const [selectedIndexDays, setSelectedIndexDays] = React.useState(
-    new IndexPath(0),
-  );
-
   const [multiSelectedIndex, setMultiSelectedIndex] = React.useState([
     new IndexPath(0, 0),
   ]);
-
   const [loading, setLoading] = React.useState(false);
+  const [dataUser, setDataUser] = React.useState({
+    sat_info: {
+      _id: {
+        $oid: '',
+      },
+      rfc: '',
+      settingsrfc: {
+        timerequest: 0,
+      },
+    },
+    user: {
+      _id: {
+        $oid: '',
+      },
+      creationdate: {
+        $date: '',
+      },
+      email: '',
+      lastname: '',
+      name: '',
+      phonenumber: '',
+    },
+  });
 
-  const displayValueDays = dataDays[selectedIndexDays.row];
   const groupDisplayValues = multiSelectedIndex.map((index) => {
     const groupTitle = Object.keys(dataUsoXML)[index.section];
     return dataUsoXML[groupTitle][index.row];
   });
+
+  React.useEffect(() => {
+    if (userId !== '') {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            `http://192.168.100.31:5000/api/users/${userId}`,
+          );
+          setDataUser({...response.data.data});
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [userId]);
 
   React.useEffect(() => {
     let usosXML = Object.keys(usoCfdis)
@@ -108,8 +145,7 @@ const SettingsScreen = ({
 
     setMultiSelectedIndex(usosXML);
     setChecked(timerAutomatic);
-    setSelectedIndexDays(new IndexPath(dataDays.indexOf(timeRequest)));
-  }, [timeRequest, timerAutomatic, usoCfdis]);
+  }, [timerAutomatic, usoCfdis]);
 
   const updateUser = async () => {
     setLoading(true);
@@ -130,7 +166,7 @@ const SettingsScreen = ({
                 return 'P0' + (parseInt(index.row, 10) + 1);
             }
           }),
-          timerequest: displayValueDays !== undefined ? displayValueDays : 0,
+          timerequest: timeRequest,
         },
       );
     } catch (error) {
@@ -153,10 +189,38 @@ const SettingsScreen = ({
         <ScrollView>
           <Layout style={basicStyles.container} level="2">
             <View style={basicStyles.layoutHeader}>
-              <Text category="h5">Configuración de la cuenta</Text>
+              <Text category="h5">Detalles de la cuenta</Text>
             </View>
+            <ListItem
+              title={`${dataUser.user.name} ${dataUser.user.lastname}`}
+              description="Nombre completo"
+            />
+            <Divider />
+            <ListItem
+              title={dataUser.user.phonenumber}
+              description="Número de celular"
+            />
+            <Divider />
+            <ListItem title={dataUser.user.email} description="Email" />
+            <Divider />
+            <ListItem title={dataUser.sat_info.rfc} description="RFC" />
+            <Divider />
+            <ListItem
+              title={`${dataUser.sat_info.settingsrfc.timerequest} días`}
+              description="Rango de días para solicitar XML al SAT"
+            />
+            <Divider />
+            <ListItem
+              title={Moment(dataUser.user.creationdate.$date).format(
+                'YYYY-MM-DD HH:MM:SS',
+              )}
+              description="Fecha de registro"
+            />
             {typeUser !== 'g' && (
               <Fragment>
+                <View style={basicStyles.layoutHeader}>
+                  <Text category="h5">Configuración de la cuenta</Text>
+                </View>
                 <Card
                   style={styles.item}
                   status="basic"
@@ -224,11 +288,12 @@ const mapDispatch = {
 const mapStateToProps = (state) => {
   const {userdata} = state;
   return {
+    userId: userdata.user.userId.$oid,
     infoId: userdata.satinformation._id.$oid,
     typeUser: userdata.user.typeuser,
     usoCfdis: userdata.satinformation.settingsrfc.usocfdis,
-    timeRequest: userdata.satinformation.settingsrfc.timerequest,
     timerAutomatic: userdata.satinformation.settingsrfc.timerautomatic,
+    timeRequest: userdata.satinformation.settingsrfc.timerequest,
   };
 };
 

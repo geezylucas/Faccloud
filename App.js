@@ -34,7 +34,7 @@ export default () => (
       <SafeAreaProvider>
         <NavigationContainer>
           <IconRegistry icons={EvaIconsPack} />
-          <ApplicationProvider {...eva} theme={eva.light}>
+          <ApplicationProvider {...eva} theme={eva.dark}>
             <AppNavigation />
           </ApplicationProvider>
         </NavigationContainer>
