@@ -11,6 +11,7 @@ import messaging from '@react-native-firebase/messaging';
 
 const HomeScreen = ({
   rfc,
+  name,
   getCountByXMLType,
   lastEmisorXML,
   lastReceptorXML,
@@ -32,7 +33,10 @@ const HomeScreen = ({
 
     requestUserPermission();
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      Alert.alert(
+        remoteMessage.notification.title,
+        remoteMessage.notification.body,
+      );
     });
     return unsubscribe;
   }, []);
@@ -62,7 +66,7 @@ const HomeScreen = ({
       <ScrollView>
         <Layout style={basicStyles.container} level="2">
           <View style={basicStyles.layoutHeader}>
-            <Text category="h5">!Buen día {rfc}! ☀️</Text>
+            <Text category="h5">!Buen día {name}! ☀️</Text>
           </View>
           <HomeMenus
             navigate={navigation.navigate}
@@ -90,6 +94,7 @@ const mapStateToProps = (state) => {
     lastReceptorXML: homedata.lastreceptorxml,
     lastEmisorXML: homedata.lastemisorxml,
     rfc: userdata.satinformation.rfc,
+    name: userdata.user.name,
   };
 };
 

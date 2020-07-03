@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import {connect} from 'react-redux';
-import {
-  saveUserFetch,
-  getSatInformationFetch,
-} from 'faccloud/src/redux/actions/userActions';
+import {loginFetch} from 'faccloud/src/redux/actions/userActions';
+import {logout} from 'faccloud/src/redux/reducers/rootReducer';
 import {
   Card,
   Input,
@@ -16,11 +14,16 @@ import {
 } from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
-const LoginScreen = ({saveUser, getSatInformation}) => {
+const LoginScreen = ({logIn, logOut, error}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginPress, setLoginPress] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+
+  React.useEffect(() => {
+    logOut();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /* PASSWORD */
   const toggleSecureEntry = () => {
@@ -51,17 +54,8 @@ const LoginScreen = ({saveUser, getSatInformation}) => {
   /* FUNCTIONS */
   const signIn = async () => {
     setLoginPress(true);
-
-    // Aquí vamos a llamar a la API para solicitar el token y el user
-    let user = {
-      username: username,
-      typeuser: 'p',
-      islogged: true,
-      token: 'ey',
-    };
-    // Felix: 5ef46b360493220f81996c26
-    saveUser(user);
-    getSatInformation('5ef46b360493220f81996c26');
+    logIn(username, password);
+    setLoginPress(false);
   };
   /* END FUNCTIONS */
 
@@ -81,6 +75,17 @@ const LoginScreen = ({saveUser, getSatInformation}) => {
             accessoryRight={renderIcon}
             secureTextEntry={secureTextEntry}
             onChangeText={(nextValue) => setPassword(nextValue)}
+            caption={(evaProps) => {
+              if (error !== null) {
+                return (
+                  <View {...evaProps}>
+                    <Text status="danger">{error}</Text>
+                  </View>
+                );
+              } else {
+                return null;
+              }
+            }}
           />
         </View>
         <Button
@@ -122,9 +127,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatch = {
-  saveUser: saveUserFetch,
-  getSatInformation: getSatInformationFetch,
+const mapStateToProps = (state) => {
+  const {userdata} = state;
+  return {
+    error: userdata.user.error,
+  };
 };
 
-export default connect(null, mapDispatch)(LoginScreen);
+const mapDispatch = {
+  logIn: loginFetch,
+  logOut: logout,
+};
+
+export default connect(mapStateToProps, mapDispatch)(LoginScreen);

@@ -10,7 +10,7 @@ import {
 } from '@ui-kitten/components';
 import {TopNavDashboard, FooterListScreens} from 'faccloud/src/components';
 import SearchRequests from './SearchRequests';
-import {SearchIcon, EmitidoIcon, RecibidoIcon} from 'faccloud/src/styles/icons';
+import {EmitidoIcon, RecibidoIcon} from 'faccloud/src/styles/icons';
 import {connect} from 'react-redux';
 import {getRequestsFetch} from 'faccloud/src/redux/actions/requestsActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
@@ -29,13 +29,12 @@ const RequestsScreen = ({
     status: '',
   });
   const [searchPage, setSearchPage] = useState({search: false, page: 1});
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (rfc !== '') {
       getRequests({
         pageNum: searchPage.page,
-        filters: visible ? form : null,
+        filters: form,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,7 +46,11 @@ const RequestsScreen = ({
         title={(evaProps) => (
           <View>
             <Text {...evaProps}>{item._id}</Text>
-            <Text {...evaProps}>CFDIS Descargados: {item.numcfdis}</Text>
+            {item.status && (
+              <Text {...evaProps} category="label">
+                CFDIS Descargados: {item.numcfdis}
+              </Text>
+            )}
           </View>
         )}
         description={`${new Date(item.daterequest.$date).toISOString()}`}
@@ -59,18 +62,28 @@ const RequestsScreen = ({
               return EmitidoIcon(style);
           }
         }}
-        accessoryRight={(style) => (
-          <Button
-            size="tiny"
-            onPress={() => {
-              /* 1. Navigate to the Details route with params */
-              navigation.navigate('DetailRequest', {
-                itemId: item._id,
-              });
-            }}>
-            Detalles
-          </Button>
-        )}
+        accessoryRight={(style) => {
+          if (item.status) {
+            return (
+              <Button
+                size="tiny"
+                onPress={() => {
+                  /* 1. Navigate to the Details route with params */
+                  navigation.navigate('DetailRequest', {
+                    itemId: item._id,
+                  });
+                }}>
+                Detalles
+              </Button>
+            );
+          } else {
+            return (
+              <Text status="danger" category="s2">
+                Pendiente
+              </Text>
+            );
+          }
+        }}
       />
     );
   };
@@ -78,7 +91,7 @@ const RequestsScreen = ({
   return (
     <Fragment>
       <TopNavDashboard
-        title="Solicitudes a través del SAT"
+        title="Historial de solicitudes al SAT"
         openDrawer={() => navigation.openDrawer()}
       />
       <List
@@ -88,13 +101,6 @@ const RequestsScreen = ({
           <Layout level="2">
             <View style={basicStyles.layoutHeader}>
               <Text category="h5">Historico de solicitudes</Text>
-              <Button
-                size="small"
-                accessoryLeft={SearchIcon}
-                appearance="outline"
-                onPress={() => setVisible(!visible)}>
-                Buscar
-              </Button>
             </View>
             <SearchRequests
               form={form}
@@ -102,7 +108,6 @@ const RequestsScreen = ({
               filterData={() =>
                 setSearchPage({page: 1, search: !searchPage.search})
               }
-              visible={visible}
             />
           </Layout>
         }

@@ -10,7 +10,7 @@ import {
 } from 'faccloud/src/styles/icons';
 
 const SearchRecords = ({form, setForm, filterData, visible, usoCfdis}) => {
-  let dataSelect = ['Ninguno'];
+  let dataSelect = ['Todos'];
   dataSelect.push(...Object.values(usoCfdis));
 
   const displayValue = dataSelect[form.indexCfdi.row];

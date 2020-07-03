@@ -55,7 +55,7 @@ const RequestFormScreen = ({navigation, infoId}) => {
 
       // TODO: si se pide, agregar boton con el id para mostrar detalles
       if (response.data.data.message === 'OK') {
-        setTextMessage('!Solicitud generada con éxito! 😻');
+        setTextMessage('!Solicitud generada con éxito!');
       } else {
         setTextMessage('Ocurrió un error, verificar datos');
       }
@@ -79,7 +79,7 @@ const RequestFormScreen = ({navigation, infoId}) => {
         <ScrollView>
           <Layout level="2">
             <View style={basicStyles.cardHeader}>
-              <Text category="h5">Formulario para solicitar paquete</Text>
+              <Text category="h5">Rango de solicitud de XML</Text>
             </View>
             <Card style={basicStyles.card}>
               <View style={basicStyles.layoutInputs}>

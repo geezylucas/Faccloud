@@ -42,7 +42,7 @@ export const getXMLSFetch = ({
             dateIni: Moment(filters.dateIni).format('YYYY-MM-DD'),
             dateFin: Moment(filters.dateFin).format('YYYY-MM-DD'),
             usoCfdi:
-              filters.usoCfdi === '' || filters.usoCfdi === 'Ninguno'
+              filters.usoCfdi === '' || filters.usoCfdi === 'Todos'
                 ? ''
                 : Object.keys(settingsrfc.usocfdis).find(
                     (key) => settingsrfc.usocfdis[key] === filters.usoCfdi,

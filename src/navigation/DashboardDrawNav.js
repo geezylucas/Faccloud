@@ -50,7 +50,7 @@ const DashboardDrawNav = ({typeUser}) => {
             navigation.navigate(state.routeNames[index.row])
           }>
           <DrawerItem title="Inicio" />
-          <DrawerItem title="Solicitudes a través del SAT" />
+          <DrawerItem title="Historial de solicitudes al SAT" />
           <DrawerItem title="Solicitar paquete de XML al SAT" />
           <DrawerItem title="Mi cuenta" />
         </Drawer>

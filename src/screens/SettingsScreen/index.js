@@ -161,7 +161,7 @@ const SettingsScreen = ({
                   style={styles.item}
                   status="basic"
                   header={(headerProps) => (
-                    <Text {...headerProps}>Descarga automática</Text>
+                    <Text {...headerProps}>Descarga automática de XML</Text>
                   )}>
                   <View style={styles.viewComponents}>
                     <Text>
@@ -176,6 +176,9 @@ const SettingsScreen = ({
                 </Card>
               </Fragment>
             )}
+            <View style={basicStyles.layoutHeader}>
+              <Text category="h5">Parámetros de visualización</Text>
+            </View>
             <Card
               style={styles.item}
               status="basic"
@@ -192,12 +195,11 @@ const SettingsScreen = ({
                 </Select>
               </View>
             </Card>
-            <Button
-              style={basicStyles.button}
-              accessoryLeft={SaveIcon}
-              onPress={updateUser}>
-              Guardar
-            </Button>
+            <View style={basicStyles.cardHeader}>
+              <Button accessoryLeft={SaveIcon} onPress={updateUser}>
+                Guardar
+              </Button>
+            </View>
           </Layout>
         </ScrollView>
       </Fragment>

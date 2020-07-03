@@ -1,4 +1,4 @@
-import {SET_USER, GET_SAT_INFORMATION} from '../constants';
+import {SET_USER} from '../constants';
 
 // TODO: Cuando tengamos el login, quitart password de initialState
 const initialState = {
@@ -12,19 +12,19 @@ const initialState = {
     },
   },
   user: {
-    username: '',
     typeuser: '',
     islogged: false,
     token: '',
+    name: '',
+    userId: {$oid: ''},
+    error: null,
   },
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      return {...state, user: action.payload};
-    case GET_SAT_INFORMATION:
-      return {...state, satinformation: action.payload};
+      return {...action.payload};
     default:
       return state;
   }

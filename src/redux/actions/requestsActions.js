@@ -19,7 +19,7 @@ export const getRequestsFetch = ({pageSize = 10, pageNum, filters}) => {
             dateIni: Moment(filters.dateIni).format('YYYY-MM-DD'),
             dateFin: Moment(filters.dateFin).format('YYYY-MM-DD'),
             status:
-              filters.status === '' || filters.status === 'Ninguno'
+              filters.status === '' || filters.status === 'Todos'
                 ? ''
                 : filters.status === 'Descargado'
                 ? true

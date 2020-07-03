@@ -7,7 +7,7 @@ import {FileIcon} from 'faccloud/src/styles/icons';
 const HomeMenus = memo(({navigate, XMLSection, lastRecord}) => {
   const {Fecha} = lastRecord || '';
 
-  const dataTitles = ['Facturas', 'Pagos', 'Nominas', 'Retenciones'];
+  const dataTitles = ['Facturas', 'Retenciones', 'Pagos', 'Nominas'];
 
   let titleNav;
   switch (XMLSection) {
