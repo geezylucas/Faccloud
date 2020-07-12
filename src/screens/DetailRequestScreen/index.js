@@ -4,8 +4,10 @@ import {Layout, Text, ListItem, Divider} from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {TopNavGoBack} from 'faccloud/src/components';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import {logout} from 'faccloud/src/redux/reducers/rootReducer';
 
-const DetailRequestScreen = ({route, navigation}) => {
+const DetailRequestScreen = ({route, navigation, token, logOut}) => {
   const [request, setRequest] = useState({
     typerequest: null,
     status: null,
@@ -25,6 +27,11 @@ const DetailRequestScreen = ({route, navigation}) => {
       try {
         const response = await axios.get(
           `http://192.168.100.31:5000/api/requestscfdis/${itemId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
         );
 
         let typerequest;
@@ -38,22 +45,31 @@ const DetailRequestScreen = ({route, navigation}) => {
           default:
             typerequest = '';
         }
-        setRequest({
-          ...response.data.data,
-          typerequest,
-          status: response.data.data.status ? 'Descargado' : 'Pendiente',
-          datedownload:
-            'datedownload' in response.data.data
-              ? new Date(response.data.data.datedownload.$date).toISOString()
-              : null,
-        });
+        setRequest(
+          Object.assign({}, request, {
+            ...response.data.data,
+            typerequest,
+            status: response.data.data.status ? 'Descargado' : 'Pendiente',
+            datedownload:
+              'datedownload' in response.data.data
+                ? new Date(response.data.data.datedownload.$date).toISOString()
+                : null,
+          }),
+        );
       } catch (error) {
-        console.error(error);
+        switch (error.response.status) {
+          case 401:
+            logOut();
+            break;
+          default:
+            break;
+        }
       }
     };
 
     fetchData();
-  }, [itemId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Fragment>
@@ -61,11 +77,16 @@ const DetailRequestScreen = ({route, navigation}) => {
         title="Detalles solicitud"
         goBack={() => navigation.goBack()}
       />
-      <ScrollView>
-        <Layout level="2">
+      <Layout style={basicStyles.container} level="2">
+        <ScrollView>
           <View style={basicStyles.cardHeader}>
             <Text category="h5">{request._id}</Text>
           </View>
+          <ListItem
+            title={`${request.numcfdis}`}
+            description="Número de XML descargados"
+          />
+          <Divider />
           <ListItem
             title={request.typerequest}
             description="Tipo de solicitud"
@@ -78,12 +99,12 @@ const DetailRequestScreen = ({route, navigation}) => {
           <Divider />
           <ListItem
             title={`${new Date(request.datestart.$date).toISOString()}`}
-            description="Fecha inicio de solicitud"
+            description="Rango de inicio"
           />
           <Divider />
           <ListItem
             title={`${new Date(request.dateend.$date).toISOString()}`}
-            description="Fecha fin de solicitud"
+            description="Rango de fin"
           />
           <Divider />
           <ListItem title={request.status} description="Estatus" />
@@ -92,15 +113,20 @@ const DetailRequestScreen = ({route, navigation}) => {
             title={request.datedownload}
             description="Fecha de descarga"
           />
-          <Divider />
-          <ListItem
-            title={request.numcfdis}
-            description="Número de XML descargados"
-          />
-        </Layout>
-      </ScrollView>
+        </ScrollView>
+      </Layout>
     </Fragment>
   );
 };
 
-export default DetailRequestScreen;
+const mapStateToProps = (state) => {
+  const {userdata} = state;
+
+  return {
+    token: userdata.userConfig.token,
+  };
+};
+
+const mapDispatch = {logOut: logout};
+
+export default connect(mapStateToProps, mapDispatch)(DetailRequestScreen);

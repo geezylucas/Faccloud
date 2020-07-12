@@ -20,7 +20,7 @@ const RequestsScreen = ({
   listRequests,
   dataPagination,
   getRequests,
-  rfc,
+  token,
 }) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
@@ -31,12 +31,11 @@ const RequestsScreen = ({
   const [searchPage, setSearchPage] = useState({search: false, page: 1});
 
   useEffect(() => {
-    if (rfc !== '') {
-      getRequests({
-        pageNum: searchPage.page,
-        filters: form,
-      });
-    }
+    getRequests({
+      pageNum: searchPage.page,
+      filters: form,
+      token,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPage]);
 
@@ -130,7 +129,7 @@ const mapStateToProps = (state) => {
   return {
     dataPagination: requestsdata.dataPagination,
     listRequests: requestsdata.requests,
-    rfc: userdata.satinformation.rfc,
+    token: userdata.userConfig.token,
   };
 };
 

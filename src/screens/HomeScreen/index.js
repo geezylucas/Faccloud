@@ -3,7 +3,7 @@ import {ScrollView, View, Alert} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
 import {logout} from 'faccloud/src/redux/reducers/rootReducer';
-import {getcountByXMLTypeFetch} from 'faccloud/src/redux/actions/homeActions';
+import {getCountByXMLTypeFetch} from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {TopNavDashboard} from 'faccloud/src/components';
 import HomeMenus from './HomeMenus';
@@ -12,6 +12,7 @@ import messaging from '@react-native-firebase/messaging';
 const HomeScreen = ({
   rfc,
   name,
+  token,
   getCountByXMLType,
   lastEmisorXML,
   lastReceptorXML,
@@ -43,9 +44,9 @@ const HomeScreen = ({
 
   useEffect(() => {
     if (rfc !== '') {
-      getCountByXMLType(rfc);
+      getCountByXMLType(rfc, token);
     }
-  }, [getCountByXMLType, rfc]);
+  }, [getCountByXMLType, rfc, token]);
 
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
@@ -66,7 +67,7 @@ const HomeScreen = ({
       <ScrollView>
         <Layout style={basicStyles.container} level="2">
           <View style={basicStyles.layoutHeader}>
-            <Text category="h5">!Buen día {name}! ☀️</Text>
+            <Text category="h5">!Buen día {name}!</Text>
           </View>
           <HomeMenus
             navigate={navigation.navigate}
@@ -93,11 +94,12 @@ const mapStateToProps = (state) => {
   return {
     lastReceptorXML: homedata.lastreceptorxml,
     lastEmisorXML: homedata.lastemisorxml,
-    rfc: userdata.satinformation.rfc,
-    name: userdata.user.name,
+    rfc: userdata.userData.satInfo.rfc,
+    name: userdata.userData.name,
+    token: userdata.userConfig.token,
   };
 };
 
-const mapDispatch = {logOut: logout, getCountByXMLType: getcountByXMLTypeFetch};
+const mapDispatch = {logOut: logout, getCountByXMLType: getCountByXMLTypeFetch};
 
 export default connect(mapStateToProps, mapDispatch)(HomeScreen);

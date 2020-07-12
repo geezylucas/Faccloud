@@ -49,7 +49,7 @@ const AppNavigation = ({isLogged}) => {
 
 const mapStateToProps = (state) => {
   const {userdata} = state;
-  return {isLogged: userdata.user.islogged};
+  return {isLogged: userdata.userConfig.islogged};
 };
 
 export default connect(mapStateToProps, null)(AppNavigation);

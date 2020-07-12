@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import Moment from 'moment';
 import {ScrollView, View, StyleSheet} from 'react-native';
 import {
@@ -57,101 +57,59 @@ const renderGroup = (title, index) => (
   </SelectGroup>
 );
 
-const SettingsScreen = ({
-  navigation,
-  usoCfdis,
-  timeRequest,
-  timerAutomatic,
-  getSatInformation,
-  infoId,
-  userId,
-  typeUser,
-}) => {
+const SettingsScreen = ({navigation, typeUser, dataUser, token}) => {
   const [checked, setChecked] = React.useState(false);
   const [multiSelectedIndex, setMultiSelectedIndex] = React.useState([
     new IndexPath(0, 0),
   ]);
   const [loading, setLoading] = React.useState(false);
-  const [dataUser, setDataUser] = React.useState({
-    sat_info: {
-      _id: {
-        $oid: '',
-      },
-      rfc: '',
-      settingsrfc: {
-        timerequest: 0,
-      },
-    },
-    user: {
-      _id: {
-        $oid: '',
-      },
-      creationdate: {
-        $date: '',
-      },
-      email: '',
-      lastname: '',
-      name: '',
-      phonenumber: '',
-    },
-  });
 
   const groupDisplayValues = multiSelectedIndex.map((index) => {
     const groupTitle = Object.keys(dataUsoXML)[index.section];
     return dataUsoXML[groupTitle][index.row];
   });
 
-  React.useEffect(() => {
-    if (userId !== '') {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(
-            `http://192.168.100.31:5000/api/users/${userId}`,
-          );
-          setDataUser({...response.data.data});
-        } catch (error) {
-          console.error(error);
-        }
-      };
+  const {
+    satInfo: {
+      rfc,
+      settingsrfc: {usocfdis, timerautomatic, timerequest},
+    },
+  } = dataUser;
 
-      fetchData();
-    }
-  }, [userId]);
-
-  React.useEffect(() => {
-    let usosXML = Object.keys(usoCfdis)
+  useEffect(() => {
+    let usosXML = Object.keys(usocfdis)
       .filter((key) => key.startsWith('G'))
-      .map((key) => usoCfdis[key])
+      .map((key) => usocfdis[key])
       .map((key) => new IndexPath(dataUsoXML['Sección G'].indexOf(key), 0));
 
     usosXML.push(
-      ...Object.keys(usoCfdis)
+      ...Object.keys(usocfdis)
         .filter((key) => key.startsWith('I'))
-        .map((key) => usoCfdis[key])
+        .map((key) => usocfdis[key])
         .map((key) => new IndexPath(dataUsoXML['Sección I'].indexOf(key), 1)),
     );
     usosXML.push(
-      ...Object.keys(usoCfdis)
+      ...Object.keys(usocfdis)
         .filter((key) => key.startsWith('D'))
-        .map((key) => usoCfdis[key])
+        .map((key) => usocfdis[key])
         .map((key) => new IndexPath(dataUsoXML['Sección D'].indexOf(key), 2)),
     );
     usosXML.push(
-      ...Object.keys(usoCfdis)
+      ...Object.keys(usocfdis)
         .filter((key) => key.startsWith('P'))
-        .map((key) => usoCfdis[key])
+        .map((key) => usocfdis[key])
         .map((key) => new IndexPath(dataUsoXML['Sección P'].indexOf(key), 3)),
     );
 
     setMultiSelectedIndex(usosXML);
-    setChecked(timerAutomatic);
-  }, [timerAutomatic, usoCfdis]);
+    setChecked(timerautomatic);
+  }, [timerautomatic, usocfdis]);
 
   const updateUser = async () => {
     setLoading(true);
     try {
       await axios.patch(
-        `http://192.168.100.31:5000/api/satinformations/updatesettings/${infoId}`,
+        'http://192.168.100.31:5000/api/satinformations/updatesettings',
         {
           timerautomatic: checked,
           usocfdis: multiSelectedIndex.map((index) => {
@@ -166,14 +124,13 @@ const SettingsScreen = ({
                 return 'P0' + (parseInt(index.row, 10) + 1);
             }
           }),
-          timerequest: timeRequest,
+          timerequest,
         },
       );
     } catch (error) {
       console.error(error);
     }
 
-    getSatInformation(infoId);
     setLoading(false);
   };
 
@@ -192,26 +149,26 @@ const SettingsScreen = ({
               <Text category="h5">Detalles de la cuenta</Text>
             </View>
             <ListItem
-              title={`${dataUser.user.name} ${dataUser.user.lastname}`}
+              title={`${dataUser.name} ${dataUser.lastname}`}
               description="Nombre completo"
             />
             <Divider />
             <ListItem
-              title={dataUser.user.phonenumber}
+              title={dataUser.phonenumber}
               description="Número de celular"
             />
             <Divider />
-            <ListItem title={dataUser.user.email} description="Email" />
+            <ListItem title={dataUser.email} description="Email" />
             <Divider />
-            <ListItem title={dataUser.sat_info.rfc} description="RFC" />
+            <ListItem title={rfc} description="RFC" />
             <Divider />
             <ListItem
-              title={`${dataUser.sat_info.settingsrfc.timerequest} días`}
+              title={`${timerequest} días`}
               description="Rango de días para solicitar XML al SAT"
             />
             <Divider />
             <ListItem
-              title={Moment(dataUser.user.creationdate.$date).format(
+              title={Moment(dataUser.creationdate.$date).format(
                 'YYYY-MM-DD HH:MM:SS',
               )}
               description="Fecha de registro"
@@ -261,7 +218,7 @@ const SettingsScreen = ({
             </Card>
             <View style={basicStyles.cardHeader}>
               <Button accessoryLeft={SaveIcon} onPress={updateUser}>
-                Guardar
+                Guardar cambios
               </Button>
             </View>
           </Layout>
@@ -288,12 +245,9 @@ const mapDispatch = {
 const mapStateToProps = (state) => {
   const {userdata} = state;
   return {
-    userId: userdata.user.userId.$oid,
-    infoId: userdata.satinformation._id.$oid,
-    typeUser: userdata.user.typeuser,
-    usoCfdis: userdata.satinformation.settingsrfc.usocfdis,
-    timerAutomatic: userdata.satinformation.settingsrfc.timerautomatic,
-    timeRequest: userdata.satinformation.settingsrfc.timerequest,
+    typeUser: userdata.userConfig.typeuser,
+    token: userdata.userConfig.token,
+    dataUser: userdata.userData,
   };
 };
 

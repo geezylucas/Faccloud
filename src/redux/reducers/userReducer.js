@@ -1,32 +1,35 @@
-import {SET_USER, GET_SAT_INFORMATION} from '../constants';
+import {SET_USER} from '../constants';
 
-// TODO: Cuando tengamos el login, quitart password de initialState
 const initialState = {
-  satinformation: {
-    _id: {$oid: ''},
-    rfc: '',
-    settingsrfc: {
-      timerautomatic: false,
-      timerequest: 0,
-      usocfdis: {},
+  userData: {
+    creationdate: {
+      $date: 0,
+    },
+    email: '',
+    lastname: '',
+    name: '',
+    phonenumber: '',
+    satInfo: {
+      rfc: '',
+      settingsrfc: {
+        timerautomatic: false,
+        timerequest: 0,
+        usocfdis: {},
+      },
     },
   },
-  user: {
-    typeuser: '',
+  userConfig: {
+    typeuser: '', // TODO: Check this after feedback
     islogged: false,
     token: '',
-    name: '',
-    userId: {$oid: ''},
-    error: null,
   },
+  error: null,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_USER:
       return {...action.payload};
-    case GET_SAT_INFORMATION:
-      return {...state, satinformation: action.payload};
     default:
       return state;
   }

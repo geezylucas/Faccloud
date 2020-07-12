@@ -17,6 +17,7 @@ import {getXMLSFetch} from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
 const ListRecordsScreen = ({
+  token,
   getXMLS,
   dataPagination,
   listRecords,
@@ -49,6 +50,7 @@ const ListRecordsScreen = ({
       typeComprobante: typeXMLToSend,
       typeRequest,
       filters: visible ? form : null,
+      token,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPage]);
@@ -81,7 +83,7 @@ const ListRecordsScreen = ({
         ListHeaderComponent={
           <Layout level="2">
             <View style={basicStyles.layoutHeader}>
-              <Text category="h5">{typeXML}</Text>
+              <Text category="h5">Listado de {typeXML}</Text>
               <Button
                 size="small"
                 accessoryLeft={SearchIcon}
@@ -93,7 +95,7 @@ const ListRecordsScreen = ({
             <Card style={styles.cardTotal}>
               <View style={styles.headerCardTotal}>
                 <Text category="c1" appearance="hint">
-                  Monto
+                  Monto total
                 </Text>
                 <Text category="h6">
                   ${dataPagination.totalMonto.$numberDecimal}
@@ -141,9 +143,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   const {homedata, userdata} = state;
   return {
-    usoCfdis: userdata.satinformation.settingsrfc.usocfdis,
+    usoCfdis: userdata.userData.satInfo.settingsrfc.usocfdis,
     listRecords: homedata.datalistxmls.cfdis,
     dataPagination: homedata.datalistxmls.dataPagination,
+    token: userdata.userConfig.token,
   };
 };
 

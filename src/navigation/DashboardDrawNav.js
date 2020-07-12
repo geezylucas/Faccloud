@@ -95,7 +95,7 @@ const DashboardDrawNav = ({typeUser}) => {
 const mapStateToProps = (state) => {
   const {userdata} = state;
 
-  return {typeUser: userdata.user.typeuser};
+  return {typeUser: userdata.userConfig.typeuser};
 };
 
 export default connect(mapStateToProps, null)(DashboardDrawNav);

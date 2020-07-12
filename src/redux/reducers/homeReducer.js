@@ -1,8 +1,8 @@
 import {COUNT_BY_XML_TYPE, GET_XMLS} from '../constants';
 
 const initialState = {
-  lastreceptorxml: {},
-  lastemisorxml: {},
+  lastreceptorxml: null,
+  lastemisorxml: null,
   datalistxmls: {
     cfdis: [],
     dataPagination: {

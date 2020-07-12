@@ -11,8 +11,10 @@ import {
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {TopNavGoBack} from 'faccloud/src/components';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import {logout} from 'faccloud/src/redux/reducers/rootReducer';
 
-const DetailRecordScreen = ({route, navigation}) => {
+const DetailRecordScreen = ({route, navigation, token, logOut}) => {
   const [record, setRecord] = useState({
     Emisor: {
       Nombre: '',
@@ -49,16 +51,26 @@ const DetailRecordScreen = ({route, navigation}) => {
       try {
         const response = await axios.get(
           `http://192.168.100.31:5000/api/cfdis/${itemId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
         );
         setRecord(Object.assign({}, record, response.data.data));
       } catch (error) {
-        console.error(error);
+        switch (error.response.status) {
+          case 401:
+            logOut();
+            break;
+          default:
+            break;
+        }
       }
     };
-
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemId]);
+  }, [token]);
 
   const renderItemHeader = (headerProps, descripcion) => (
     <View {...headerProps}>
@@ -88,54 +100,46 @@ const DetailRecordScreen = ({route, navigation}) => {
         data={record.Conceptos}
         renderItem={renderItem}
         ListHeaderComponent={
-          <View>
-            <Layout level="2">
-              <View style={basicStyles.cardHeader}>
-                <Text category="h5">{record.Emisor.Nombre.trim()}</Text>
-                <Text category="s1" appearance="hint">
-                  {record.Emisor.Rfc}
-                </Text>
-              </View>
-              <ListItem
-                title={record.Receptor.Nombre}
-                description="Receptor Nombre"
-              />
-              <Divider />
-              <ListItem
-                title={record.Receptor.Rfc}
-                description="Receptor RFC"
-              />
-              <Divider />
-              <ListItem
-                title={record.SubTotal.$numberDecimal}
-                description="SubTotal"
-              />
-              <Divider />
-              <ListItem
-                title={record.Descuento.$numberDecimal}
-                description="Descuento"
-              />
-              <Divider />
-              <ListItem
-                title={record.Total.$numberDecimal}
-                description="Total"
-              />
-              <Divider />
-              <ListItem title={record.Fecha} description="Fecha" />
-              <Divider />
-              <ListItem
-                title={record.TipoDeComprobante}
-                description="TipoDeComprobante"
-              />
-              <Divider />
-              <View style={basicStyles.cardHeader}>
-                <Text category="h6">Conceptos</Text>
-              </View>
-            </Layout>
-          </View>
+          <Layout level="2">
+            <View style={basicStyles.cardHeader}>
+              <Text category="h5">{record.Emisor.Nombre.trim()}</Text>
+              <Text category="s1" appearance="hint">
+                {record.Emisor.Rfc}
+              </Text>
+            </View>
+            <ListItem
+              title={record.Receptor.Nombre}
+              description="Receptor Nombre"
+            />
+            <Divider />
+            <ListItem title={record.Receptor.Rfc} description="Receptor RFC" />
+            <Divider />
+            <ListItem
+              title={record.SubTotal.$numberDecimal}
+              description="SubTotal"
+            />
+            <Divider />
+            <ListItem
+              title={record.Descuento.$numberDecimal}
+              description="Descuento"
+            />
+            <Divider />
+            <ListItem title={record.Total.$numberDecimal} description="Total" />
+            <Divider />
+            <ListItem title={record.Fecha} description="Fecha" />
+            <Divider />
+            <ListItem
+              title={record.TipoDeComprobante}
+              description="TipoDeComprobante"
+            />
+            <Divider />
+            <View style={basicStyles.cardHeader}>
+              <Text category="h6">Conceptos</Text>
+            </View>
+          </Layout>
         }
         ListFooterComponent={
-          <View>
+          <Layout level="2">
             <View style={basicStyles.card}>
               <Text category="h6">Impuestos</Text>
             </View>
@@ -148,11 +152,21 @@ const DetailRecordScreen = ({route, navigation}) => {
               title={record.Impuestos.TotalImpuestosRetenidos}
               description="Total de impuestos retenidos"
             />
-          </View>
+          </Layout>
         }
       />
     </Fragment>
   );
 };
 
-export default DetailRecordScreen;
+const mapStateToProps = (state) => {
+  const {userdata} = state;
+
+  return {
+    token: userdata.userConfig.token,
+  };
+};
+
+const mapDispatch = {logOut: logout};
+
+export default connect(mapStateToProps, mapDispatch)(DetailRecordScreen);

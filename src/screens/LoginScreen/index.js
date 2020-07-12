@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import {connect} from 'react-redux';
 import {loginFetch} from 'faccloud/src/redux/actions/userActions';
-import {logout} from 'faccloud/src/redux/reducers/rootReducer';
 import {
   Card,
   Input,
@@ -14,16 +13,11 @@ import {
 } from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
-const LoginScreen = ({logIn, logOut, error}) => {
+const LoginScreen = ({logIn, error}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginPress, setLoginPress] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
-
-  React.useEffect(() => {
-    logOut();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   /* PASSWORD */
   const toggleSecureEntry = () => {
@@ -130,13 +124,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   const {userdata} = state;
   return {
-    error: userdata.user.error,
+    error: userdata.error,
   };
 };
 
-const mapDispatch = {
-  logIn: loginFetch,
-  logOut: logout,
-};
+const mapDispatch = {logIn: loginFetch};
 
 export default connect(mapStateToProps, mapDispatch)(LoginScreen);
