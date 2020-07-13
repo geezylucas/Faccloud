@@ -1,9 +1,11 @@
 import axios from 'axios';
-import {SET_USER} from '../constants';
+import {SET_USER, LOAD_USER_LOADING} from '../constants';
 
 // TODO: traer de inicio de sesion
 export const loginFetch = (email, password) => {
   return async (dispatch) => {
+    dispatch({type: LOAD_USER_LOADING});
+
     const userState = {
       userData: {
         creationdate: {
@@ -28,6 +30,7 @@ export const loginFetch = (email, password) => {
         token: '',
       },
       error: null,
+      loading: false,
     };
     try {
       let response = await axios.post(

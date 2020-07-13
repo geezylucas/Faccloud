@@ -28,4 +28,8 @@ export const basicStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  indicator: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

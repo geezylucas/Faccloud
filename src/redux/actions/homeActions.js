@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Moment from 'moment';
-import {COUNT_BY_XML_TYPE, GET_XMLS} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_XMLS, LOAD_HOME_LOADING} from '../constants';
 import {logout} from '../reducers/rootReducer';
 
 export const getCountByXMLTypeFetch = (rfc, token) => {
@@ -32,13 +32,15 @@ export const getCountByXMLTypeFetch = (rfc, token) => {
 
 export const getXMLSFetch = ({
   pageSize = 10,
-  pageNum,
+  pageNum = 1,
   typeComprobante,
   typeRequest,
   filters = null,
   token,
 }) => {
   return async (dispatch, getState) => {
+    dispatch({type: LOAD_HOME_LOADING, payload: true});
+
     const {rfc, settingsrfc} = getState().userdata.userData.satInfo;
 
     let response = null;
@@ -73,7 +75,6 @@ export const getXMLSFetch = ({
           },
         );
       }
-
       dispatch({
         type: GET_XMLS,
         payload: response.data.data,
@@ -87,5 +88,26 @@ export const getXMLSFetch = ({
           break;
       }
     }
+  };
+};
+
+export const loadingHomeReset = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: LOAD_HOME_LOADING,
+      payload: {
+        loading: true,
+        datalistxmls: {
+          cfdis: [],
+          dataPagination: {
+            fieldsmatched: 0,
+            pages: 1,
+            totalMonto: {
+              $numberDecimal: 0,
+            },
+          },
+        },
+      },
+    });
   };
 };

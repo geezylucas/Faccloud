@@ -10,7 +10,7 @@ import {
 } from 'faccloud/src/styles/icons';
 
 const SearchRecords = ({form, setForm, filterData, visible, usoCfdis}) => {
-  let dataSelect = ['Todos'];
+  const dataSelect = ['Todos'];
   dataSelect.push(...Object.values(usoCfdis));
 
   const displayValue = dataSelect[form.indexCfdi.row];
@@ -21,8 +21,8 @@ const SearchRecords = ({form, setForm, filterData, visible, usoCfdis}) => {
         style={basicStyles.button}
         status="success"
         size="small"
-        accessoryLeft={RefreshIcon}
-        onPress={filterData}>
+        onPress={filterData}
+        accessoryLeft={RefreshIcon}>
         Refrescar
       </Button>
     );
@@ -78,4 +78,4 @@ const SearchRecords = ({form, setForm, filterData, visible, usoCfdis}) => {
   }
 };
 
-export default SearchRecords;
+export default React.memo(SearchRecords);

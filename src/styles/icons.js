@@ -27,3 +27,4 @@ export const renderOption = (title, index) => (
 );
 
 export const SaveIcon = (props) => <Icon {...props} name="save" />;
+export const InfoIcon = (props) => <Icon {...props} name="info" />;

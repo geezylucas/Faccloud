@@ -1,4 +1,4 @@
-import {COUNT_BY_XML_TYPE, GET_XMLS} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_XMLS, LOAD_HOME_LOADING} from '../constants';
 
 const initialState = {
   lastreceptorxml: null,
@@ -13,10 +13,13 @@ const initialState = {
       },
     },
   },
+  loading: true,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case LOAD_HOME_LOADING:
+      return {...state, ...action.payload};
     case COUNT_BY_XML_TYPE:
       return {
         ...state,
@@ -27,6 +30,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         datalistxmls: action.payload,
+        loading: false,
       };
     default:
       return state;

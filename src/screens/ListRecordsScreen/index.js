@@ -11,9 +11,16 @@ import {
 } from '@ui-kitten/components';
 import SearchRecords from './SearchRecords';
 import {SearchIcon} from 'faccloud/src/styles/icons';
-import {FooterListScreens, TopNavGoBack} from 'faccloud/src/components';
+import {
+  FooterListScreens,
+  TopNavGoBack,
+  Loading,
+} from 'faccloud/src/components';
 import {connect} from 'react-redux';
-import {getXMLSFetch} from 'faccloud/src/redux/actions/homeActions';
+import {
+  getXMLSFetch,
+  loadingHomeReset,
+} from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
 const ListRecordsScreen = ({
@@ -24,6 +31,8 @@ const ListRecordsScreen = ({
   route,
   navigation,
   usoCfdis,
+  loading,
+  loadingReset,
 }) => {
   const [form, setForm] = useState({
     rfc: '',
@@ -52,6 +61,10 @@ const ListRecordsScreen = ({
       filters: visible ? form : null,
       token,
     });
+
+    return () => {
+      loadingReset();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPage]);
 
@@ -74,6 +87,32 @@ const ListRecordsScreen = ({
     />
   );
 
+  const Header = () => (
+    <View style={basicStyles.layoutHeader}>
+      <Text category="h5">Listado de {typeXML}</Text>
+      <Button
+        size="small"
+        disabled={loading}
+        accessoryLeft={SearchIcon}
+        appearance="outline"
+        onPress={() => setVisible(!visible)}>
+        Buscar
+      </Button>
+    </View>
+  );
+
+  if (loading) {
+    return (
+      <Fragment>
+        <TopNavGoBack title={titleNav} goBack={() => navigation.goBack()} />
+        <Layout level="2">
+          <Header />
+        </Layout>
+        <Loading />
+      </Fragment>
+    );
+  }
+
   return (
     <Fragment>
       <TopNavGoBack title={titleNav} goBack={() => navigation.goBack()} />
@@ -82,16 +121,7 @@ const ListRecordsScreen = ({
         renderItem={renderItem}
         ListHeaderComponent={
           <Layout level="2">
-            <View style={basicStyles.layoutHeader}>
-              <Text category="h5">Listado de {typeXML}</Text>
-              <Button
-                size="small"
-                accessoryLeft={SearchIcon}
-                appearance="outline"
-                onPress={() => setVisible(!visible)}>
-                Buscar
-              </Button>
-            </View>
+            <Header />
             <Card style={styles.cardTotal}>
               <View style={styles.headerCardTotal}>
                 <Text category="c1" appearance="hint">
@@ -138,6 +168,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -147,9 +180,10 @@ const mapStateToProps = (state) => {
     listRecords: homedata.datalistxmls.cfdis,
     dataPagination: homedata.datalistxmls.dataPagination,
     token: userdata.userConfig.token,
+    loading: homedata.loading,
   };
 };
 
-const mapDispatch = {getXMLS: getXMLSFetch};
+const mapDispatch = {getXMLS: getXMLSFetch, loadingReset: loadingHomeReset};
 
 export default connect(mapStateToProps, mapDispatch)(ListRecordsScreen);

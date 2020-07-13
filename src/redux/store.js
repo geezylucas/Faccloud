@@ -7,9 +7,6 @@ import {createBlacklistFilter} from 'redux-persist-transform-filter';
 
 const migrations = {};
 const saveSubsetUserFilter = createBlacklistFilter('userdata', ['error']);
-const saveSubsetHomeFilter = createBlacklistFilter('homedata', [
-  'datalistxmls',
-]);
 
 const persistConfig = {
   key: 'root',

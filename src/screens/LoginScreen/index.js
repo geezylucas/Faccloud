@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import {connect} from 'react-redux';
 import {loginFetch} from 'faccloud/src/redux/actions/userActions';
@@ -13,11 +13,15 @@ import {
 } from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
-const LoginScreen = ({logIn, error}) => {
+const LoginScreen = ({logIn, error, loading}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginPress, setLoginPress] = useState(false);
-  const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+
+  useEffect(() => {
+    setLoginPress(loading);
+  }, [loading]);
 
   /* PASSWORD */
   const toggleSecureEntry = () => {
@@ -35,7 +39,7 @@ const LoginScreen = ({logIn, error}) => {
   const LoadingIndicator = (propsLoading) => {
     if (loginPress) {
       return (
-        <View style={[propsLoading.style, styles.indicator]}>
+        <View style={[propsLoading.style, basicStyles.indicator]}>
           <Spinner size="small" />
         </View>
       );
@@ -46,11 +50,6 @@ const LoginScreen = ({logIn, error}) => {
   /* FIN LOADING INDICADOR */
 
   /* FUNCTIONS */
-  const signIn = async () => {
-    setLoginPress(true);
-    logIn(username, password);
-    setLoginPress(false);
-  };
   /* END FUNCTIONS */
 
   return (
@@ -84,7 +83,7 @@ const LoginScreen = ({logIn, error}) => {
         </View>
         <Button
           status="success"
-          onPress={signIn}
+          onPress={() => logIn(username, password)}
           disabled={loginPress}
           accessoryLeft={LoadingIndicator}>
           Ingresar
@@ -115,16 +114,13 @@ const styles = StyleSheet.create({
     width: null,
     marginTop: 40,
   },
-  indicator: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 });
 
 const mapStateToProps = (state) => {
   const {userdata} = state;
   return {
     error: userdata.error,
+    loading: userdata.loading,
   };
 };
 

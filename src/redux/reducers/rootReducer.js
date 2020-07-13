@@ -9,6 +9,14 @@ const combinedReducers = combineReducers({
   requestsdata: requestsReducer,
 });
 
+export const logout = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: 'LOGOUT',
+    });
+  };
+};
+
 const rootReducer = (state, action) => {
   switch (action.type) {
     case 'LOGOUT':
@@ -19,11 +27,3 @@ const rootReducer = (state, action) => {
 };
 
 export default rootReducer;
-
-export const logout = () => {
-  return async (dispatch) => {
-    dispatch({
-      type: 'LOGOUT',
-    });
-  };
-};

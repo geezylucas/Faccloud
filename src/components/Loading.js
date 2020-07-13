@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 import {Layout, Spinner} from '@ui-kitten/components';
 
 const Loading = () => (
-  <Layout style={styles.container} level="1">
+  <Layout style={styles.container} level="2">
     <Spinner size="large" />
   </Layout>
 );
