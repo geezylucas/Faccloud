@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Moment from 'moment';
-import {COUNT_BY_XML_TYPE, GET_XMLS, LOAD_HOME_LOADING} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_XMLS, RESET_HOME} from '../constants';
 import {logout} from '../reducers/rootReducer';
 
 export const getCountByXMLTypeFetch = (rfc, token) => {
@@ -39,8 +39,6 @@ export const getXMLSFetch = ({
   token,
 }) => {
   return async (dispatch, getState) => {
-    dispatch({type: LOAD_HOME_LOADING, payload: true});
-
     const {rfc, settingsrfc} = getState().userdata.userData.satInfo;
 
     let response = null;
@@ -55,6 +53,10 @@ export const getXMLSFetch = ({
           },
         );
       } else {
+        dispatch({
+          type: RESET_HOME,
+          payload: {loading: true},
+        });
         response = await axios.post(
           `http://192.168.100.31:5000/api/cfdis/getcfdis/${rfc}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
           {
@@ -92,9 +94,9 @@ export const getXMLSFetch = ({
 };
 
 export const loadingHomeReset = () => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch({
-      type: LOAD_HOME_LOADING,
+      type: RESET_HOME,
       payload: {
         loading: true,
         datalistxmls: {

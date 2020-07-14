@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect, Fragment, useCallback} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
   Button,
@@ -8,14 +8,11 @@ import {
   Layout,
   IndexPath,
   Card,
+  Divider,
 } from '@ui-kitten/components';
 import SearchRecords from './SearchRecords';
 import {SearchIcon} from 'faccloud/src/styles/icons';
-import {
-  FooterListScreens,
-  TopNavGoBack,
-  Loading,
-} from 'faccloud/src/components';
+import {FooterListScreens, TopNavGoBack} from 'faccloud/src/components';
 import {connect} from 'react-redux';
 import {
   getXMLSFetch,
@@ -61,12 +58,15 @@ const ListRecordsScreen = ({
       filters: visible ? form : null,
       token,
     });
-
-    return () => {
-      loadingReset();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPage]);
+
+  useEffect(() => {}, [listRecords]);
+
+  const onRefresh = useCallback(() => {
+    setSearchPage({page: 1, search: !searchPage.search});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const renderItem = ({item, index}) => (
     <ListItem
@@ -88,61 +88,52 @@ const ListRecordsScreen = ({
   );
 
   const Header = () => (
-    <View style={basicStyles.layoutHeader}>
-      <Text category="h5">Listado de {typeXML}</Text>
-      <Button
-        size="small"
-        disabled={loading}
-        accessoryLeft={SearchIcon}
-        appearance="outline"
-        onPress={() => setVisible(!visible)}>
-        Buscar
-      </Button>
-    </View>
+    <Layout level="2">
+      <View style={basicStyles.layoutHeader}>
+        <Text category="h5">Listado de {typeXML}</Text>
+        <Button
+          size="small"
+          disabled={loading}
+          accessoryLeft={SearchIcon}
+          appearance="outline"
+          onPress={() => setVisible(!visible)}>
+          Buscar
+        </Button>
+      </View>
+      <SearchRecords
+        form={form}
+        setForm={setForm}
+        filterData={() => setSearchPage({page: 1, search: !searchPage.search})}
+        visible={visible}
+        usoCfdis={usoCfdis}
+        loading={loading}
+      />
+      <Card style={styles.cardTotal}>
+        <View style={styles.headerCardTotal}>
+          <Text category="c1" appearance="hint">
+            Monto total
+          </Text>
+          <Text category="h6">${dataPagination.totalMonto.$numberDecimal}</Text>
+        </View>
+      </Card>
+    </Layout>
   );
-
-  if (loading) {
-    return (
-      <Fragment>
-        <TopNavGoBack title={titleNav} goBack={() => navigation.goBack()} />
-        <Layout level="2">
-          <Header />
-        </Layout>
-        <Loading />
-      </Fragment>
-    );
-  }
 
   return (
     <Fragment>
-      <TopNavGoBack title={titleNav} goBack={() => navigation.goBack()} />
+      <TopNavGoBack
+        title={titleNav}
+        goBack={() => {
+          loadingReset();
+          navigation.goBack();
+        }}
+      />
       <List
         data={listRecords}
         renderItem={renderItem}
-        ListHeaderComponent={
-          <Layout level="2">
-            <Header />
-            <Card style={styles.cardTotal}>
-              <View style={styles.headerCardTotal}>
-                <Text category="c1" appearance="hint">
-                  Monto total
-                </Text>
-                <Text category="h6">
-                  ${dataPagination.totalMonto.$numberDecimal}
-                </Text>
-              </View>
-            </Card>
-            <SearchRecords
-              form={form}
-              setForm={setForm}
-              filterData={() =>
-                setSearchPage({page: 1, search: !searchPage.search})
-              }
-              visible={visible}
-              usoCfdis={usoCfdis}
-            />
-          </Layout>
-        }
+        refreshing={loading}
+        onRefresh={onRefresh}
+        ListHeaderComponent={<Header />}
         ListFooterComponent={
           <FooterListScreens
             fieldsmatched={dataPagination.fieldsmatched}
@@ -150,6 +141,12 @@ const ListRecordsScreen = ({
             setSearchPage={setSearchPage}
             pages={dataPagination.pages}
           />
+        }
+        ListEmptyComponent={
+          <View style={styles.headerCardTotal}>
+            <Divider />
+            <Text>No hay datos para la fecha indicada</Text>
+          </View>
         }
       />
     </Fragment>

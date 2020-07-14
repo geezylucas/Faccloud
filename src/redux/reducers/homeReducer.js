@@ -1,4 +1,4 @@
-import {COUNT_BY_XML_TYPE, GET_XMLS, LOAD_HOME_LOADING} from '../constants';
+import {COUNT_BY_XML_TYPE, GET_XMLS, RESET_HOME} from '../constants';
 
 const initialState = {
   lastreceptorxml: null,
@@ -18,7 +18,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case LOAD_HOME_LOADING:
+    case RESET_HOME:
       return {...state, ...action.payload};
     case COUNT_BY_XML_TYPE:
       return {

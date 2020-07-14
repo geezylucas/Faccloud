@@ -5,28 +5,23 @@ import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {
   CalendarIcon,
   SearchIcon,
-  RefreshIcon,
   renderOption,
 } from 'faccloud/src/styles/icons';
 
-const SearchRecords = ({form, setForm, filterData, visible, usoCfdis}) => {
+const SearchRecords = ({
+  form,
+  setForm,
+  filterData,
+  visible,
+  usoCfdis,
+  loading,
+}) => {
   const dataSelect = ['Todos'];
   dataSelect.push(...Object.values(usoCfdis));
 
   const displayValue = dataSelect[form.indexCfdi.row];
 
-  if (!visible) {
-    return (
-      <Button
-        style={basicStyles.button}
-        status="success"
-        size="small"
-        onPress={filterData}
-        accessoryLeft={RefreshIcon}>
-        Refrescar
-      </Button>
-    );
-  } else {
+  if (visible) {
     return (
       <Card style={basicStyles.card}>
         <View style={basicStyles.layoutInputs}>
@@ -68,6 +63,7 @@ const SearchRecords = ({form, setForm, filterData, visible, usoCfdis}) => {
         </View>
         <Button
           status="success"
+          disabled={loading}
           accessoryLeft={SearchIcon}
           size="small"
           onPress={filterData}>
@@ -75,6 +71,8 @@ const SearchRecords = ({form, setForm, filterData, visible, usoCfdis}) => {
         </Button>
       </Card>
     );
+  } else {
+    return null;
   }
 };
 
