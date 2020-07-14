@@ -14,6 +14,7 @@ const initialState = {
     },
   },
   loading: true,
+  loadingButton: true,
 };
 
 export default function (state = initialState, action) {
@@ -31,6 +32,7 @@ export default function (state = initialState, action) {
         ...state,
         datalistxmls: action.payload,
         loading: false,
+        loadingButton: false,
       };
     default:
       return state;

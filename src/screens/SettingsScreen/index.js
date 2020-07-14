@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import Moment from 'moment';
 import {ScrollView, View, StyleSheet} from 'react-native';
 import {
@@ -17,7 +17,8 @@ import {TopNavDashboard, Loading} from 'faccloud/src/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {SaveIcon, renderOption} from 'faccloud/src/styles/icons';
 import {connect} from 'react-redux';
-import {getSatInformationFetch} from 'faccloud/src/redux/actions/userActions';
+import {getUserFetch} from 'faccloud/src/redux/actions/userActions';
+import {logout} from 'faccloud/src/redux/reducers/rootReducer';
 import axios from 'axios';
 
 const dataUsoXML = {
@@ -41,11 +42,11 @@ const dataUsoXML = {
     'Gastos médicos por incapacidad o discapacidad',
     'Gastos funerales.',
     'Donativos.',
-    'Intereses reales efectivamente pagados por créditos hipotecarios (casa...',
+    'Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación).',
     'Aportaciones voluntarias al SAR.',
     'Primas por seguros de gastos médicos.',
     'Gastos de transportación escolar obligatoria.',
-    'Depósitos en cuentas para el ahorro, primas que tengan como base plane...',
+    'Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones.',
     'Pagos por servicios educativos (colegiaturas)',
   ],
   'Sección P': ['Por definir'],
@@ -57,12 +58,19 @@ const renderGroup = (title, index) => (
   </SelectGroup>
 );
 
-const SettingsScreen = ({navigation, typeUser, dataUser, token}) => {
-  const [checked, setChecked] = React.useState(false);
-  const [multiSelectedIndex, setMultiSelectedIndex] = React.useState([
+const SettingsScreen = ({
+  navigation,
+  typeUser,
+  dataUser,
+  token,
+  getUser,
+  logOut,
+}) => {
+  const [checked, setChecked] = useState(false);
+  const [multiSelectedIndex, setMultiSelectedIndex] = useState([
     new IndexPath(0, 0),
   ]);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const groupDisplayValues = multiSelectedIndex.map((index) => {
     const groupTitle = Object.keys(dataUsoXML)[index.section];
@@ -126,11 +134,22 @@ const SettingsScreen = ({navigation, typeUser, dataUser, token}) => {
           }),
           timerequest,
         },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
+      getUser(token);
     } catch (error) {
-      console.error(error);
+      switch (error.response.status) {
+        case 401:
+          logOut();
+          break;
+        default:
+          break;
+      }
     }
-
     setLoading(false);
   };
 
@@ -239,7 +258,8 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatch = {
-  getSatInformation: getSatInformationFetch,
+  getUser: getUserFetch,
+  logOut: logout,
 };
 
 const mapStateToProps = (state) => {

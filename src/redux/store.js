@@ -13,7 +13,7 @@ const persistConfig = {
   version: -1,
   storage: AsyncStorage,
   whitelist: ['userdata'],
-  blacklist: ['requestsdata'],
+  blacklist: ['requestsdata', 'homedata'],
   transforms: [saveSubsetUserFilter],
   timeout: null,
   debug: true,

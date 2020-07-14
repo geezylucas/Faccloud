@@ -32,7 +32,7 @@ export default function (state = initialState, action) {
     case LOAD_USER_LOADING:
       return {...state, loading: true};
     case SET_USER:
-      return {...action.payload};
+      return {...state, ...action.payload};
     default:
       return state;
   }

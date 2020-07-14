@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect, Fragment, useCallback} from 'react';
 import {View} from 'react-native';
 import {
   Button,
@@ -7,12 +7,16 @@ import {
   Text,
   Layout,
   IndexPath,
+  Divider,
 } from '@ui-kitten/components';
 import {TopNavDashboard, FooterListScreens} from 'faccloud/src/components';
 import SearchRequests from './SearchRequests';
 import {EmitidoIcon, RecibidoIcon} from 'faccloud/src/styles/icons';
 import {connect} from 'react-redux';
-import {getRequestsFetch} from 'faccloud/src/redux/actions/requestsActions';
+import {
+  getRequestsFetch,
+  loadingRequestsReset,
+} from 'faccloud/src/redux/actions/requestsActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
 const RequestsScreen = ({
@@ -21,6 +25,9 @@ const RequestsScreen = ({
   dataPagination,
   getRequests,
   token,
+  loading,
+  loadingButton,
+  loadingReset,
 }) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
@@ -38,6 +45,18 @@ const RequestsScreen = ({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPage]);
+
+  const onRefresh = useCallback(() => {
+    loadingReset();
+    setSearchPage({page: 1, search: !searchPage.search});
+    setForm({
+      dateIni: new Date(),
+      dateFin: new Date(),
+      indexStatus: new IndexPath(0),
+      status: '',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const renderItem = ({item, index}) => {
     return (
@@ -96,6 +115,8 @@ const RequestsScreen = ({
       <List
         data={listRequests}
         renderItem={renderItem}
+        refreshing={loading}
+        onRefresh={onRefresh}
         ListHeaderComponent={
           <Layout level="2">
             <View style={basicStyles.layoutHeader}>
@@ -107,8 +128,15 @@ const RequestsScreen = ({
               filterData={() =>
                 setSearchPage({page: 1, search: !searchPage.search})
               }
+              loading={loadingButton}
             />
           </Layout>
+        }
+        ListEmptyComponent={
+          <View style={basicStyles.indicator}>
+            <Divider />
+            <Text>Sin registros para ese periodo</Text>
+          </View>
         }
         ListFooterComponent={
           <FooterListScreens
@@ -130,9 +158,14 @@ const mapStateToProps = (state) => {
     dataPagination: requestsdata.dataPagination,
     listRequests: requestsdata.requests,
     token: userdata.userConfig.token,
+    loading: requestsdata.loading,
+    loadingButton: requestsdata.loadingButton,
   };
 };
 
-const mapDispatch = {getRequests: getRequestsFetch};
+const mapDispatch = {
+  getRequests: getRequestsFetch,
+  loadingReset: loadingRequestsReset,
+};
 
 export default connect(mapStateToProps, mapDispatch)(RequestsScreen);

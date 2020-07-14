@@ -17,6 +17,7 @@ import {connect} from 'react-redux';
 import {
   getXMLSFetch,
   loadingHomeReset,
+  loadingSearchBtn,
 } from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
@@ -29,7 +30,9 @@ const ListRecordsScreen = ({
   navigation,
   usoCfdis,
   loading,
+  loadingButton,
   loadingReset,
+  loadingSearch,
 }) => {
   const [form, setForm] = useState({
     rfc: '',
@@ -61,10 +64,16 @@ const ListRecordsScreen = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPage]);
 
-  useEffect(() => {}, [listRecords]);
-
   const onRefresh = useCallback(() => {
+    loadingSearch();
     setSearchPage({page: 1, search: !searchPage.search});
+    setForm({
+      rfc: '',
+      dateIni: new Date(),
+      dateFin: new Date(),
+      indexCfdi: new IndexPath(0),
+      usoCfdi: '',
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -106,7 +115,7 @@ const ListRecordsScreen = ({
         filterData={() => setSearchPage({page: 1, search: !searchPage.search})}
         visible={visible}
         usoCfdis={usoCfdis}
-        loading={loading}
+        loading={loadingButton}
       />
       <Card style={styles.cardTotal}>
         <View style={styles.headerCardTotal}>
@@ -124,8 +133,8 @@ const ListRecordsScreen = ({
       <TopNavGoBack
         title={titleNav}
         goBack={() => {
-          loadingReset();
           navigation.goBack();
+          loadingReset();
         }}
       />
       <List
@@ -143,9 +152,9 @@ const ListRecordsScreen = ({
           />
         }
         ListEmptyComponent={
-          <View style={styles.headerCardTotal}>
+          <View style={basicStyles.indicator}>
             <Divider />
-            <Text>No hay datos para la fecha indicada</Text>
+            <Text>Sin registros para ese periodo</Text>
           </View>
         }
       />
@@ -178,9 +187,14 @@ const mapStateToProps = (state) => {
     dataPagination: homedata.datalistxmls.dataPagination,
     token: userdata.userConfig.token,
     loading: homedata.loading,
+    loadingButton: homedata.loadingButton,
   };
 };
 
-const mapDispatch = {getXMLS: getXMLSFetch, loadingReset: loadingHomeReset};
+const mapDispatch = {
+  getXMLS: getXMLSFetch,
+  loadingReset: loadingHomeReset,
+  loadingSearch: loadingSearchBtn,
+};
 
 export default connect(mapStateToProps, mapDispatch)(ListRecordsScreen);

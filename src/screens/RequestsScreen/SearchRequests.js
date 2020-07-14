@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Card, Button, Datepicker, Select} from '@ui-kitten/components';
+import {Card, Button, Datepicker, Select, Spinner} from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {
   CalendarIcon,
@@ -8,7 +8,14 @@ import {
   renderOption,
 } from 'faccloud/src/styles/icons';
 
-const SearchRequests = ({form, setForm, filterData}) => {
+const SearchRequests = ({form, setForm, filterData, loading}) => {
+  /* LOADGING INDICATOR */
+  const LoadingIndicator = (propsLoading) => (
+    <View style={[propsLoading.style, basicStyles.indicator]}>
+      <Spinner size="small" />
+    </View>
+  );
+  /* FIN LOADING INDICADOR */
   const dataSelect = ['Todos', 'Descargado', 'Pendiente'];
   const displayValue = dataSelect[form.indexStatus.row];
 
@@ -16,6 +23,20 @@ const SearchRequests = ({form, setForm, filterData}) => {
     <Card style={basicStyles.card}>
       <View style={basicStyles.layoutInputs}>
         <Datepicker
+          max={
+            new Date(
+              form.dateIni.getFullYear(),
+              form.dateIni.getMonth(),
+              form.dateIni.getDate(),
+            )
+          }
+          min={
+            new Date(
+              form.dateIni.getFullYear() - 10,
+              form.dateIni.getMonth(),
+              form.dateIni.getDate(),
+            )
+          }
           label="Fecha inicio:"
           date={form.dateIni}
           onSelect={(nextDate) => setForm({...form, dateIni: nextDate})}
@@ -23,6 +44,20 @@ const SearchRequests = ({form, setForm, filterData}) => {
           size="small"
         />
         <Datepicker
+          max={
+            new Date(
+              form.dateIni.getFullYear(),
+              form.dateIni.getMonth(),
+              form.dateIni.getDate(),
+            )
+          }
+          min={
+            new Date(
+              form.dateIni.getFullYear() - 10,
+              form.dateIni.getMonth(),
+              form.dateIni.getDate(),
+            )
+          }
           label="Fecha fin:"
           date={form.dateFin}
           onSelect={(nextDate) => setForm({...form, dateFin: nextDate})}
@@ -46,7 +81,8 @@ const SearchRequests = ({form, setForm, filterData}) => {
       </View>
       <Button
         status="success"
-        accessoryLeft={SearchIcon}
+        disabled={loading}
+        accessoryLeft={loading ? LoadingIndicator : SearchIcon}
         size="small"
         onPress={filterData}>
         Buscar

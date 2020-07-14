@@ -39,6 +39,11 @@ export const getXMLSFetch = ({
   token,
 }) => {
   return async (dispatch, getState) => {
+    dispatch({
+      type: RESET_HOME,
+      payload: {loadingButton: true},
+    });
+
     const {rfc, settingsrfc} = getState().userdata.userData.satInfo;
 
     let response = null;
@@ -53,10 +58,6 @@ export const getXMLSFetch = ({
           },
         );
       } else {
-        dispatch({
-          type: RESET_HOME,
-          payload: {loading: true},
-        });
         response = await axios.post(
           `http://192.168.100.31:5000/api/cfdis/getcfdis/${rfc}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
           {
@@ -99,6 +100,7 @@ export const loadingHomeReset = () => {
       type: RESET_HOME,
       payload: {
         loading: true,
+        loadingButton: true,
         datalistxmls: {
           cfdis: [],
           dataPagination: {
@@ -109,6 +111,17 @@ export const loadingHomeReset = () => {
             },
           },
         },
+      },
+    });
+  };
+};
+
+export const loadingSearchBtn = () => {
+  return (dispatch) => {
+    dispatch({
+      type: RESET_HOME,
+      payload: {
+        loading: true,
       },
     });
   };
