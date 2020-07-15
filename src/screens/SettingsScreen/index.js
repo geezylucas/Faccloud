@@ -63,6 +63,7 @@ const SettingsScreen = ({
   typeUser,
   dataUser,
   token,
+  loading,
   getUser,
   logOut,
 }) => {
@@ -70,7 +71,6 @@ const SettingsScreen = ({
   const [multiSelectedIndex, setMultiSelectedIndex] = useState([
     new IndexPath(0, 0),
   ]);
-  const [loading, setLoading] = useState(false);
 
   const groupDisplayValues = multiSelectedIndex.map((index) => {
     const groupTitle = Object.keys(dataUsoXML)[index.section];
@@ -113,10 +113,9 @@ const SettingsScreen = ({
     setChecked(timerautomatic);
   }, [timerautomatic, usocfdis]);
 
-  const updateUser = async () => {
-    setLoading(true);
-    try {
-      await axios.patch(
+  const updateUser = () => {
+    axios
+      .patch(
         'http://192.168.100.31:5000/api/satinformations/updatesettings',
         {
           timerautomatic: checked,
@@ -127,7 +126,8 @@ const SettingsScreen = ({
               case 1:
                 return 'I0' + (parseInt(index.row, 10) + 1);
               case 2:
-                return 'D0' + (parseInt(index.row, 10) + 1);
+                const sectionD = parseInt(index.row, 10) + 1;
+                return sectionD < 10 ? 'D0' + sectionD : 'D' + sectionD;
               case 3:
                 return 'P0' + (parseInt(index.row, 10) + 1);
             }
@@ -139,112 +139,111 @@ const SettingsScreen = ({
             Authorization: `Bearer ${token}`,
           },
         },
-      );
-      getUser(token);
-    } catch (error) {
-      switch (error.response.status) {
-        case 401:
-          logOut();
-          break;
-        default:
-          break;
-      }
-    }
-    setLoading(false);
+      )
+      .then((response) => {
+        getUser(token);
+      })
+      .catch((error) => {
+        switch (error.response.status) {
+          case 401:
+            logOut();
+            break;
+          default:
+            break;
+        }
+      });
   };
 
   if (loading) {
     return <Loading />;
-  } else {
-    return (
-      <Fragment>
-        <TopNavDashboard
-          title="Mi cuenta"
-          openDrawer={() => navigation.openDrawer()}
-        />
-        <ScrollView>
-          <Layout style={basicStyles.container} level="2">
-            <View style={basicStyles.layoutHeader}>
-              <Text category="h5">Detalles de la cuenta</Text>
-            </View>
-            <ListItem
-              title={`${dataUser.name} ${dataUser.lastname}`}
-              description="Nombre completo"
-            />
-            <Divider />
-            <ListItem
-              title={dataUser.phonenumber}
-              description="Número de celular"
-            />
-            <Divider />
-            <ListItem title={dataUser.email} description="Email" />
-            <Divider />
-            <ListItem title={rfc} description="RFC" />
-            <Divider />
-            <ListItem
-              title={`${timerequest} días`}
-              description="Rango de días para solicitar XML al SAT"
-            />
-            <Divider />
-            <ListItem
-              title={Moment(dataUser.creationdate.$date).format(
-                'YYYY-MM-DD HH:MM:SS',
-              )}
-              description="Fecha de registro"
-            />
-            {typeUser !== 'g' && (
-              <Fragment>
-                <View style={basicStyles.layoutHeader}>
-                  <Text category="h5">Configuración de la cuenta</Text>
-                </View>
-                <Card
-                  style={styles.item}
-                  status="basic"
-                  header={(headerProps) => (
-                    <Text {...headerProps}>Descarga automática de XML</Text>
-                  )}>
-                  <View style={styles.viewComponents}>
-                    <Text>
-                      {!checked ? 'Habilitar:' : 'Deshabilitar:'}
-                      {'   '}
-                    </Text>
-                    <Toggle
-                      checked={checked}
-                      onChange={(isChecked) => setChecked(isChecked)}
-                    />
-                  </View>
-                </Card>
-              </Fragment>
-            )}
-            <View style={basicStyles.layoutHeader}>
-              <Text category="h5">Parámetros de visualización</Text>
-            </View>
-            <Card
-              style={styles.item}
-              status="basic"
-              header={(headerProps) => (
-                <Text {...headerProps}>Uso del XML</Text>
-              )}>
-              <View>
-                <Select
-                  multiSelect={true}
-                  value={groupDisplayValues.join(', ')}
-                  selectedIndex={multiSelectedIndex}
-                  onSelect={(index) => setMultiSelectedIndex(index)}>
-                  {Object.keys(dataUsoXML).map(renderGroup)}
-                </Select>
-              </View>
-            </Card>
-            <View style={basicStyles.cardHeader}>
-              <Button accessoryLeft={SaveIcon} onPress={updateUser}>
-                Guardar cambios
-              </Button>
-            </View>
-          </Layout>
-        </ScrollView>
-      </Fragment>
-    );
   }
+
+  return (
+    <Fragment>
+      <TopNavDashboard
+        title="Mi cuenta"
+        openDrawer={() => navigation.openDrawer()}
+      />
+      <ScrollView>
+        <Layout style={basicStyles.container} level="2">
+          <View style={basicStyles.layoutHeader}>
+            <Text category="h5">Detalles de la cuenta</Text>
+          </View>
+          <ListItem
+            title={`${dataUser.name} ${dataUser.lastname}`}
+            description="Nombre completo"
+          />
+          <Divider />
+          <ListItem
+            title={dataUser.phonenumber}
+            description="Número de celular"
+          />
+          <Divider />
+          <ListItem title={dataUser.email} description="Email" />
+          <Divider />
+          <ListItem title={rfc} description="RFC" />
+          <Divider />
+          <ListItem
+            title={`${timerequest} días`}
+            description="Rango de días para solicitar XML al SAT"
+          />
+          <Divider />
+          <ListItem
+            title={Moment(dataUser.creationdate.$date).format(
+              'YYYY-MM-DD HH:MM:SS',
+            )}
+            description="Fecha de registro"
+          />
+          {typeUser !== 'g' && (
+            <Fragment>
+              <View style={basicStyles.layoutHeader}>
+                <Text category="h5">Configuración de la cuenta</Text>
+              </View>
+              <Card
+                style={styles.item}
+                status="basic"
+                header={(headerProps) => (
+                  <Text {...headerProps}>Descarga automática de XML</Text>
+                )}>
+                <View style={styles.viewComponents}>
+                  <Text>
+                    {!checked ? 'Habilitar:' : 'Deshabilitar:'}
+                    {'   '}
+                  </Text>
+                  <Toggle
+                    checked={checked}
+                    onChange={(isChecked) => setChecked(isChecked)}
+                  />
+                </View>
+              </Card>
+            </Fragment>
+          )}
+          <View style={basicStyles.layoutHeader}>
+            <Text category="h5">Parámetros de visualización</Text>
+          </View>
+          <Card
+            style={styles.item}
+            status="basic"
+            header={(headerProps) => <Text {...headerProps}>Uso del XML</Text>}>
+            <View>
+              <Select
+                multiSelect={true}
+                value={groupDisplayValues.join(', ')}
+                selectedIndex={multiSelectedIndex}
+                onSelect={(index) => setMultiSelectedIndex(index)}>
+                {Object.keys(dataUsoXML).map(renderGroup)}
+              </Select>
+            </View>
+          </Card>
+          <View style={basicStyles.cardHeader}>
+            <Button accessoryLeft={SaveIcon} onPress={updateUser}>
+              Guardar cambios
+            </Button>
+          </View>
+        </Layout>
+      </ScrollView>
+    </Fragment>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -268,6 +267,7 @@ const mapStateToProps = (state) => {
     typeUser: userdata.userConfig.typeuser,
     token: userdata.userConfig.token,
     dataUser: userdata.userData,
+    loading: userdata.loading,
   };
 };
 

@@ -6,43 +6,48 @@ import {
   HomeScreen,
   ListRecordsScreen,
   DetailRecordScreen,
-  RequestsScreen,
+  ListRequestsScreen,
   DetailRequestScreen,
   RequestFormScreen,
   SettingsScreen,
+  ListXMLScreen,
 } from 'faccloud/src/screens';
-import {connect} from 'react-redux';
 
 const {Navigator, Screen} = createDrawerNavigator();
 
-const HomeStack = createStackNavigator();
-const RequestsStack = createStackNavigator();
+const ListXMLStack = createStackNavigator();
+const ListRequestsStack = createStackNavigator();
 
-const HomeStackScreen = () => (
-  <HomeStack.Navigator
+const ListXMLStackScreen = () => (
+  <ListXMLStack.Navigator
     screenOptions={{headerShown: false}}
-    initialRouteName="Home">
-    <HomeStack.Screen name="Home" component={HomeScreen} />
-    <HomeStack.Screen name="ListRecords" component={ListRecordsScreen} />
-    <HomeStack.Screen name="DetailRecord" component={DetailRecordScreen} />
-  </HomeStack.Navigator>
+    initialRouteName="ListXML">
+    <ListXMLStack.Screen name="ListXML" component={ListXMLScreen} />
+    <ListXMLStack.Screen name="ListRecords" component={ListRecordsScreen} />
+    <ListXMLStack.Screen name="DetailRecord" component={DetailRecordScreen} />
+  </ListXMLStack.Navigator>
 );
 
-const RequestsStackScreen = () => (
-  <RequestsStack.Navigator
+const ListRequestsStackScreen = () => (
+  <ListRequestsStack.Navigator
     screenOptions={{headerShown: false}}
-    initialRouteName="Requests">
-    <RequestsStack.Screen name="Requests" component={RequestsScreen} />
-    <RequestsStack.Screen
+    initialRouteName="ListRequests">
+    <ListRequestsStack.Screen
+      name="ListRequests"
+      component={ListRequestsScreen}
+    />
+    <ListRequestsStack.Screen
       name="DetailRequest"
       component={DetailRequestScreen}
     />
-  </RequestsStack.Navigator>
+  </ListRequestsStack.Navigator>
 );
 
-const DashboardDrawNav = ({typeUser}) => {
+const DashboardDrawNav = ({route}) => {
+  const {typeuser} = route.params;
+
   const DrawerContent = ({navigation, state}) => {
-    if (typeUser !== 'g') {
+    if (typeuser !== 'g') {
       return (
         <Drawer
           selectedIndex={new IndexPath(state.index)}
@@ -50,6 +55,7 @@ const DashboardDrawNav = ({typeUser}) => {
             navigation.navigate(state.routeNames[index.row])
           }>
           <DrawerItem title="Inicio" />
+          <DrawerItem title="Menú de XML" />
           <DrawerItem title="Historial de solicitudes al SAT" />
           <DrawerItem title="Solicitar paquete de XML al SAT" />
           <DrawerItem title="Mi cuenta" />
@@ -63,19 +69,21 @@ const DashboardDrawNav = ({typeUser}) => {
             navigation.navigate(state.routeNames[index.row])
           }>
           <DrawerItem title="Inicio" />
+          <DrawerItem title="Menú de XML" />
           <DrawerItem title="Mi cuenta" />
         </Drawer>
       );
     }
   };
 
-  if (typeUser !== 'g') {
+  if (typeuser !== 'g') {
     return (
       <Navigator
         drawerContent={(props) => <DrawerContent {...props} />}
-        initialRouteName="HomeStack">
-        <Screen name="HomeStack" component={HomeStackScreen} />
-        <Screen name="RequestsStack" component={RequestsStackScreen} />
+        initialRouteName="Home">
+        <Screen name="Home" component={HomeScreen} />
+        <Screen name="ListXMLStack" component={ListXMLStackScreen} />
+        <Screen name="ListRequestsStack" component={ListRequestsStackScreen} />
         <Screen name="RequestForm" component={RequestFormScreen} />
         <Screen name="Settings" component={SettingsScreen} />
       </Navigator>
@@ -84,18 +92,13 @@ const DashboardDrawNav = ({typeUser}) => {
     return (
       <Navigator
         drawerContent={(props) => <DrawerContent {...props} />}
-        initialRouteName="HomeStack">
-        <Screen name="HomeStack" component={HomeStackScreen} />
+        initialRouteName="Home">
+        <Screen name="Home" component={HomeScreen} />
+        <Screen name="ListXMLStack" component={ListXMLStackScreen} />
         <Screen name="Settings" component={SettingsScreen} />
       </Navigator>
     );
   }
 };
 
-const mapStateToProps = (state) => {
-  const {userdata} = state;
-
-  return {typeUser: userdata.userConfig.typeuser};
-};
-
-export default connect(mapStateToProps, null)(DashboardDrawNav);
+export default DashboardDrawNav;

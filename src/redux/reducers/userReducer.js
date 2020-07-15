@@ -17,6 +17,7 @@ const initialState = {
         usocfdis: {},
       },
     },
+    phoneToken: {token: ''},
   },
   userConfig: {
     typeuser: '', // TODO: Check this after feedback

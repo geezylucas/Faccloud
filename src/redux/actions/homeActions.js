@@ -5,6 +5,11 @@ import {logout} from '../reducers/rootReducer';
 
 export const getCountByXMLTypeFetch = (rfc, token) => {
   return async (dispatch) => {
+    dispatch({
+      type: RESET_HOME,
+      payload: {loadingButton: true},
+    });
+
     try {
       const response = await axios.get(
         `http://192.168.100.31:5000/api/cfdis/lastcfditotype/${rfc}`,
@@ -46,11 +51,18 @@ export const getXMLSFetch = ({
 
     const {rfc, settingsrfc} = getState().userdata.userData.satInfo;
 
+    let typeXMLToSend;
+    if (typeComprobante === 'Facturas') {
+      typeXMLToSend = 'I-E';
+    } else {
+      typeXMLToSend = typeComprobante.substring(0, 1);
+    }
+
     let response = null;
     try {
       if (filters === null) {
         response = await axios.get(
-          `http://192.168.100.31:5000/api/cfdis/getcfdis/${rfc}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
+          `http://192.168.100.31:5000/api/cfdis/getcfdis/${rfc}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeXMLToSend}&typerequest=${typeRequest}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -59,7 +71,7 @@ export const getXMLSFetch = ({
         );
       } else {
         response = await axios.post(
-          `http://192.168.100.31:5000/api/cfdis/getcfdis/${rfc}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeComprobante}&typerequest=${typeRequest}`,
+          `http://192.168.100.31:5000/api/cfdis/getcfdis/${rfc}?pagesize=${pageSize}&pagenum=${pageNum}&typecomprobante=${typeXMLToSend}&typerequest=${typeRequest}`,
           {
             rfc: filters.rfc,
             dateIni: Moment(filters.dateIni).format('YYYY-MM-DD'),
@@ -95,7 +107,7 @@ export const getXMLSFetch = ({
 };
 
 export const loadingHomeReset = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({
       type: RESET_HOME,
       payload: {
@@ -116,8 +128,8 @@ export const loadingHomeReset = () => {
   };
 };
 
-export const loadingSearchBtn = () => {
-  return (dispatch) => {
+export const loadingRefreshScreen = () => {
+  return async (dispatch) => {
     dispatch({
       type: RESET_HOME,
       payload: {

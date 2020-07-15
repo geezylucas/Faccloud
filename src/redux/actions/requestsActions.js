@@ -45,7 +45,7 @@ export const getRequestsFetch = ({pageSize = 10, pageNum, filters, token}) => {
   };
 };
 
-export const loadingRequestsReset = () => {
+export const loadingRefreshScreen = () => {
   return (dispatch) => {
     dispatch({
       type: RESET_REQUESTS,

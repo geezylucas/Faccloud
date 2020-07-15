@@ -7,23 +7,6 @@ export const loginFetch = (email, password) => {
     dispatch({type: LOAD_USER_LOADING});
 
     const userState = {
-      userData: {
-        creationdate: {
-          $date: 0,
-        },
-        email: '',
-        lastname: '',
-        name: '',
-        phonenumber: '',
-        satInfo: {
-          rfc: '',
-          settingsrfc: {
-            timerautomatic: false,
-            timerequest: 0,
-            usocfdis: {},
-          },
-        },
-      },
       userConfig: {
         typeuser: '', // TODO: Check this after feedback
         islogged: false,
@@ -33,7 +16,7 @@ export const loginFetch = (email, password) => {
       loading: false,
     };
     try {
-      let response = await axios.post(
+      const response = await axios.post(
         'http://192.168.100.31:5000/api/users/login',
         {
           email,
@@ -45,13 +28,7 @@ export const loginFetch = (email, password) => {
         islogged: true,
         token: response.data.data,
       };
-      // Get user after login
-      response = await axios.get('http://192.168.100.31:5000/api/users/', {
-        headers: {
-          Authorization: `Bearer ${userState.userConfig.token}`,
-        },
-      });
-      userState.userData = response.data.data;
+      userState.loading = true;
     } catch (error) {
       switch (error.response.status) {
         case 400:
@@ -67,6 +44,7 @@ export const loginFetch = (email, password) => {
         islogged: false,
         token: '',
       };
+      userState.loading = false;
     } finally {
       dispatch({
         type: SET_USER,
@@ -76,8 +54,10 @@ export const loginFetch = (email, password) => {
   };
 };
 
-export const getUserFetch = (token) => {
+export const getUserFetch = (token, phoneToken = null) => {
   return async (dispatch) => {
+    dispatch({type: LOAD_USER_LOADING});
+
     const userState = {
       userData: {
         creationdate: {
@@ -95,19 +75,45 @@ export const getUserFetch = (token) => {
             usocfdis: {},
           },
         },
+        phoneToken: {token: ''},
       },
+      loading: false,
     };
     try {
       // Get user after login
       const response = await axios.get(
-        'http://192.168.100.31:5000/api/users/',
+        'http://192.168.100.31:5000/api/users/user',
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      userState.userData = response.data.data;
+
+      userState.userData = Object.assign({}, userState.userData, {
+        ...response.data.data,
+      });
+
+      if (phoneToken !== null) {
+        if (userState.userData.phoneToken.token !== phoneToken) {
+          await axios.patch(
+            'http://192.168.100.31:5000/api/users/updatetokenphone',
+            {
+              token: phoneToken,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+        }
+      }
+
+      dispatch({
+        type: SET_USER,
+        payload: userState,
+      });
     } catch (error) {
       switch (error.response.status) {
         case 401:
@@ -116,16 +122,6 @@ export const getUserFetch = (token) => {
         default:
           break;
       }
-      userState.userConfig = {
-        typeuser: '', // TODO: Check this after feedback
-        islogged: false,
-        token: '',
-      };
-    } finally {
-      dispatch({
-        type: SET_USER,
-        payload: userState,
-      });
     }
   };
 };

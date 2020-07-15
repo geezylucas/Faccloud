@@ -32,6 +32,7 @@ const SearchRecords = ({
   /* FIN LOADING INDICADOR */
   const dataSelect = ['Todos'];
   dataSelect.push(...Object.values(usoCfdis));
+  const now = new Date();
 
   const displayValue = dataSelect[form.indexCfdi.row];
   if (!visible) {
@@ -48,20 +49,8 @@ const SearchRecords = ({
           onChangeText={(nextValue) => setForm({...form, rfc: nextValue})}
         />
         <Datepicker
-          max={
-            new Date(
-              form.dateIni.getFullYear(),
-              form.dateIni.getMonth(),
-              form.dateIni.getDate(),
-            )
-          }
-          min={
-            new Date(
-              form.dateIni.getFullYear() - 10,
-              form.dateIni.getMonth(),
-              form.dateIni.getDate(),
-            )
-          }
+          max={new Date(now.getFullYear(), now.getMonth(), now.getDate())}
+          min={new Date(now.getFullYear() - 10, now.getMonth(), now.getDate())}
           label="Fecha inicio:"
           date={form.dateIni}
           onSelect={(nextDate) => setForm({...form, dateIni: nextDate})}
@@ -69,20 +58,8 @@ const SearchRecords = ({
           size="small"
         />
         <Datepicker
-          max={
-            new Date(
-              form.dateFin.getFullYear(),
-              form.dateFin.getMonth(),
-              form.dateFin.getDate(),
-            )
-          }
-          min={
-            new Date(
-              form.dateFin.getFullYear() - 10,
-              form.dateFin.getMonth(),
-              form.dateFin.getDate(),
-            )
-          }
+          max={new Date(now.getFullYear(), now.getMonth(), now.getDate())}
+          min={new Date(now.getFullYear() - 10, now.getMonth(), now.getDate())}
           label="Fecha fin:"
           date={form.dateFin}
           onSelect={(nextDate) => setForm({...form, dateFin: nextDate})}

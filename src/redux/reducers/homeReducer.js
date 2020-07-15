@@ -26,6 +26,8 @@ export default function (state = initialState, action) {
         ...state,
         lastemisorxml: action.payload.lastEmisorCFDI,
         lastreceptorxml: action.payload.lastReceptorCFDI,
+        loading: false,
+        loadingButton: false,
       };
     case GET_XMLS:
       return {

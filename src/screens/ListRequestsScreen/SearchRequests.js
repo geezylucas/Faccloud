@@ -18,25 +18,14 @@ const SearchRequests = ({form, setForm, filterData, loading}) => {
   /* FIN LOADING INDICADOR */
   const dataSelect = ['Todos', 'Descargado', 'Pendiente'];
   const displayValue = dataSelect[form.indexStatus.row];
+  const now = new Date();
 
   return (
     <Card style={basicStyles.card}>
       <View style={basicStyles.layoutInputs}>
         <Datepicker
-          max={
-            new Date(
-              form.dateIni.getFullYear(),
-              form.dateIni.getMonth(),
-              form.dateIni.getDate(),
-            )
-          }
-          min={
-            new Date(
-              form.dateIni.getFullYear() - 10,
-              form.dateIni.getMonth(),
-              form.dateIni.getDate(),
-            )
-          }
+          max={new Date(now.getFullYear(), now.getMonth(), now.getDate())}
+          min={new Date(now.getFullYear() - 10, now.getMonth(), now.getDate())}
           label="Fecha inicio:"
           date={form.dateIni}
           onSelect={(nextDate) => setForm({...form, dateIni: nextDate})}
@@ -44,20 +33,8 @@ const SearchRequests = ({form, setForm, filterData, loading}) => {
           size="small"
         />
         <Datepicker
-          max={
-            new Date(
-              form.dateIni.getFullYear(),
-              form.dateIni.getMonth(),
-              form.dateIni.getDate(),
-            )
-          }
-          min={
-            new Date(
-              form.dateIni.getFullYear() - 10,
-              form.dateIni.getMonth(),
-              form.dateIni.getDate(),
-            )
-          }
+          max={new Date(now.getFullYear(), now.getMonth(), now.getDate())}
+          min={new Date(now.getFullYear() - 10, now.getMonth(), now.getDate())}
           label="Fecha fin:"
           date={form.dateFin}
           onSelect={(nextDate) => setForm({...form, dateFin: nextDate})}

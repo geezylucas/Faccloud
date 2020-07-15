@@ -16,8 +16,7 @@ import {FooterListScreens, TopNavGoBack} from 'faccloud/src/components';
 import {connect} from 'react-redux';
 import {
   getXMLSFetch,
-  loadingHomeReset,
-  loadingSearchBtn,
+  loadingRefreshScreen,
 } from 'faccloud/src/redux/actions/homeActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
@@ -31,8 +30,7 @@ const ListRecordsScreen = ({
   usoCfdis,
   loading,
   loadingButton,
-  loadingReset,
-  loadingSearch,
+  loadingRefresh,
 }) => {
   const [form, setForm] = useState({
     rfc: '',
@@ -46,17 +44,10 @@ const ListRecordsScreen = ({
 
   const {typeXML, titleNav, typeRequest} = route.params;
 
-  let typeXMLToSend;
-  if (typeXML === 'Facturas') {
-    typeXMLToSend = 'I-E';
-  } else {
-    typeXMLToSend = typeXML.substring(0, 1);
-  }
-
   useEffect(() => {
     getXMLS({
       pageNum: searchPage.page,
-      typeComprobante: typeXMLToSend,
+      typeComprobante: typeXML,
       typeRequest,
       filters: visible ? form : null,
       token,
@@ -65,7 +56,7 @@ const ListRecordsScreen = ({
   }, [searchPage]);
 
   const onRefresh = useCallback(() => {
-    loadingSearch();
+    loadingRefresh();
     setSearchPage({page: 1, search: !searchPage.search});
     setForm({
       rfc: '',
@@ -102,7 +93,7 @@ const ListRecordsScreen = ({
         <Text category="h5">Listado de {typeXML}</Text>
         <Button
           size="small"
-          disabled={loading}
+          disabled={loadingButton}
           accessoryLeft={SearchIcon}
           appearance="outline"
           onPress={() => setVisible(!visible)}>
@@ -130,13 +121,7 @@ const ListRecordsScreen = ({
 
   return (
     <Fragment>
-      <TopNavGoBack
-        title={titleNav}
-        goBack={() => {
-          navigation.goBack();
-          loadingReset();
-        }}
-      />
+      <TopNavGoBack title={titleNav} goBack={() => navigation.goBack()} />
       <List
         data={listRecords}
         renderItem={renderItem}
@@ -193,8 +178,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatch = {
   getXMLS: getXMLSFetch,
-  loadingReset: loadingHomeReset,
-  loadingSearch: loadingSearchBtn,
+  loadingRefresh: loadingRefreshScreen,
 };
 
 export default connect(mapStateToProps, mapDispatch)(ListRecordsScreen);

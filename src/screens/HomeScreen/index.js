@@ -1,24 +1,32 @@
 import React, {useEffect, Fragment} from 'react';
-import {ScrollView, View, Alert} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Layout, Button, Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
 import {logout} from 'faccloud/src/redux/reducers/rootReducer';
-import {getCountByXMLTypeFetch} from 'faccloud/src/redux/actions/homeActions';
+import {getUserFetch} from 'faccloud/src/redux/actions/userActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
-import {TopNavDashboard} from 'faccloud/src/components';
-import HomeMenus from './HomeMenus';
+import {TopNavDashboard, Loading} from 'faccloud/src/components';
 import messaging from '@react-native-firebase/messaging';
+import notifee from '@notifee/react-native';
 
-const HomeScreen = ({
-  rfc,
-  name,
-  token,
-  getCountByXMLType,
-  lastEmisorXML,
-  lastReceptorXML,
-  navigation,
-  logOut,
-}) => {
+const HomeScreen = ({navigation, name, token, loading, logOut, getUser}) => {
+  const onDisplayNotification = async (title, body) => {
+    // Create a channel
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title,
+      body,
+      android: {
+        channelId,
+      },
+    });
+  };
+
   useEffect(() => {
     const requestUserPermission = async () => {
       const authStatus = await messaging().requestPermission();
@@ -27,35 +35,26 @@ const HomeScreen = ({
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
       if (enabled) {
-        getFcmToken();
-        console.log('Authorization status:', authStatus);
+        const fcmToken = await messaging().getToken();
+        getUser(token, fcmToken);
       }
     };
 
     requestUserPermission();
+
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      Alert.alert(
+      onDisplayNotification(
         remoteMessage.notification.title,
         remoteMessage.notification.body,
       );
     });
     return unsubscribe;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (rfc !== '') {
-      getCountByXMLType(rfc, token);
-    }
-  }, [getCountByXMLType, rfc, token]);
-
-  const getFcmToken = async () => {
-    const fcmToken = await messaging().getToken();
-    if (fcmToken) {
-      console.log('Your Firebase Token is:', fcmToken);
-    } else {
-      console.log('Failed', 'No token received');
-    }
-  };
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Fragment>
@@ -63,42 +62,33 @@ const HomeScreen = ({
         title="Inicio"
         openDrawer={() => navigation.openDrawer()}
       />
-      <ScrollView>
-        <Layout style={basicStyles.container} level="2">
+      <Layout style={basicStyles.container} level="2">
+        <ScrollView>
           <View style={basicStyles.layoutHeader}>
             <Text category="h5">!Buen día {name}!</Text>
           </View>
-          <HomeMenus
-            navigate={navigation.navigate}
-            XMLSection="r"
-            lastRecord={lastReceptorXML}
-          />
-          <HomeMenus
-            navigate={navigation.navigate}
-            XMLSection="e"
-            lastRecord={lastEmisorXML}
-          />
           <Button style={basicStyles.button} onPress={() => logOut()}>
             Salir
           </Button>
-        </Layout>
-      </ScrollView>
+        </ScrollView>
+      </Layout>
     </Fragment>
   );
 };
 
 const mapStateToProps = (state) => {
-  const {homedata, userdata} = state;
+  const {userdata} = state;
 
   return {
-    lastReceptorXML: homedata.lastreceptorxml,
-    lastEmisorXML: homedata.lastemisorxml,
-    rfc: userdata.userData.satInfo.rfc,
     name: userdata.userData.name,
     token: userdata.userConfig.token,
+    loading: userdata.loading,
   };
 };
 
-const mapDispatch = {logOut: logout, getCountByXMLType: getCountByXMLTypeFetch};
+const mapDispatch = {
+  logOut: logout,
+  getUser: getUserFetch,
+};
 
 export default connect(mapStateToProps, mapDispatch)(HomeScreen);

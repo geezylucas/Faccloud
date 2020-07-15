@@ -15,7 +15,7 @@ import {EmitidoIcon, RecibidoIcon} from 'faccloud/src/styles/icons';
 import {connect} from 'react-redux';
 import {
   getRequestsFetch,
-  loadingRequestsReset,
+  loadingRefreshScreen,
 } from 'faccloud/src/redux/actions/requestsActions';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 
@@ -27,7 +27,7 @@ const RequestsScreen = ({
   token,
   loading,
   loadingButton,
-  loadingReset,
+  loadingRefresh,
 }) => {
   const [form, setForm] = useState({
     dateIni: new Date(),
@@ -47,7 +47,7 @@ const RequestsScreen = ({
   }, [searchPage]);
 
   const onRefresh = useCallback(() => {
-    loadingReset();
+    loadingRefresh();
     setSearchPage({page: 1, search: !searchPage.search});
     setForm({
       dateIni: new Date(),
@@ -165,7 +165,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatch = {
   getRequests: getRequestsFetch,
-  loadingReset: loadingRequestsReset,
+  loadingRefresh: loadingRefreshScreen,
 };
 
 export default connect(mapStateToProps, mapDispatch)(RequestsScreen);

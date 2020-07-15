@@ -1,12 +1,13 @@
-import React, {memo} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {MenuItem, Card, Text} from '@ui-kitten/components';
 import {basicStyles} from 'faccloud/src/styles/basicStyles';
 import {FileIcon} from 'faccloud/src/styles/icons';
+import {connect} from 'react-redux';
+import {loadingHomeReset} from 'faccloud/src/redux/actions/homeActions';
 
-const HomeMenus = memo(({navigate, XMLSection, lastRecord}) => {
-  const {Fecha} = lastRecord || '';
-
+const XMLMenus = ({navigate, XMLSection, lastRecord, loadingReset}) => {
+  const {Fecha} = lastRecord || 'Aún no tiene datos';
   const dataTitles = ['Facturas', 'Retenciones', 'Pagos', 'Nominas'];
 
   let titleNav;
@@ -17,8 +18,6 @@ const HomeMenus = memo(({navigate, XMLSection, lastRecord}) => {
     case 'e':
       titleNav = 'XML Emitidos';
       break;
-    default:
-      titleNav = '';
   }
 
   return (
@@ -40,6 +39,7 @@ const HomeMenus = memo(({navigate, XMLSection, lastRecord}) => {
               title={title}
               accessoryLeft={FileIcon}
               onPress={() => {
+                loadingReset();
                 /* 1. Navigate to the ListRecords route with params */
                 navigate('ListRecords', {
                   typeXML: title,
@@ -53,6 +53,10 @@ const HomeMenus = memo(({navigate, XMLSection, lastRecord}) => {
       })}
     </Card>
   );
-});
+};
 
-export default HomeMenus;
+const mapDispatch = {
+  loadingReset: loadingHomeReset,
+};
+
+export default connect(null, mapDispatch)(React.memo(XMLMenus));
